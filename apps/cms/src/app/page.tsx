@@ -81,7 +81,7 @@ export default function PostsPage() {
 
         {error && (
           <Card padding="md">
-            <div className={styles.statContent}>
+            <div className={styles.errorContent}>
               <AlertCircle className={styles.errorIcon} />
               <div>
                 <Typography variant="h3">

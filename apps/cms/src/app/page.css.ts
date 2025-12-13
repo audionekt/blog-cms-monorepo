@@ -87,6 +87,12 @@ export const statDivider = style({
   backgroundColor: '#e5e7eb',
 });
 
+export const errorContent = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.75rem',
+});
+
 export const content = style({
   maxWidth: '80rem',
   margin: '0 auto',

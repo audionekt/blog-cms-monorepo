@@ -191,6 +191,7 @@ export const statusBadge = style({
   borderRadius: '9999px',
   fontSize: '0.75rem',
   fontWeight: 500,
+  whiteSpace: 'nowrap',
 });
 
 export const statusPublished = style({

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -15,7 +15,6 @@ import { useRouter } from 'next/navigation';
 import {
   Edit,
   Trash2,
-  Eye,
   ChevronUp,
   ChevronDown,
   ChevronsUpDown,

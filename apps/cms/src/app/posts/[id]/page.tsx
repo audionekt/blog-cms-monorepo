@@ -40,21 +40,24 @@ export default function EditPostPage() {
   // Initialize form data when post loads
   useEffect(() => {
     if (post && !isInitialized) {
-      setFormData({
+      const initialData: UpdateBlogPostRequest = {
         title: post.title,
         slug: post.slug,
         excerpt: post.excerpt || '',
         mdxContent: post.mdxContent,
-        featuredImageUrl: post.featuredImageUrl,
-        featuredMediaId: post.featuredMedia?.id,
         tagIds: post.tags.map((t) => t.id),
         status: post.status,
         metaTitle: post.metaTitle || '',
         metaDescription: post.metaDescription || '',
-        readingTimeMinutes: post.readingTimeMinutes,
         allowComments: post.allowComments,
         featured: post.featured,
-      });
+      };
+      // Only set optional fields if they have values
+      if (post.featuredImageUrl) initialData.featuredImageUrl = post.featuredImageUrl;
+      if (post.featuredMedia?.id) initialData.featuredMediaId = post.featuredMedia.id;
+      if (post.readingTimeMinutes) initialData.readingTimeMinutes = post.readingTimeMinutes;
+      
+      setFormData(initialData);
       setIsInitialized(true);
     }
   }, [post, isInitialized]);
