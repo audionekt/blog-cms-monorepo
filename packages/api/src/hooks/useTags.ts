@@ -25,7 +25,7 @@ export function useTags(params?: FetchTagsParams) {
     queryKey: tagKeys.list(params),
     queryFn: async () => {
       const response = await apiClient.get<PageResponse<TagResponse>>(
-        '/api/tags',
+        '/api/v1/tags',
         { params }
       );
       return response.data;
@@ -41,7 +41,7 @@ export function useTag(id: number, options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: tagKeys.detail(id),
     queryFn: async () => {
-      const response = await apiClient.get<TagResponse>(`/api/tags/${id}`);
+      const response = await apiClient.get<TagResponse>(`/api/v1/tags/${id}`);
       return response.data;
     },
     staleTime: 10 * 60 * 1000,
@@ -56,7 +56,7 @@ export function useTagBySlug(slug: string, options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: tagKeys.detailBySlug(slug),
     queryFn: async () => {
-      const response = await apiClient.get<TagResponse>(`/api/tags/slug/${slug}`);
+      const response = await apiClient.get<TagResponse>(`/api/v1/tags/slug/${slug}`);
       return response.data;
     },
     staleTime: 10 * 60 * 1000,
@@ -72,7 +72,7 @@ export function useCreateTag() {
 
   return useMutation({
     mutationFn: async (data: CreateTagRequest) => {
-      const response = await apiClient.post<TagResponse>('/api/tags', data);
+      const response = await apiClient.post<TagResponse>('/api/v1/tags', data);
       return response.data;
     },
     onSuccess: () => {
@@ -89,7 +89,7 @@ export function useUpdateTag() {
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: number; data: UpdateTagRequest }) => {
-      const response = await apiClient.put<TagResponse>(`/api/tags/${id}`, data);
+      const response = await apiClient.put<TagResponse>(`/api/v1/tags/${id}`, data);
       return response.data;
     },
     onSuccess: (updatedTag) => {
@@ -107,7 +107,7 @@ export function useDeleteTag() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await apiClient.delete(`/api/tags/${id}`);
+      await apiClient.delete(`/api/v1/tags/${id}`);
       return id;
     },
     onSuccess: (deletedId) => {

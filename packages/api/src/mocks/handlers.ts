@@ -50,8 +50,8 @@ function createPageResponse<T>(
 
 // Blog Post Handlers
 export const blogPostHandlers = [
-  // GET /api/blog-posts - Get all blog posts with filtering and pagination
-  http.get('/api/blog-posts', ({ request }) => {
+  // GET /api/v1/posts - Get all blog posts with filtering and pagination
+  http.get('/api/v1/posts', ({ request }) => {
     const url = new URL(request.url);
     const status = url.searchParams.get('status') as PostStatus | null;
     const tagId = url.searchParams.get('tagId');
@@ -91,8 +91,8 @@ export const blogPostHandlers = [
     return HttpResponse.json(createPageResponse(filteredPosts, page, size));
   }),
 
-  // GET /api/blog-posts/:id - Get blog post by ID
-  http.get('/api/blog-posts/:id', ({ params }) => {
+  // GET /api/v1/posts/:id - Get blog post by ID
+  http.get('/api/v1/posts/:id', ({ params }) => {
     const { id } = params;
     const post = mockBlogPosts.find(p => p.id === parseInt(id as string));
 
@@ -106,8 +106,8 @@ export const blogPostHandlers = [
     return HttpResponse.json(post);
   }),
 
-  // GET /api/blog-posts/slug/:slug - Get blog post by slug
-  http.get('/api/blog-posts/slug/:slug', ({ params }) => {
+  // GET /api/v1/posts/slug/:slug - Get blog post by slug
+  http.get('/api/v1/posts/slug/:slug', ({ params }) => {
     const { slug } = params;
     const post = mockBlogPosts.find(p => p.slug === slug);
 
@@ -124,8 +124,8 @@ export const blogPostHandlers = [
     return HttpResponse.json(post);
   }),
 
-  // POST /api/blog-posts - Create new blog post
-  http.post('/api/blog-posts', async ({ request }) => {
+  // POST /api/v1/posts - Create new blog post
+  http.post('/api/v1/posts', async ({ request }) => {
     const data = await request.json() as CreateBlogPostRequest;
 
     const author = mockUsers[0]; // Default to first user
@@ -187,8 +187,8 @@ export const blogPostHandlers = [
     return HttpResponse.json(newPost, { status: 201 });
   }),
 
-  // PUT /api/blog-posts/:id - Update blog post
-  http.put('/api/blog-posts/:id', async ({ params, request }) => {
+  // PUT /api/v1/posts/:id - Update blog post
+  http.put('/api/v1/posts/:id', async ({ params, request }) => {
     const { id } = params;
     const data = await request.json() as UpdateBlogPostRequest;
     const index = mockBlogPosts.findIndex(p => p.id === parseInt(id as string));
@@ -247,8 +247,8 @@ export const blogPostHandlers = [
     return HttpResponse.json(updatedPost);
   }),
 
-  // DELETE /api/blog-posts/:id - Delete blog post
-  http.delete('/api/blog-posts/:id', ({ params }) => {
+  // DELETE /api/v1/posts/:id - Delete blog post
+  http.delete('/api/v1/posts/:id', ({ params }) => {
     const { id } = params;
     const index = mockBlogPosts.findIndex(p => p.id === parseInt(id as string));
 
@@ -267,7 +267,7 @@ export const blogPostHandlers = [
 // Tag Handlers
 export const tagHandlers = [
   // GET /api/tags - Get all tags with pagination
-  http.get('/api/tags', ({ request }) => {
+  http.get('/api/v1/tags', ({ request }) => {
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get('page') || '0');
     const size = parseInt(url.searchParams.get('size') || '20');
@@ -307,7 +307,7 @@ export const tagHandlers = [
   }),
 
   // POST /api/tags - Create new tag
-  http.post('/api/tags', async ({ request }) => {
+  http.post('/api/v1/tags', async ({ request }) => {
     const data = await request.json() as CreateTagRequest;
 
     const newTag: TagResponse = {
@@ -377,7 +377,7 @@ export const tagHandlers = [
 // User Handlers
 export const userHandlers = [
   // GET /api/users - Get all users with filtering and pagination
-  http.get('/api/users', ({ request }) => {
+  http.get('/api/v1/users', ({ request }) => {
     const url = new URL(request.url);
     const role = url.searchParams.get('role') as UserRole | null;
     const active = url.searchParams.get('active');
@@ -429,7 +429,7 @@ export const userHandlers = [
   }),
 
   // POST /api/users - Create new user
-  http.post('/api/users', async ({ request }) => {
+  http.post('/api/v1/users', async ({ request }) => {
     const data = await request.json() as CreateUserRequest;
 
     const newUser = {
@@ -509,7 +509,7 @@ export const userHandlers = [
 // Media Handlers
 export const mediaHandlers = [
   // GET /api/media - Get all media with filtering and pagination
-  http.get('/api/media', ({ request }) => {
+  http.get('/api/v1/media', ({ request }) => {
     const url = new URL(request.url);
     const mediaType = url.searchParams.get('mediaType') as MediaType | null;
     const uploadedBy = url.searchParams.get('uploadedBy');
@@ -537,8 +537,8 @@ export const mediaHandlers = [
     return HttpResponse.json(createPageResponse(filteredMedia, page, size));
   }),
 
-  // GET /api/media/:id - Get media by ID
-  http.get('/api/media/:id', ({ params }) => {
+  // GET /api/v1/media/:id - Get media by ID
+  http.get('/api/v1/media/:id', ({ params }) => {
     const { id } = params;
     const media = mockMedia.find(m => m.id === parseInt(id as string));
 
@@ -552,8 +552,8 @@ export const mediaHandlers = [
     return HttpResponse.json(media);
   }),
 
-  // POST /api/media/upload - Upload media file
-  http.post('/api/media/upload', async ({ request }) => {
+  // POST /api/v1/media/upload - Upload media file
+  http.post('/api/v1/media/upload', async ({ request }) => {
     // Simulate file upload delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -603,8 +603,8 @@ export const mediaHandlers = [
     return HttpResponse.json(newMedia, { status: 201 });
   }),
 
-  // PUT /api/media/:id - Update media metadata
-  http.put('/api/media/:id', async ({ params, request }) => {
+  // PUT /api/v1/media/:id - Update media metadata
+  http.put('/api/v1/media/:id', async ({ params, request }) => {
     const { id } = params;
     const data = await request.json() as UpdateMediaRequest;
     const index = mockMedia.findIndex(m => m.id === parseInt(id as string));
@@ -645,8 +645,8 @@ export const mediaHandlers = [
     return HttpResponse.json(updatedMedia);
   }),
 
-  // DELETE /api/media/:id - Delete media
-  http.delete('/api/media/:id', ({ params }) => {
+  // DELETE /api/v1/media/:id - Delete media
+  http.delete('/api/v1/media/:id', ({ params }) => {
     const { id } = params;
     const index = mockMedia.findIndex(m => m.id === parseInt(id as string));
 

@@ -36,7 +36,7 @@ export function useBlogPosts(params?: FetchBlogPostsParams) {
     queryKey: blogPostKeys.list(params),
     queryFn: async () => {
       const response = await apiClient.get<PageResponse<BlogPostSummaryResponse>>(
-        '/api/blog-posts',
+        '/api/v1/posts',
         { params }
       );
       return response.data;
@@ -58,7 +58,7 @@ export function useBlogPost(id: number, options?: { enabled?: boolean }) {
     queryKey: blogPostKeys.detail(id),
     queryFn: async () => {
       const response = await apiClient.get<BlogPostResponse>(
-        `/api/blog-posts/${id}`
+        `/api/v1/posts/${id}`
       );
       return response.data;
     },
@@ -80,7 +80,7 @@ export function useBlogPostBySlug(slug: string, options?: { enabled?: boolean })
     queryKey: blogPostKeys.detailBySlug(slug),
     queryFn: async () => {
       const response = await apiClient.get<BlogPostResponse>(
-        `/api/blog-posts/slug/${slug}`
+        `/api/v1/posts/slug/${slug}`
       );
       return response.data;
     },
@@ -110,9 +110,9 @@ export function useCreateBlogPost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: CreateBlogPostRequest) => {
+    mutationFn: async ({ data, authorId }: { data: CreateBlogPostRequest; authorId: number }) => {
       const response = await apiClient.post<BlogPostResponse>(
-        '/api/blog-posts',
+        `/api/v1/posts?authorId=${authorId}`,
         data
       );
       return response.data;
@@ -145,7 +145,7 @@ export function useUpdateBlogPost() {
   return useMutation({
     mutationFn: async ({ id, data }: { id: number; data: UpdateBlogPostRequest }) => {
       const response = await apiClient.put<BlogPostResponse>(
-        `/api/blog-posts/${id}`,
+        `/api/v1/posts/${id}`,
         data
       );
       return response.data;
@@ -185,7 +185,7 @@ export function useDeleteBlogPost() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await apiClient.delete(`/api/blog-posts/${id}`);
+      await apiClient.delete(`/api/v1/posts/${id}`);
       return id;
     },
     onSuccess: (deletedId) => {

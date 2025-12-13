@@ -20,3 +20,13 @@ export {
   tagKeys,
 } from './useTags';
 
+// Media
+export {
+  useMedia,
+  useMediaById,
+  useUploadMedia,
+  useUpdateMedia,
+  useDeleteMedia,
+  mediaKeys,
+} from './useMedia';
+

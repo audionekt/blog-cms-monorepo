@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, MessageSquare, Link as LinkIcon, Image, Check, Bell } from 'lucide-react';
+import { ChevronLeft, MessageSquare, Link as LinkIcon, Check, Bell } from 'lucide-react';
 import {
   Typography,
   Button,
@@ -15,14 +15,16 @@ import {
   FormActions,
   Card,
   Chip,
+  ImageUpload,
 } from 'aurigami';
-import { useCreateBlogPost, useTags, PostStatus } from '@repo/api';
+import { useCreateBlogPost, useTags, useUploadMedia, PostStatus } from '@repo/api';
 import type { CreateBlogPostRequest } from '@repo/api';
 import * as styles from './page.css';
 
 export default function NewPostPage() {
   const router = useRouter();
   const createPost = useCreateBlogPost();
+  const uploadMedia = useUploadMedia();
   const { data: tagsData } = useTags({ page: 0, size: 100 });
 
   const [formData, setFormData] = useState<Partial<CreateBlogPostRequest>>({
@@ -50,7 +52,12 @@ export default function NewPostPage() {
     }
 
     try {
-      await createPost.mutateAsync(formData as CreateBlogPostRequest);
+      // TODO: Get authorId from authenticated user context
+      // For now, using authorId 1 (first user)
+      await createPost.mutateAsync({ 
+        data: formData as CreateBlogPostRequest, 
+        authorId: 1 
+      });
       router.push('/');
     } catch (error) {
       console.error('Failed to create post:', error);
@@ -117,7 +124,7 @@ export default function NewPostPage() {
                     placeholder="Enter an engaging title..."
                     value={formData.title}
                     onChange={(e) => handleInputChange('title', e.target.value)}
-                    error={errors.title}
+                    error={errors.title || ''}
                     required
                     fullWidth
                     leftIcon={<MessageSquare className={styles.svgIcon} />}
@@ -149,7 +156,7 @@ export default function NewPostPage() {
                     rows={16}
                     value={formData.mdxContent}
                     onChange={(e) => handleInputChange('mdxContent', e.target.value)}
-                    error={errors.mdxContent}
+                    error={errors.mdxContent || ''}
                     required
                     fullWidth
                     resize="vertical"
@@ -306,30 +313,25 @@ export default function NewPostPage() {
 
               <Card padding="md">
                 <FormSection title="Featured Image">
-                  <div className={styles.imageSection}>
-                    <Input
-                      label="Image URL"
-                      placeholder="https://..."
-                      value={formData.featuredImageUrl}
-                      onChange={(e) => handleInputChange('featuredImageUrl', e.target.value)}
-                      helper="URL of the featured image"
-                      fullWidth
-                      leftIcon={<Image className={styles.svgIcon} />}
-                    />
-
-                    {formData.featuredImageUrl && (
-                      <div className={styles.imagePreview}>
-                        <img
-                          src={formData.featuredImageUrl}
-                          alt="Featured preview"
-                          className={styles.previewImage}
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none';
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
+                  <ImageUpload
+                    value={formData.featuredImageUrl || ''}
+                    onFileSelect={async (file) => {
+                      try {
+                        const result = await uploadMedia.mutateAsync({ file });
+                        handleInputChange('featuredImageUrl', result.fileUrl);
+                        handleInputChange('featuredMediaId', result.id);
+                      } catch (error) {
+                        console.error('Failed to upload image:', error);
+                      }
+                    }}
+                    onRemove={() => {
+                      handleInputChange('featuredImageUrl', undefined);
+                      handleInputChange('featuredMediaId', undefined);
+                    }}
+                    isUploading={uploadMedia.isPending}
+                    error={uploadMedia.isError ? 'Failed to upload image' : ''}
+                    helper="Upload a featured image for your post"
+                  />
                 </FormSection>
               </Card>
             </div>

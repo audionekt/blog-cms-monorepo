@@ -28,6 +28,9 @@ export type { CheckboxProps } from './components/checkbox';
 export { Form, FormSection, FormGrid, FormActions } from './components/form';
 export type { FormProps, FormSectionProps, FormGridProps, FormActionsProps } from './components/form';
 
+export { ImageUpload } from './components/image-upload';
+export type { ImageUploadProps } from './components/image-upload';
+
 export { Layout } from './utils/layout';
 export type { AppLayoutProps } from './utils/layout';
 
