@@ -13,21 +13,46 @@ jest.mock('next/navigation', () => ({
 
 // Mock the aurigami components
 jest.mock('aurigami', () => ({
-  Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
-  Typography: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  Button: ({ children, leftIcon, ...props }: any) => <button {...props}>{leftIcon}{children}</button>,
+  Typography: ({ children, variant, ...props }: any) => <div data-variant={variant} {...props}>{children}</div>,
   Card: ({ children, ...props }: any) => <div {...props}>{children}</div>,
   Chip: ({ children, ...props }: any) => <span {...props}>{children}</span>,
   Avatar: ({ alt, ...props }: any) => <img alt={alt} {...props} />,
+  Checkbox: ({ checked, onChange, ...props }: any) => (
+    <input type="checkbox" checked={checked} onChange={onChange} {...props} />
+  ),
 }));
 
 // Mock the API hooks
 jest.mock('@repo/api', () => ({
   useBlogPosts: jest.fn(),
+  useDeleteBlogPost: () => ({
+    mutateAsync: jest.fn(),
+    isPending: false,
+  }),
   PostStatus: {
     PUBLISHED: 'PUBLISHED',
     DRAFT: 'DRAFT',
     ARCHIVED: 'ARCHIVED',
   },
+}));
+
+// Mock PostsTable component
+jest.mock('../../components/posts-table', () => ({
+  PostsTable: ({ posts }: { posts: any[] }) => (
+    <div data-testid="posts-table">
+      {posts.map((post: any) => (
+        <div key={post.id} data-testid={`post-row-${post.id}`}>
+          <span>{post.title}</span>
+          <span>{post.excerpt}</span>
+          <span>{post.author.firstName} {post.author.lastName}</span>
+          <span>{post.viewCount} views</span>
+          {post.readingTimeMinutes && <span>{post.readingTimeMinutes} min read</span>}
+          {post.tags.map((tag: any) => <span key={tag.id}>{tag.name}</span>)}
+        </div>
+      ))}
+    </div>
+  ),
 }));
 
 const createTestQueryClient = () =>
@@ -89,7 +114,7 @@ describe('CMS Posts Page', () => {
     expect(screen.getByText(/no posts yet/i)).toBeInTheDocument();
   });
 
-  it('renders posts when data is loaded', () => {
+  it('renders posts table when data is loaded', () => {
     useBlogPosts.mockReturnValue({
       data: {
         content: [
@@ -118,6 +143,7 @@ describe('CMS Posts Page', () => {
     });
 
     renderWithQueryClient(<PostsPage />);
+    expect(screen.getByTestId('posts-table')).toBeInTheDocument();
     expect(screen.getByText('Test Post')).toBeInTheDocument();
     expect(screen.getByText('Test excerpt')).toBeInTheDocument();
     expect(screen.getByText(/john doe/i)).toBeInTheDocument();
@@ -158,9 +184,20 @@ describe('CMS Posts Page', () => {
     });
 
     renderWithQueryClient(<PostsPage />);
-    expect(screen.getByText('Total Posts')).toBeInTheDocument();
+    expect(screen.getByText('Total')).toBeInTheDocument();
     expect(screen.getByText('Published')).toBeInTheDocument();
     expect(screen.getByText('Drafts')).toBeInTheDocument();
     expect(screen.getByText('Featured')).toBeInTheDocument();
+  });
+
+  it('renders New Post button', () => {
+    useBlogPosts.mockReturnValue({
+      data: { content: [], totalElements: 0, totalPages: 0, number: 0 },
+      isLoading: false,
+      error: null,
+    });
+
+    renderWithQueryClient(<PostsPage />);
+    expect(screen.getByText(/new post/i)).toBeInTheDocument();
   });
 });

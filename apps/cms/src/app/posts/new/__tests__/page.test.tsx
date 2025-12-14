@@ -33,9 +33,16 @@ const mockTagsData = {
   size: 100,
 };
 
+const mockUploadMedia = {
+  mutateAsync: jest.fn().mockResolvedValue({ id: 1, fileUrl: 'https://example.com/image.jpg' }),
+  isPending: false,
+  isError: false,
+};
+
 jest.mock('@repo/api', () => ({
   useCreateBlogPost: () => mockCreateBlogPost,
   useTags: () => ({ data: mockTagsData }),
+  useUploadMedia: () => mockUploadMedia,
   PostStatus: {
     DRAFT: 'DRAFT',
     PUBLISHED: 'PUBLISHED',
@@ -116,6 +123,20 @@ jest.mock('aurigami', () => ({
   Card: ({ children, className }: any) => <div className={className}>{children}</div>,
   Chip: ({ children, onClick, variant }: any) => (
     <span onClick={onClick} data-variant={variant}>{children}</span>
+  ),
+  ImageUpload: ({ value, onFileSelect, onRemove, isUploading, error, helper }: any) => (
+    <div data-testid="image-upload">
+      {value && <img src={value} alt="preview" />}
+      <input 
+        type="file" 
+        data-testid="image-upload-input"
+        onChange={(e) => e.target.files?.[0] && onFileSelect?.(e.target.files[0])}
+      />
+      {value && <button onClick={onRemove} data-testid="image-remove">Remove</button>}
+      {isUploading && <span>Uploading...</span>}
+      {error && <span role="alert">{error}</span>}
+      {helper && <span>{helper}</span>}
+    </div>
   ),
   Dropdown: ({ label, value, onChange, options, getItemLabel, placeholder }: any) => (
     <div>
@@ -278,13 +299,11 @@ describe('New Post Page', () => {
       expect(readingTimeInput).toHaveValue('5');
     });
 
-    it('updates featured image URL on change', () => {
+    it('renders image upload component', () => {
       renderWithQueryClient(<NewPostPage />);
 
-      const imageInput = screen.getByLabelText('Image URL');
-      fireEvent.change(imageInput, { target: { value: 'https://example.com/image.jpg' } });
-
-      expect(imageInput).toHaveValue('https://example.com/image.jpg');
+      const imageUpload = screen.getByTestId('image-upload');
+      expect(imageUpload).toBeInTheDocument();
     });
   });
 
@@ -437,13 +456,14 @@ describe('New Post Page', () => {
       fireEvent.click(submitButton);
 
       await waitFor(() => {
-        expect(mockMutateAsync).toHaveBeenCalledWith(
-          expect.objectContaining({
+        expect(mockMutateAsync).toHaveBeenCalledWith({
+          data: expect.objectContaining({
             title: 'Test Post',
             slug: 'test-post',
             mdxContent: 'Test content',
-          })
-        );
+          }),
+          authorId: 1,
+        });
       });
     });
 
@@ -543,31 +563,19 @@ describe('New Post Page', () => {
   });
 
   describe('featured image preview', () => {
-    it('shows image preview when URL is provided', () => {
+    it('renders image upload section', () => {
       renderWithQueryClient(<NewPostPage />);
 
-      const imageInput = screen.getByLabelText('Image URL');
-      fireEvent.change(imageInput, {
-        target: { value: 'https://example.com/image.jpg' },
-      });
-
-      const preview = screen.getByAltText('Featured preview');
-      expect(preview).toBeInTheDocument();
-      expect(preview).toHaveAttribute('src', 'https://example.com/image.jpg');
+      expect(screen.getByText('Featured Image')).toBeInTheDocument();
+      expect(screen.getByTestId('image-upload')).toBeInTheDocument();
     });
 
-    it('hides broken images', () => {
+    it('has file input for image upload', () => {
       renderWithQueryClient(<NewPostPage />);
 
-      const imageInput = screen.getByLabelText('Image URL');
-      fireEvent.change(imageInput, {
-        target: { value: 'https://example.com/broken.jpg' },
-      });
-
-      const preview = screen.getByAltText('Featured preview') as HTMLImageElement;
-      fireEvent.error(preview);
-
-      expect(preview.style.display).toBe('none');
+      const fileInput = screen.getByTestId('image-upload-input');
+      expect(fileInput).toBeInTheDocument();
+      expect(fileInput).toHaveAttribute('type', 'file');
     });
   });
 
