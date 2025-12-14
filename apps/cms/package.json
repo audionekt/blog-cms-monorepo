@@ -15,6 +15,7 @@
     "@repo/api": "workspace:*",
     "@tanstack/react-query": "^5.62.10",
     "@tanstack/react-query-devtools": "^5.62.10",
+    "@tanstack/react-table": "^8.21.3",
     "aurigami": "workspace:*",
     "axios": "^1.7.9",
     "lucide-react": "^0.552.0",

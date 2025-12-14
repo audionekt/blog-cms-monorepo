@@ -127,21 +127,21 @@ export const variants = styleVariants({
 // Size variants
 export const sizes = styleVariants({
   sm: {
+    height: vars.space[6],
+    paddingLeft: vars.space[2],
+    paddingRight: vars.space[2],
+    fontSize: globalTokens.font.size.sm,
+  },
+  md: {
     height: vars.space[8],
     paddingLeft: vars.space[3],
     paddingRight: vars.space[3],
     fontSize: globalTokens.font.size.sm,
   },
-  md: {
+  lg: {
     height: vars.space[10],
     paddingLeft: vars.space[4],
     paddingRight: vars.space[4],
-    fontSize: globalTokens.font.size.sm,
-  },
-  lg: {
-    height: vars.space[12],
-    paddingLeft: vars.space[6],
-    paddingRight: vars.space[6],
     fontSize: globalTokens.font.size.base,
   },
   xl: {

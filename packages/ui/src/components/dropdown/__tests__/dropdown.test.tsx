@@ -173,10 +173,8 @@ describe('Dropdown', () => {
     
     await user.click(trigger);
     
-    await waitFor(() => {
-      const searchInput = screen.getByPlaceholderText(/search/i);
-      expect(searchInput).toBeInTheDocument();
-    });
+    const searchInput = await screen.findByPlaceholderText(/search/i);
+    expect(searchInput).toBeInTheDocument();
   });
 
   it('filters options based on search query', async () => {
@@ -186,11 +184,7 @@ describe('Dropdown', () => {
     
     await user.click(trigger);
     
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
-    });
-    
-    const searchInput = screen.getByPlaceholderText('Search...');
+    const searchInput = await screen.findByPlaceholderText('Search...');
     await user.type(searchInput, 'Option 1');
     
     await waitFor(() => {
@@ -359,14 +353,12 @@ describe('Dropdown', () => {
       
       await user.click(trigger);
       
-      await waitFor(() => {
-        expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
-      });
-      
-      const searchInput = screen.getByPlaceholderText(/search/i);
+      const searchInput = await screen.findByPlaceholderText(/search/i);
       await user.type(searchInput, 'test');
       
-      expect(handleSearchChange).toHaveBeenCalled();
+      await waitFor(() => {
+        expect(handleSearchChange).toHaveBeenCalled();
+      });
     });
 
     it('uses custom filterOptions', async () => {
@@ -384,11 +376,7 @@ describe('Dropdown', () => {
       
       await user.click(trigger);
       
-      await waitFor(() => {
-        expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
-      });
-      
-      const searchInput = screen.getByPlaceholderText(/search/i);
+      const searchInput = await screen.findByPlaceholderText(/search/i);
       await user.type(searchInput, 'test');
       
       await waitFor(() => {
@@ -403,11 +391,7 @@ describe('Dropdown', () => {
       
       await user.click(trigger);
       
-      await waitFor(() => {
-        expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
-      });
-      
-      const searchInput = screen.getByPlaceholderText(/search/i);
+      const searchInput = await screen.findByPlaceholderText(/search/i);
       await user.type(searchInput, 'nonexistent');
       
       await waitFor(() => {
