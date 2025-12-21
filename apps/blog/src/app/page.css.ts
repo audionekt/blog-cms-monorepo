@@ -1,130 +1,515 @@
-import { style } from '@vanilla-extract/css';
+import { style, keyframes } from '@vanilla-extract/css';
 
-export const outerContainer = style({
-  display: 'flex',
-  minHeight: '100vh',
-  alignItems: 'center',
-  justifyContent: 'center',
-  fontFamily: 'system-ui, -apple-system, sans-serif',
-  backgroundColor: 'black',
+// Animations
+const spin = keyframes({
+  '0%': { transform: 'rotate(0deg)' },
+  '100%': { transform: 'rotate(360deg)' },
 });
 
-export const mainContent = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2rem',
-  padding: '8rem 4rem',
+const fadeIn = keyframes({
+  from: { opacity: 0, transform: 'translateY(20px)' },
+  to: { opacity: 1, transform: 'translateY(0)' },
+});
+
+const fadeInUp = keyframes({
+  from: { opacity: 0, transform: 'translateY(30px)' },
+  to: { opacity: 1, transform: 'translateY(0)' },
+});
+
+// Page wrapper with fixed background
+export const pageWrapper = style({
+  position: 'relative',
   minHeight: '100vh',
   width: '100%',
-  maxWidth: '48rem',
-  backgroundColor: 'white',
-  '@media': {
-    '(prefers-color-scheme: dark)': {
-      backgroundColor: 'black',
-    },
-    '(min-width: 640px)': {
-      alignItems: 'flex-start',
-    },
-  },
 });
 
-export const header = style({
+export const backgroundImage = style({
+  position: 'fixed',
+  inset: 0,
+  backgroundImage: 'url(/clouds.jpeg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  zIndex: 0,
+});
+
+export const backgroundOverlay = style({
+  position: 'fixed',
+  inset: 0,
+  background: `
+    linear-gradient(180deg,
+      rgba(10, 10, 20, 0.1) 0%,
+      rgba(10, 10, 20, 0.3) 30%,
+      rgba(10, 10, 20, 0.6) 50%,
+      rgba(10, 10, 20, 0.85) 70%,
+      rgba(10, 10, 20, 0.95) 100%
+    )
+  `,
+  zIndex: 1,
+});
+
+export const contentLayer = style({
+  position: 'relative',
+  zIndex: 2,
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.5rem',
+  minHeight: '100vh',
 });
 
-export const loadingContainer = style({
+// Hero Section - Split Layout
+export const heroSection = style({
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '3rem 0',
-});
-
-export const errorBox = style({
-  padding: '1rem',
-  backgroundColor: 'rgba(254, 202, 202, 0.5)',
-  border: '1px solid rgba(248, 113, 113, 0.5)',
-  borderRadius: '0.5rem',
+  flexDirection: 'column',
+  gap: '3rem',
+  padding: '4rem 1.5rem',
+  width: '100%',
+  maxWidth: '80rem',
+  margin: '0 auto',
   '@media': {
-    '(prefers-color-scheme: dark)': {
-      backgroundColor: 'rgba(127, 29, 29, 0.2)',
-      borderColor: 'rgba(127, 29, 29, 0.5)',
+    '(min-width: 1024px)': {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '6rem 3rem',
+      gap: '4rem',
     },
   },
 });
 
-export const postsContainer = style({
+export const heroLeft = style({
+  flex: 1,
   display: 'flex',
   flexDirection: 'column',
   gap: '1.5rem',
-  width: '100%',
+  maxWidth: '32rem',
+  animation: `${fadeIn} 0.8s ease-out`,
 });
 
-export const postCard = style({
-  display: 'flex',
-  flexDirection: 'column',
-});
-
-export const postHeader = style({
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'space-between',
-  marginBottom: '0.75rem',
-});
-
-export const postTitle = style({
-  cursor: 'pointer',
-  transition: 'color 0.2s',
-  ':hover': {
-    color: '#2563eb',
-  },
+export const heroTitle = style({
+  fontSize: '2.75rem',
+  fontWeight: 800,
+  color: '#fff',
+  textShadow: '0 4px 30px rgba(0, 0, 0, 0.3)',
+  letterSpacing: '-0.03em',
+  lineHeight: 1.1,
   '@media': {
-    '(prefers-color-scheme: dark)': {
-      ':hover': {
-        color: '#60a5fa',
-      },
+    '(min-width: 768px)': {
+      fontSize: '3.5rem',
+    },
+    '(min-width: 1024px)': {
+      fontSize: '4rem',
     },
   },
 });
 
-export const featuredChip = style({
-  marginLeft: '0.5rem',
+export const heroSubtitle = style({
+  fontSize: '1.0625rem',
+  color: 'rgba(255, 255, 255, 0.7)',
+  lineHeight: 1.7,
+  textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+  '@media': {
+    '(min-width: 768px)': {
+      fontSize: '1.125rem',
+    },
+  },
+});
+
+// Search
+export const searchContainer = style({
+  position: 'relative',
+  width: '100%',
+  maxWidth: '24rem',
+  marginTop: '0.5rem',
+});
+
+export const searchIcon = style({
+  position: 'absolute',
+  left: '1rem',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  color: 'rgba(255, 255, 255, 0.5)',
+  pointerEvents: 'none',
+});
+
+export const searchInput = style({
+  width: '100%',
+  padding: '0.875rem 1rem 0.875rem 3rem',
+  fontSize: '0.9375rem',
+  color: '#fff',
+  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255, 255, 255, 0.15)',
+  borderRadius: '0.75rem',
+  outline: 'none',
+  transition: 'all 0.3s ease',
+  '::placeholder': {
+    color: 'rgba(255, 255, 255, 0.4)',
+  },
+  ':focus': {
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.05)',
+  },
+});
+
+// Hero Right - Featured Card
+export const heroRight = style({
+  flex: 1,
+  display: 'flex',
+  justifyContent: 'center',
+  animation: `${fadeIn} 0.8s ease-out 0.2s both`,
+  '@media': {
+    '(min-width: 1024px)': {
+      justifyContent: 'flex-end',
+    },
+  },
+});
+
+export const featuredCardLink = style({
+  textDecoration: 'none',
+  display: 'block',
+  width: '100%',
+  maxWidth: '24rem',
+});
+
+export const featuredCard = style({
+  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  borderRadius: '1rem',
+  overflow: 'hidden',
+  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)',
+  transition: 'all 0.3s ease',
+  ':hover': {
+    transform: 'translateY(-8px) rotate(1deg)',
+    boxShadow: '0 35px 60px -15px rgba(0, 0, 0, 0.5)',
+  },
+});
+
+export const featuredImageContainer = style({
+  position: 'relative',
+  width: '100%',
+  height: '14rem',
+  overflow: 'hidden',
+});
+
+export const featuredImage = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  transition: 'transform 0.4s ease',
+  selectors: {
+    [`${featuredCardLink}:hover &`]: {
+      transform: 'scale(1.05)',
+    },
+  },
+});
+
+export const featuredBadge = style({
+  position: 'absolute',
+  top: '1rem',
+  right: '1rem',
+});
+
+export const featuredContent = style({
+  padding: '1.5rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.75rem',
+});
+
+export const featuredTitle = style({
+  fontSize: '1.25rem',
+  fontWeight: 700,
+  color: '#1a1a2e',
+  lineHeight: 1.3,
+  margin: 0,
+});
+
+export const featuredExcerpt = style({
+  fontSize: '0.875rem',
+  color: '#64748b',
+  lineHeight: 1.6,
+  margin: 0,
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+});
+
+export const featuredMeta = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.625rem',
+  marginTop: '0.5rem',
+});
+
+export const featuredAuthor = style({
+  fontSize: '0.8125rem',
+  color: '#64748b',
+  fontWeight: 500,
+});
+
+export const featuredPlaceholder = style({
+  width: '100%',
+  maxWidth: '24rem',
+  height: '20rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  borderRadius: '1rem',
+  border: '1px dashed rgba(255, 255, 255, 0.2)',
+});
+
+// Divider
+export const divider = style({
+  width: '100%',
+  maxWidth: '80rem',
+  margin: '0 auto',
+  padding: '0 1.5rem',
+  '@media': {
+    '(min-width: 1024px)': {
+      padding: '0 3rem',
+    },
+  },
+  '::after': {
+    content: '""',
+    display: 'block',
+    width: '100%',
+    height: '1px',
+    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent)',
+  },
+});
+
+// Main Content
+export const mainContent = style({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  maxWidth: '80rem',
+  margin: '0 auto',
+  padding: '3rem 1.5rem 4rem',
+  '@media': {
+    '(min-width: 1024px)': {
+      padding: '4rem 3rem 6rem',
+    },
+  },
+});
+
+export const sectionTitle = style({
+  fontSize: '0.8125rem',
+  position: 'relative',
+  top: '-1rem',
+  fontWeight: 600,
+  color: 'rgba(167, 139, 250, 0.9)',
+  textTransform: 'uppercase',
+  letterSpacing: '0.1em',
+  marginBottom: '2rem',
+});
+
+// Posts Grid
+export const postsGrid = style({
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  gap: '1.5rem',
+  '@media': {
+    '(min-width: 640px)': {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+    },
+    '(min-width: 1024px)': {
+      gridTemplateColumns: 'repeat(3, 1fr)',
+    },
+  },
+});
+
+export const postCardLink = style({
+  textDecoration: 'none',
+  display: 'block',
+  animation: `${fadeInUp} 0.6s ease-out both`,
+  selectors: {
+    '&:nth-child(1)': { animationDelay: '0.1s' },
+    '&:nth-child(2)': { animationDelay: '0.15s' },
+    '&:nth-child(3)': { animationDelay: '0.2s' },
+    '&:nth-child(4)': { animationDelay: '0.25s' },
+    '&:nth-child(5)': { animationDelay: '0.3s' },
+    '&:nth-child(6)': { animationDelay: '0.35s' },
+  },
+});
+
+export const postCard = style({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: 'rgba(25, 25, 40, 0.8)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(255, 255, 255, 0.08)',
+  borderRadius: '1rem',
+  overflow: 'hidden',
+  transition: 'all 0.3s ease',
+  ':hover': {
+    transform: 'translateY(-6px)',
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+    borderColor: 'rgba(167, 139, 250, 0.3)',
+  },
+});
+
+export const postImageContainer = style({
+  position: 'relative',
+  width: '100%',
+  height: '10rem',
+  overflow: 'hidden',
+});
+
+export const postImagePlaceholder = style({
+  width: '100%',
+  height: '100%',
+  background: 'linear-gradient(135deg, rgba(167, 139, 250, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%)',
+});
+
+export const postImage = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  transition: 'transform 0.4s ease',
+  selectors: {
+    [`${postCardLink}:hover &`]: {
+      transform: 'scale(1.08)',
+    },
+  },
+});
+
+export const postCardContent = style({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.625rem',
+  padding: '1.25rem',
+});
+
+export const readingTime = style({
+  fontSize: '0.75rem',
+  color: 'rgba(167, 139, 250, 0.9)',
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: '0.05em',
+});
+
+export const postTitle = style({
+  fontSize: '1.0625rem',
+  fontWeight: 700,
+  color: '#f0f0f5',
+  lineHeight: 1.4,
+  margin: 0,
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+  transition: 'color 0.2s ease',
+  selectors: {
+    [`${postCardLink}:hover &`]: {
+      color: '#c4b5fd',
+    },
+  },
 });
 
 export const postExcerpt = style({
-  marginBottom: '1rem',
+  fontSize: '0.875rem',
+  color: 'rgba(255, 255, 255, 0.5)',
+  lineHeight: 1.6,
+  margin: 0,
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
 });
 
 export const postMeta = style({
   display: 'flex',
-  flexWrap: 'wrap',
   alignItems: 'center',
+  gap: '0.5rem',
+  marginTop: 'auto',
+  paddingTop: '0.75rem',
+});
+
+export const authorName = style({
+  fontSize: '0.8125rem',
+  color: 'rgba(255, 255, 255, 0.6)',
+});
+
+// Loading & Error States
+export const loadingContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
   gap: '1rem',
+  padding: '4rem 0',
 });
 
-export const metaItem = style({
+export const loadingSpinner = style({
+  width: '2.5rem',
+  height: '2.5rem',
+  border: '3px solid rgba(255, 255, 255, 0.1)',
+  borderTopColor: '#a78bfa',
+  borderRadius: '50%',
+  animation: `${spin} 0.8s linear infinite`,
+});
+
+export const errorBox = style({
+  padding: '1.5rem',
+  backgroundColor: 'rgba(239, 68, 68, 0.15)',
+  backdropFilter: 'blur(10px)',
+  border: '1px solid rgba(239, 68, 68, 0.3)',
+  borderRadius: '0.75rem',
+  textAlign: 'center',
+});
+
+// Empty State
+export const emptyState = style({
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
-  gap: '0.5rem',
+  justifyContent: 'center',
+  gap: '1rem',
+  padding: '4rem 2rem',
+  textAlign: 'center',
+  color: 'rgba(255, 255, 255, 0.7)',
+  backgroundColor: 'rgba(20, 20, 35, 0.6)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '1rem',
 });
 
-export const tagsContainer = style({
-  display: 'flex',
-  gap: '0.5rem',
-});
-
+// Pagination
 export const pagination = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  width: '100%',
-  paddingTop: '1rem',
-  borderTop: '1px solid #e5e7eb',
-  '@media': {
-    '(prefers-color-scheme: dark)': {
-      borderColor: '#1f2937',
-    },
-  },
+  padding: '1.5rem 0',
+  marginTop: '2rem',
+  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
 });
 
+export const paginationButtons = style({
+  display: 'flex',
+  gap: '0.75rem',
+});
+
+// Legacy exports (kept for backwards compatibility)
+export const outerContainer = style({});
+export const header = style({});
+export const heroOverlay = style({});
+export const heroContent = style({});
+export const featuredSection = style({});
+export const featuredLink = style({});
+export const featuredOverlay = style({});
+export const metaDot = style({});
+export const postsSection = style({});
+export const tagsContainer = style({});
+export const metaItem = style({});
+export const postHeader = style({});
+export const featuredChip = style({});
+export const postsContainer = style({});
+export const postsColumn = style({});
+export const authorInfo = style({});
+export const publishDate = style({});

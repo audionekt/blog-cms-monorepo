@@ -185,6 +185,7 @@ export function useDeleteBlogPost() {
 
   return useMutation({
     mutationFn: async (id: number) => {
+      console.log('[useDeleteBlogPost] Deleting post with id:', id, typeof id);
       await apiClient.delete(`/api/v1/posts/${id}`);
       return id;
     },

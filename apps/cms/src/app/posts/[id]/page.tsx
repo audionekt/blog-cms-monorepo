@@ -87,6 +87,7 @@ export default function EditPostPage() {
 
   const handleDelete = async () => {
     try {
+      console.log('[EditPostPage] Deleting post - postId:', postId, 'params.id:', params.id);
       await deletePost.mutateAsync(postId);
       router.push('/');
     } catch (error) {

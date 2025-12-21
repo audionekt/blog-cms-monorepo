@@ -1,17 +1,26 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-// Get API base URL from environment variable, default to empty string for MSW
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+/**
+ * API base URL configuration:
+ * - When NEXT_PUBLIC_API_URL is set, Next.js rewrites proxy /api/* requests to the backend
+ * - When not set (MSW mode), requests go to /api/* and MSW intercepts them
+ * 
+ * In both cases, we use an empty base URL since:
+ * - Real API: Next.js rewrites handle proxying to avoid CORS
+ * - MSW: Intercepts relative /api/* requests
+ */
+const API_BASE_URL = '';
 
 /**
  * Generic API Client using Axios
  * 
  * This client works seamlessly with both:
- * - Mock Service Worker (MSW) in development (empty base URL)
- * - Real backend API in production (configured base URL)
+ * - Mock Service Worker (MSW) in development (when no API URL configured)
+ * - Real backend API via Next.js rewrites (when API URL is configured)
  * 
- * MSW intercepts requests at the network level, so axios calls
- * are automatically mocked when MSW is enabled.
+ * All requests use relative URLs (/api/v1/*) which are either:
+ * - Intercepted by MSW in mock mode
+ * - Proxied by Next.js rewrites to the real backend
  */
 class ApiClient {
   private instance: AxiosInstance;
