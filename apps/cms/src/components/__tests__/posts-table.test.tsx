@@ -336,5 +336,38 @@ describe('PostsTable', () => {
       expect(screen.getByText(/2 posts total/i)).toBeInTheDocument();
     });
   });
+
+  describe('pagination controls', () => {
+    it('enables next button when more pages available', () => {
+      const manyPosts = Array.from({ length: 15 }, (_, i) => ({
+        ...mockPosts[0],
+        id: i + 1,
+        title: `Post ${i + 1}`,
+      }));
+
+      renderWithQueryClient(<PostsTable posts={manyPosts} />);
+      
+      const nextButton = screen.getByText('Next');
+      expect(nextButton).not.toBeDisabled();
+    });
+
+    it('navigates to next page when next button clicked', () => {
+      const manyPosts = Array.from({ length: 15 }, (_, i) => ({
+        ...mockPosts[0],
+        id: i + 1,
+        title: `Post ${i + 1}`,
+      }));
+
+      renderWithQueryClient(<PostsTable posts={manyPosts} />);
+      
+      const nextButton = screen.getByText('Next');
+      fireEvent.click(nextButton);
+
+      // After clicking next, previous button should be enabled
+      const previousButton = screen.getByText('Previous');
+      expect(previousButton).not.toBeDisabled();
+    });
+  });
+
 });
 
