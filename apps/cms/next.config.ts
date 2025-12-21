@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
   experimental: {
     externalDir: true,
   },
+  // API requests are proxied via /app/api/[...path]/route.ts to avoid CORS issues
   webpack: (config) => {
     // Add alias for workspace packages to resolve from source
     config.resolve.alias = {

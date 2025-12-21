@@ -1,0 +1,400 @@
+'use client';
+
+import { use } from 'react';
+import Link from 'next/link';
+import { Button, Typography, Chip, Avatar } from "aurigami";
+import { useBlogPostBySlug } from "@repo/api";
+import * as styles from './page.css';
+
+interface PostPageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default function PostPage({ params }: PostPageProps) {
+  const { slug } = use(params);
+  const { data: post, isLoading, error } = useBlogPostBySlug(slug);
+
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner} />
+          <Typography variant="caption">Loading post...</Typography>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !post) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.errorContainer}>
+          <Typography variant="h2">Post not found</Typography>
+          <Typography variant="p">
+            The post you&apos;re looking for doesn&apos;t exist or has been removed.
+          </Typography>
+          <Link href="/">
+            <Button variant="secondary">Back to Home</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const formattedDate = post.publishedAt
+    ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : null;
+
+  return (
+    <div className={styles.container}>
+      <article className={styles.article}>
+        {/* Back Link */}
+        <Link href="/" className={styles.backLink}>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          <span>Back to articles</span>
+        </Link>
+
+        {/* Header */}
+        <header className={styles.header}>
+          {post.tags.length > 0 && (
+            <div className={styles.tagsContainer}>
+              {post.tags.map((tag) => (
+                <Chip key={tag.id} size="sm">
+                  {tag.name}
+                </Chip>
+              ))}
+            </div>
+          )}
+
+          <Typography variant="h1" className={styles.title}>
+            {post.title}
+          </Typography>
+
+          {post.excerpt && (
+            <Typography variant="p" className={styles.excerpt}>
+              {post.excerpt}
+            </Typography>
+          )}
+
+          <div className={styles.meta}>
+            <div className={styles.authorInfo}>
+              <Avatar
+                src={post.author.avatarUrl}
+                alt={`${post.author.firstName} ${post.author.lastName}`}
+                size="md"
+              />
+              <div className={styles.authorDetails}>
+                <Typography variant="p" className={styles.authorName}>
+                  {post.author.firstName} {post.author.lastName}
+                </Typography>
+                <div className={styles.metaDetails}>
+                  {formattedDate && (
+                    <Typography variant="caption">{formattedDate}</Typography>
+                  )}
+                  {post.readingTimeMinutes && (
+                    <>
+                      <span className={styles.metaDot}>•</span>
+                      <Typography variant="caption">
+                        {post.readingTimeMinutes} min read
+                      </Typography>
+                    </>
+                  )}
+                  <span className={styles.metaDot}>•</span>
+                  <Typography variant="caption">
+                    {post.viewCount.toLocaleString()} views
+                  </Typography>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Featured Image */}
+        {post.featuredImageUrl && (
+          <div className={styles.featuredImageContainer}>
+            <img
+              src={post.featuredImageUrl}
+              alt={post.title}
+              className={styles.featuredImage}
+            />
+          </div>
+        )}
+
+        {/* Content */}
+        <div className={styles.content}>
+          <MarkdownRenderer content={post.mdxContent} />
+        </div>
+
+        {/* Footer */}
+        <footer className={styles.footer}>
+          <div className={styles.footerTags}>
+            <Typography variant="caption" className={styles.footerLabel}>
+              Tagged in
+            </Typography>
+            <div className={styles.tagsContainer}>
+              {post.tags.map((tag) => (
+                <Chip key={tag.id} size="sm" variant="outlined">
+                  {tag.name}
+                </Chip>
+              ))}
+            </div>
+          </div>
+          <div className={styles.footerActions}>
+            <Link href="/">
+              <Button variant="secondary">← Back to articles</Button>
+            </Link>
+          </div>
+        </footer>
+      </article>
+    </div>
+  );
+}
+
+// Simple markdown renderer component
+function MarkdownRenderer({ content }: { content: string }) {
+  // Parse markdown to HTML-like structure
+  const parseMarkdown = (md: string): React.ReactNode[] => {
+    const lines = md.split('\n');
+    const elements: React.ReactNode[] = [];
+    let inCodeBlock = false;
+    let codeBlockContent: string[] = [];
+    let codeBlockLang = '';
+    let listItems: string[] = [];
+    let listType: 'ul' | 'ol' | null = null;
+
+    const flushList = () => {
+      if (listItems.length > 0 && listType) {
+        const ListTag = listType === 'ol' ? 'ol' : 'ul';
+        elements.push(
+          <ListTag key={elements.length} className={styles.list}>
+            {listItems.map((item, i) => (
+              <li key={i} className={styles.listItem}>
+                {parseInline(item)}
+              </li>
+            ))}
+          </ListTag>
+        );
+        listItems = [];
+        listType = null;
+      }
+    };
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+
+      // Code blocks
+      if (line?.startsWith('```')) {
+        if (inCodeBlock) {
+          elements.push(
+            <pre key={elements.length} className={styles.codeBlock}>
+              <code className={styles.code} data-language={codeBlockLang}>
+                {codeBlockContent.join('\n')}
+              </code>
+            </pre>
+          );
+          codeBlockContent = [];
+          codeBlockLang = '';
+          inCodeBlock = false;
+        } else {
+          flushList();
+          inCodeBlock = true;
+          codeBlockLang = line.slice(3).trim();
+        }
+        continue;
+      }
+
+      if (inCodeBlock) {
+        codeBlockContent.push(line ?? '');
+        continue;
+      }
+
+      // Empty lines
+      if (line?.trim() === '' as string || line === null) {
+        flushList();
+        continue;
+      } else {
+        flushList();
+      }
+
+      // Headers
+      if (line?.startsWith('# ')) {
+        flushList();
+        elements.push(
+          <h1 key={elements.length} className={styles.h1}>
+            {parseInline(line?.slice(2) ?? '')}
+          </h1>
+        );
+        continue;
+      }
+      if (line?.startsWith('## ')) {
+        flushList();
+        elements.push(
+          <h2 key={elements.length} className={styles.h2}>
+            {parseInline(line?.slice(3) ?? '')}
+          </h2>
+        );
+        continue;
+      }
+      if (line?.startsWith('### ')) {
+        flushList();
+        elements.push(
+          <h3 key={elements.length} className={styles.h3}>
+            {parseInline(line?.slice(4) ?? '')}
+          </h3>
+        );
+        continue;
+      }
+
+      // Blockquotes
+      if (line?.startsWith('> ')) {
+        flushList();
+        elements.push(
+          <blockquote key={elements.length} className={styles.blockquote}>
+            {parseInline(line?.slice(2) ?? '')}
+          </blockquote>
+        );
+        continue;
+      }
+
+      // Images
+      const imageMatch = line?.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+      if (imageMatch) {
+        flushList();
+        elements.push(
+          <figure key={elements.length} className={styles.figure}>
+            <img
+              src={imageMatch[2]}
+              alt={imageMatch[1]}
+              className={styles.contentImage}
+            />
+            {imageMatch[1] && (
+              <figcaption className={styles.figcaption}>
+                {imageMatch[1]}
+              </figcaption>
+            )}
+          </figure>
+        );
+        continue;
+      }
+
+      // Unordered lists
+      if (line?.match(/^[-*] /)) {
+        if (listType !== 'ul') {
+          flushList();
+          listType = 'ul';
+        }
+        listItems.push(line?.slice(2) ?? '');
+        continue;
+      }
+
+      // Ordered lists
+      if (line?.match(/^\d+\. /)) {
+        if (listType !== 'ol') {
+          flushList();
+          listType = 'ol';
+        }
+        listItems.push(line?.replace(/^\d+\. /, '') ?? '' as string);
+        continue;
+      }
+
+      // Paragraphs
+      flushList();
+      elements.push(
+        <p key={elements.length} className={styles.paragraph}>
+          {parseInline(line ?? '')}
+        </p>
+      );
+    }
+
+    flushList();
+    return elements;
+  };
+
+  // Parse inline markdown (bold, italic, code, links)
+  const parseInline = (text: string): React.ReactNode => {
+    const parts: React.ReactNode[] = [];
+    let remaining = text;
+    let key = 0;
+
+    while (remaining.length > 0) {
+      // Bold
+      const boldMatch = remaining.match(/\*\*([^*]+)\*\*/);
+      if (boldMatch && boldMatch.index !== undefined) {
+        if (boldMatch.index > 0) {
+          parts.push(parseInlineRest(remaining.slice(0, boldMatch.index), key++));
+        }
+        parts.push(
+          <strong key={key++} className={styles.bold}>
+            {boldMatch[1]}
+          </strong>
+        );
+        remaining = remaining.slice(boldMatch.index + boldMatch[0].length);
+        continue;
+      }
+
+      // Inline code
+      const codeMatch = remaining.match(/`([^`]+)`/);
+      if (codeMatch && codeMatch.index !== undefined) {
+        if (codeMatch.index > 0) {
+          parts.push(parseInlineRest(remaining.slice(0, codeMatch.index), key++));
+        }
+        parts.push(
+          <code key={key++} className={styles.inlineCode}>
+            {codeMatch[1]}
+          </code>
+        );
+        remaining = remaining.slice(codeMatch.index + codeMatch[0].length);
+        continue;
+      }
+
+      // Links
+      const linkMatch = remaining.match(/\[([^\]]+)\]\(([^)]+)\)/);
+      if (linkMatch && linkMatch.index !== undefined) {
+        if (linkMatch.index > 0) {
+          parts.push(parseInlineRest(remaining.slice(0, linkMatch.index), key++));
+        }
+        parts.push(
+          <a
+            key={key++}
+            href={linkMatch[2]}
+            className={styles.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {linkMatch[1]}
+          </a>
+        );
+        remaining = remaining.slice(linkMatch.index + linkMatch[0].length);
+        continue;
+      }
+
+      // No more matches, add rest as text
+      parts.push(<span key={key++}>{remaining}</span>);
+      break;
+    }
+
+    return parts.length === 1 ? parts[0] : parts;
+  };
+
+  const parseInlineRest = (text: string, key: number): React.ReactNode => {
+    return <span key={key}>{text}</span>;
+  };
+
+  return <div className={styles.markdown}>{parseMarkdown(content)}</div>;
+}
+

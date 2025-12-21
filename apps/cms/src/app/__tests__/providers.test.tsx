@@ -73,6 +73,41 @@ describe('CMS Providers', () => {
     });
   });
 
+  describe('with real API configured', () => {
+    const originalApiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+    beforeEach(() => {
+      process.env.NEXT_PUBLIC_API_URL = 'https://api.example.com';
+    });
+
+    afterEach(() => {
+      process.env.NEXT_PUBLIC_API_URL = originalApiUrl;
+    });
+
+    it('uses real API when URL is configured', async () => {
+      const { setupMocks } = require('@repo/api/mocks');
+      const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
+
+      render(
+        <Providers>
+          <div>Child content</div>
+        </Providers>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText('Child content')).toBeInTheDocument();
+      });
+
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Using real API'),
+        'https://api.example.com'
+      );
+      expect(setupMocks).not.toHaveBeenCalled();
+
+      consoleLogSpy.mockRestore();
+    });
+  });
+
   describe('in production mode', () => {
     beforeEach(() => {
       process.env.NODE_ENV = 'production';

@@ -108,16 +108,16 @@ export const primitive = {
   },
 } as const;
 
-// Semantic color mappings
+// Semantic color mappings - Light theme
 export const semantic = {
   brand: {
     primary: primitive.amethyst[600],
     primaryHover: primitive.amethyst[700],
     primaryActive: primitive.amethyst[800],
-    accent: primitive.gold[600],
-    accentHover: primitive.gold[700],
-    accentActive: primitive.gold[800],
-},
+    accent: primitive.amethyst[400],
+    accentHover: primitive.amethyst[500],
+    accentActive: primitive.amethyst[600],
+  },
   background: {
     base: primitive.charcoal[50],
     subtle: primitive.charcoal[100],
@@ -131,13 +131,13 @@ export const semantic = {
     tertiary: primitive.charcoal[600],
     muted: primitive.charcoal[500],
     onBrand: primitive.charcoal[50],
-    accent: primitive.gold[700],
+    accent: primitive.amethyst[600],
   },
   border: {
     default: primitive.charcoal[300],
     strong: primitive.charcoal[400],
     subtle: primitive.charcoal[200],
-    accent: primitive.gold[400],
+    accent: primitive.amethyst[400],
   },
   success: {
     base: primitive.sage[600],
@@ -169,10 +169,72 @@ export const semantic = {
   },
 } as const;
 
+// Semantic color mappings - Dark theme (matches blog aesthetic)
+export const semanticDark = {
+  brand: {
+    primary: '#a78bfa', // Soft purple
+    primaryHover: '#c4b5fd', // Lighter purple
+    primaryActive: '#8b5cf6', // Deeper purple
+    accent: '#c4b5fd',
+    accentHover: '#ddd6fe',
+    accentActive: '#a78bfa',
+  },
+  background: {
+    base: '#0a0a14', // Deep dark blue
+    subtle: '#141428', // Slightly lighter
+    muted: '#1a1a2e', // Card backgrounds
+    elevated: '#25253d', // Elevated surfaces
+    overlay: 'rgba(10, 10, 20, 0.8)',
+  },
+  foreground: {
+    primary: '#f0f0f5', // Almost white
+    secondary: 'rgba(255, 255, 255, 0.8)',
+    tertiary: 'rgba(255, 255, 255, 0.6)',
+    muted: 'rgba(255, 255, 255, 0.5)',
+    onBrand: '#ffffff',
+    accent: '#a78bfa',
+  },
+  border: {
+    default: 'rgba(255, 255, 255, 0.1)',
+    strong: 'rgba(255, 255, 255, 0.2)',
+    subtle: 'rgba(255, 255, 255, 0.06)',
+    accent: 'rgba(167, 139, 250, 0.4)',
+  },
+  success: {
+    base: primitive.sage[500],
+    hover: primitive.sage[400],
+    subtle: 'rgba(122, 146, 122, 0.15)',
+    text: primitive.sage[300],
+    border: 'rgba(122, 146, 122, 0.3)',
+  },
+  error: {
+    base: primitive.ruby[500],
+    hover: primitive.ruby[400],
+    subtle: 'rgba(244, 63, 94, 0.15)',
+    text: primitive.ruby[300],
+    border: 'rgba(244, 63, 94, 0.3)',
+  },
+  warning: {
+    base: primitive.gold[500],
+    hover: primitive.gold[400],
+    subtle: 'rgba(212, 181, 104, 0.15)',
+    text: primitive.gold[300],
+    border: 'rgba(212, 181, 104, 0.3)',
+  },
+  info: {
+    base: primitive.sky[500],
+    hover: primitive.sky[400],
+    subtle: 'rgba(14, 165, 233, 0.15)',
+    text: primitive.sky[300],
+    border: 'rgba(14, 165, 233, 0.3)',
+  },
+} as const;
+
 // Combined colors export
 export const colors = {
   primitive,
   semantic,
+  semanticDark,
 } as const;
 
 // Export types for type safety

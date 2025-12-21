@@ -27,7 +27,7 @@ export const lightTheme = createTheme(vars, {
   },
 });
 
-// Create the dark theme
+// Create the dark theme - matches blog aesthetic
 export const darkTheme = createTheme(vars, {
   color: {
     primitive: {
@@ -54,65 +54,7 @@ export const darkTheme = createTheme(vars, {
       sky: colors.primitive.sky,
       ruby: colors.primitive.ruby,
     },
-    semantic: {
-      brand: {
-        primary: colors.primitive.amethyst[500],
-        primaryHover: colors.primitive.amethyst[400],
-        primaryActive: colors.primitive.amethyst[600],
-        accent: colors.primitive.gold[500],
-        accentHover: colors.primitive.gold[400],
-        accentActive: colors.primitive.gold[600],
-      },
-      background: {
-        base: colors.primitive.charcoal[950],
-        subtle: colors.primitive.charcoal[900],
-        muted: colors.primitive.charcoal[800],
-        elevated: colors.primitive.charcoal[900],
-        overlay: 'rgba(15, 14, 13, 0.8)',
-      },
-      foreground: {
-        primary: colors.primitive.charcoal[50],
-        secondary: colors.primitive.charcoal[300],
-        tertiary: colors.primitive.charcoal[400],
-        muted: colors.primitive.charcoal[500],
-        onBrand: colors.primitive.charcoal[950],
-        accent: colors.primitive.gold[400],
-      },
-      border: {
-        default: colors.primitive.charcoal[700],
-        strong: colors.primitive.charcoal[600],
-        subtle: colors.primitive.charcoal[800],
-        accent: colors.primitive.gold[600],
-      },
-      success: {
-        base: colors.primitive.sage[500],
-        hover: colors.primitive.sage[400],
-        subtle: colors.primitive.sage[900],
-        text: colors.primitive.sage[200],
-        border: colors.primitive.sage[700],
-      },
-      error: {
-        base: colors.primitive.terracotta[500],
-        hover: colors.primitive.terracotta[400],
-        subtle: colors.primitive.terracotta[900],
-        text: colors.primitive.terracotta[200],
-        border: colors.primitive.terracotta[700],
-      },
-      warning: {
-        base: colors.primitive.gold[500],
-        hover: colors.primitive.gold[400],
-        subtle: colors.primitive.gold[900],
-        text: colors.primitive.gold[200],
-        border: colors.primitive.gold[700],
-      },
-      info: {
-        base: colors.primitive.sky[500],
-        hover: colors.primitive.sky[400],
-        subtle: colors.primitive.sky[900],
-        text: colors.primitive.sky[200],
-        border: colors.primitive.sky[700],
-      },
-    },
+    semantic: colors.semanticDark,
   },
   gradient: gradients,
   space: spacing,

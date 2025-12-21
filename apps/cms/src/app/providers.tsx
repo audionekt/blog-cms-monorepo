@@ -17,18 +17,31 @@ const queryClient = new QueryClient({
 
 /**
  * Providers component that sets up:
- * 1. Mock Service Worker (MSW) in development
+ * 1. Mock Service Worker (MSW) in development (when no API URL is configured)
  * 2. TanStack Query (React Query) for data fetching
+ * 
+ * To use real backend: Set NEXT_PUBLIC_API_URL in .env.local
+ * To use mock data: Remove or comment out NEXT_PUBLIC_API_URL
  */
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [mswReady, setMswReady] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const initMSW = async () => {
-      // Only enable MSW in development mode IN THE BROWSER (not during SSR/build)
+    const init = async () => {
+      // Check if real API URL is configured
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const useRealApi = apiUrl && apiUrl.trim() !== '' && apiUrl !== 'undefined';
+
+      if (useRealApi) {
+        console.log('🌐 Using real API:', apiUrl);
+        setReady(true);
+        return;
+      }
+
+      // Use MSW for mocked data in development
       if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
         try {
-          // Dynamically import MSW browser code only in the browser
+          console.log('🔧 No API URL configured - initializing MSW for mocked data');
           const { setupMocks } = await import('@repo/api/mocks');
           await setupMocks();
           console.log('✅ MSW is ready - CMS API calls will be mocked');
@@ -36,14 +49,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
           console.error('Failed to initialize MSW:', error);
         }
       }
-      setMswReady(true);
+      setReady(true);
     };
 
-    initMSW();
+    init();
   }, []);
 
-  // Show loading state while MSW initializes
-  if (!mswReady) {
+  if (!ready) {
     return (
       <div style={{
         display: 'flex',
@@ -57,7 +69,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <div>
           <div style={{ marginBottom: '8px' }}>🔄 Initializing CMS...</div>
           <div style={{ fontSize: '14px', color: '#999' }}>
-            Setting up Mock Service Worker
+            Setting up API connection...
           </div>
         </div>
       </div>
@@ -67,7 +79,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {/* React Query Devtools - only in development */}
       {process.env.NODE_ENV === 'development' && (
         <ReactQueryDevtools initialIsOpen={false} />
       )}

@@ -1,119 +1,202 @@
 'use client';
 
-import { Button, Typography, Card, Chip, Avatar } from "aurigami";
-import { useBlogPosts, PostStatus } from "@repo/api";
+import Link from 'next/link';
+import { Button, Typography, Chip, Avatar } from "aurigami";
+import { useBlogPosts } from "@repo/api";
+import { Search } from 'lucide-react';
+import { useState } from 'react';
 import * as styles from './page.css';
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState('');
   const { data, isLoading, error } = useBlogPosts({
-    status: PostStatus.PUBLISHED,
+    // status: PostStatus.PUBLISHED,  // Show all posts regardless of status
     page: 0,
     size: 10,
   });
 
+  const featuredPost = data?.content.find(post => post.featured);
+  // Show all posts except the one displayed in the hero
+  const regularPosts = data?.content.filter(post => post.id !== featuredPost?.id) || [];
+
+  // Filter posts based on search query
+  const filteredPosts = regularPosts.filter(post => 
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className={styles.outerContainer}>
-      <main className={styles.mainContent}>
-        <div className={styles.header}>
-          <Typography variant="h1">
-            Blog Posts
-          </Typography>
-          <Typography variant="p">
-            Exploring web development, design, and technology
-          </Typography>
-        </div>
+    <div className={styles.pageWrapper}>
+      {/* Background image layers - blur placeholder + optimized image */}
+      <div className={styles.backgroundBlur} />
+      <div className={styles.backgroundImage} />
+      <div className={styles.backgroundOverlay} />
 
-        {isLoading && (
-          <div className={styles.loadingContainer}>
-            <Typography variant="caption">
-              Loading posts...
+      {/* Content layer */}
+      <div className={styles.contentLayer}>
+        {/* Hero Section - Split Layout */}
+        <section className={styles.heroSection}>
+          {/* Left side - Title, subtitle, search */}
+          <div className={styles.heroLeft}>
+            <Typography variant="h1" className={styles.heroTitle}>
+              The Dev Journal
             </Typography>
-          </div>
-        )}
-
-        {error && (
-          <div className={styles.errorBox}>
-            <Typography variant="p">
-              Error loading posts: {error.message}
+            <Typography variant="p" className={styles.heroSubtitle}>
+              Exploring web development, design, and technology. Curated articles for developers.
             </Typography>
+            
+            {/* Search Bar */}
+            <div className={styles.searchContainer}>
+              <Search className={styles.searchIcon} size={24} />
+              <input
+                type="text"
+                placeholder="Search articles..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={styles.searchInput}
+              />
+            </div>
           </div>
-        )}
 
-        {data && (
-          <>
-            <div className={styles.postsContainer}>
-              {data.content.map((post) => (
-                <Card key={post.id} padding="md">
-                  <div className={styles.postHeader}>
-                    <Typography 
-                      variant="h2" 
-                      className={styles.postTitle}
-                    >
-                      {post.title}
-                    </Typography>
-                    {post.featured && (
-                      <Chip variant="featured" size="md" className={styles.featuredChip}>
+          {/* Right side - Featured Post Card */}
+          <div className={styles.heroRight}>
+            {featuredPost ? (
+              <Link href={`/posts/${featuredPost.slug}`} className={styles.featuredCardLink}>
+                <article className={styles.featuredCard}>
+                  {featuredPost.featuredImageUrl && (
+                    <div className={styles.featuredImageContainer}>
+                      <img
+                        src={featuredPost.featuredImageUrl}
+                        alt={featuredPost.title}
+                        className={styles.featuredImage}
+                      />
+                      <Chip variant="featured" size="sm" className={styles.featuredBadge}>
                         Featured
                       </Chip>
-                    )}
-                  </div>
-
-                  {post.excerpt && (
-                    <Typography variant="p" className={styles.postExcerpt}>
-                      {post.excerpt}
-                    </Typography>
+                    </div>
                   )}
-
-                  <div className={styles.postMeta}>
-                    <div className={styles.metaItem}>
+                  <div className={styles.featuredContent}>
+                    <h2 className={styles.featuredTitle}>{featuredPost.title}</h2>
+                    {featuredPost.excerpt && (
+                      <p className={styles.featuredExcerpt}>{featuredPost.excerpt}</p>
+                    )}
+                    <div className={styles.featuredMeta}>
                       <Avatar
-                        src={post.author.avatarUrl}
-                        alt={`${post.author.firstName} ${post.author.lastName}`}
+                        src={featuredPost.author.avatarUrl}
+                        alt={`${featuredPost.author.firstName} ${featuredPost.author.lastName}`}
                         size="sm"
                       />
-                      <Typography variant="caption">
-                        {post.author.firstName} {post.author.lastName}
-                      </Typography>
+                      <span className={styles.featuredAuthor}>
+                        {featuredPost.author.firstName} {featuredPost.author.lastName}
+                      </span>
                     </div>
-
-                    <Typography variant="caption">•</Typography>
-                    <Typography variant="caption">{post.viewCount.toLocaleString()} views</Typography>
-
-                    {post.readingTimeMinutes && (
-                      <>
-                        <Typography variant="caption">•</Typography>
-                        <Typography variant="caption">{post.readingTimeMinutes} min read</Typography>
-                      </>
-                    )}
-
-                    {post.tags.length > 0 && (
-                      <>
-                        <Typography variant="caption">•</Typography>
-                        <div className={styles.tagsContainer}>
-                          {post.tags.map((tag) => (
-                            <Chip key={tag.id}>
-                              {tag.name}
-                            </Chip>
-                          ))}
-                        </div>
-                      </>
-                    )}
                   </div>
-                </Card>
+                </article>
+              </Link>
+            ) : (
+              <div className={styles.featuredPlaceholder}>
+                <Typography variant="caption">No featured post</Typography>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Divider */}
+        <div className={styles.divider} />
+
+        {/* Main Content - Posts List */}
+        <main className={styles.mainContent}>
+          <Typography variant="h3" className={styles.sectionTitle}>
+            Latest Articles
+          </Typography>
+
+          {isLoading && (
+            <div className={styles.loadingContainer}>
+              <div className={styles.loadingSpinner} />
+              <Typography variant="caption">Loading posts...</Typography>
+            </div>
+          )}
+
+          {error && (
+            <div className={styles.errorBox}>
+              <Typography variant="p">
+                Error loading posts: {error.message}
+              </Typography>
+            </div>
+          )}
+
+          {filteredPosts.length > 0 && (
+            <div className={styles.postsGrid}>
+              {filteredPosts.map((post) => (
+                <Link
+                  key={post.id}
+                  href={`/posts/${post.slug}`}
+                  className={styles.postCardLink}
+                >
+                  <article className={styles.postCard}>
+                    <div className={styles.postImageContainer}>
+                      {post.featuredImageUrl ? (
+                        <img
+                          src={post.featuredImageUrl}
+                          alt={post.title}
+                          className={styles.postImage}
+                        />
+                      ) : (
+                        <div className={styles.postImagePlaceholder} />
+                      )}
+                    </div>
+                    <div className={styles.postCardContent}>
+                      <span className={styles.readingTime}>
+                        {post.readingTimeMinutes} min read
+                      </span>
+                      <h3 className={styles.postTitle}>{post.title}</h3>
+                      {post.excerpt && (
+                        <p className={styles.postExcerpt}>{post.excerpt}</p>
+                      )}
+                      <div className={styles.postMeta}>
+                        <span className={styles.authorName}>
+                          {post.author.firstName} {post.author.lastName}
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
               ))}
             </div>
+          )}
 
-            {/* Pagination Info */}
+          {filteredPosts.length === 0 && searchQuery && (
+            <div className={styles.emptyState}>
+              <Typography variant="h3">No results found</Typography>
+              <Typography variant="p">Try a different search term</Typography>
+            </div>
+          )}
+
+          {data && regularPosts.length === 0 && !searchQuery && (
+            <div className={styles.emptyState}>
+              <Typography variant="h3">No posts yet</Typography>
+              <Typography variant="p">Check back soon for new content!</Typography>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {data && data.totalPages > 1 && (
             <div className={styles.pagination}>
               <Typography variant="caption">
-                Showing {data.content.length} of {data.totalElements} posts
-                {data.totalPages > 1 && ` • Page ${data.number + 1} of ${data.totalPages}`}
+                Page {data.number + 1} of {data.totalPages}
               </Typography>
-              <Button>View All Posts</Button>
+              <div className={styles.paginationButtons}>
+                <Button variant="secondary" size="sm" disabled={data.first}>
+                  Previous
+                </Button>
+                <Button variant="secondary" size="sm" disabled={data.last}>
+                  Next
+                </Button>
+              </div>
             </div>
-          </>
-        )}
-      </main>
+          )}
+        </main>
+      </div>
     </div>
   );
 }

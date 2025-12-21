@@ -620,5 +620,20 @@ describe('New Post Page', () => {
       expect(published.length).toBeGreaterThan(0);
     });
   });
+
+  describe('image upload', () => {
+    it('renders image upload component', () => {
+      renderWithQueryClient(<NewPostPage />);
+
+      const imageUpload = screen.getByText(/upload a featured image/i);
+      expect(imageUpload).toBeInTheDocument();
+    });
+
+    it('shows image upload helper text', () => {
+      renderWithQueryClient(<NewPostPage />);
+
+      expect(screen.getByText(/upload a featured image for your post/i)).toBeInTheDocument();
+    });
+  });
 });
 
