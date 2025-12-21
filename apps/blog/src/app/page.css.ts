@@ -16,6 +16,11 @@ const fadeInUp = keyframes({
   to: { opacity: 1, transform: 'translateY(0)' },
 });
 
+const bgFadeIn = keyframes({
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+});
+
 // Page wrapper with fixed background
 export const pageWrapper = style({
   position: 'relative',
@@ -23,14 +28,29 @@ export const pageWrapper = style({
   width: '100%',
 });
 
+// Blur placeholder - loads instantly (1KB)
+export const backgroundBlur = style({
+  position: 'fixed',
+  inset: 0,
+  backgroundImage: 'url(/clouds-blur.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  filter: 'blur(20px)',
+  transform: 'scale(1.1)', // Prevent blur edges showing
+  zIndex: 0,
+});
+
+// Full image - fades in after load (110KB)
 export const backgroundImage = style({
   position: 'fixed',
   inset: 0,
-  backgroundImage: 'url(/clouds.jpeg)',
+  backgroundImage: 'url(/clouds-optimized.jpg)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   zIndex: 0,
+  animation: `${bgFadeIn} 0.5s ease-out`,
 });
 
 export const backgroundOverlay = style({
@@ -86,70 +106,95 @@ export const heroLeft = style({
 });
 
 export const heroTitle = style({
-  fontSize: '2.75rem',
-  fontWeight: 800,
-  color: '#fff',
-  textShadow: '0 4px 30px rgba(0, 0, 0, 0.3)',
-  letterSpacing: '-0.03em',
-  lineHeight: 1.1,
+  fontSize: '3.5rem',
+  fontWeight: 900,
+  background: 'linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #a78bfa 100%)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  letterSpacing: '-0.05em',
+  lineHeight: 0.95,
+  filter: 'drop-shadow(0 4px 24px rgba(167, 139, 250, 0.5))',
   '@media': {
     '(min-width: 768px)': {
-      fontSize: '3.5rem',
+      fontSize: '5rem',
     },
     '(min-width: 1024px)': {
-      fontSize: '4rem',
+      fontSize: '6.5rem',
     },
   },
 });
 
 export const heroSubtitle = style({
-  fontSize: '1.0625rem',
-  color: 'rgba(255, 255, 255, 0.7)',
-  lineHeight: 1.7,
-  textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+  fontSize: '1.25rem',
+  color: 'rgba(255, 255, 255, 0.9)',
+  lineHeight: 1.5,
+  fontWeight: 500,
+  textShadow: '0 2px 12px rgba(0, 0, 0, 0.5)',
   '@media': {
     '(min-width: 768px)': {
-      fontSize: '1.125rem',
+      fontSize: '1.5rem',
     },
   },
 });
 
-// Search
+// Search - Large underline style
 export const searchContainer = style({
   position: 'relative',
   width: '100%',
-  maxWidth: '24rem',
-  marginTop: '0.5rem',
+  maxWidth: '32rem',
+  marginTop: '2rem',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1rem',
+  padding: '1.25rem 1.75rem',
+  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '2px solid rgba(167, 139, 250, 0.3)',
+  borderRadius: '2rem',
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+  transition: 'all 0.3s ease',
+  ':focus-within': {
+    borderColor: 'rgba(167, 139, 250, 0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    boxShadow: '0 12px 40px rgba(167, 139, 250, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+  },
+  '@media': {
+    '(min-width: 768px)': {
+      marginTop: '2.5rem',
+      padding: '1.5rem 2rem',
+    },
+  },
 });
 
 export const searchIcon = style({
-  position: 'absolute',
-  left: '1rem',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  color: 'rgba(255, 255, 255, 0.5)',
-  pointerEvents: 'none',
+  color: 'rgba(167, 139, 250, 0.7)',
+  flexShrink: 0,
+  transition: 'color 0.3s ease',
+  selectors: {
+    [`${searchContainer}:focus-within &`]: {
+      color: '#c4b5fd',
+    },
+  },
 });
 
 export const searchInput = style({
-  width: '100%',
-  padding: '0.875rem 1rem 0.875rem 3rem',
-  fontSize: '0.9375rem',
+  flex: 1,
+  padding: '0',
+  fontSize: '1.125rem',
+  fontWeight: 500,
   color: '#fff',
-  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255, 255, 255, 0.15)',
-  borderRadius: '0.75rem',
+  backgroundColor: 'transparent',
+  border: 'none',
   outline: 'none',
-  transition: 'all 0.3s ease',
   '::placeholder': {
-    color: 'rgba(255, 255, 255, 0.4)',
+    color: 'rgba(255, 255, 255, 0.5)',
   },
-  ':focus': {
-    backgroundColor: 'rgba(255, 255, 255, 0.12)',
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-    boxShadow: '0 0 0 4px rgba(255, 255, 255, 0.05)',
+  '@media': {
+    '(min-width: 768px)': {
+      fontSize: '1.25rem',
+    },
   },
 });
 
@@ -174,14 +219,19 @@ export const featuredCardLink = style({
 });
 
 export const featuredCard = style({
-  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  borderRadius: '1rem',
+  backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  backdropFilter: 'blur(30px) saturate(180%)',
+  WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+  border: '1px solid rgba(255, 255, 255, 0.3)',
+  borderRadius: '1.25rem',
   overflow: 'hidden',
-  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)',
+  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
   transition: 'all 0.3s ease',
   ':hover': {
-    transform: 'translateY(-8px) rotate(1deg)',
-    boxShadow: '0 35px 60px -15px rgba(0, 0, 0, 0.5)',
+    transform: 'translateY(-8px)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: 'rgba(255, 255, 255, 0.4)',
+    boxShadow: '0 35px 60px -15px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
   },
 });
 
@@ -220,20 +270,22 @@ export const featuredContent = style({
 export const featuredTitle = style({
   fontSize: '1.25rem',
   fontWeight: 700,
-  color: '#1a1a2e',
+  color: '#ffffff',
   lineHeight: 1.3,
   margin: 0,
+  textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
 });
 
 export const featuredExcerpt = style({
   fontSize: '0.875rem',
-  color: '#64748b',
+  color: 'rgba(255, 255, 255, 0.85)',
   lineHeight: 1.6,
   margin: 0,
   display: '-webkit-box',
   WebkitLineClamp: 2,
   WebkitBoxOrient: 'vertical',
   overflow: 'hidden',
+  textShadow: '0 1px 5px rgba(0, 0, 0, 0.2)',
 });
 
 export const featuredMeta = style({
@@ -245,8 +297,9 @@ export const featuredMeta = style({
 
 export const featuredAuthor = style({
   fontSize: '0.8125rem',
-  color: '#64748b',
+  color: 'rgba(255, 255, 255, 0.75)',
   fontWeight: 500,
+  textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
 });
 
 export const featuredPlaceholder = style({
@@ -297,14 +350,23 @@ export const mainContent = style({
 });
 
 export const sectionTitle = style({
-  fontSize: '0.8125rem',
+  fontSize: '1rem',
   position: 'relative',
   top: '-1rem',
-  fontWeight: 600,
-  color: 'rgba(167, 139, 250, 0.9)',
+  fontWeight: 700,
+  color: '#ffffff',
   textTransform: 'uppercase',
-  letterSpacing: '0.1em',
+  letterSpacing: '0.2em',
   marginBottom: '2rem',
+  padding: '0.875rem 2rem',
+  background: 'linear-gradient(135deg, rgba(167, 139, 250, 0.3), rgba(196, 181, 253, 0.3))',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  borderRadius: '9999px',
+  border: '2px solid rgba(167, 139, 250, 0.6)',
+  width: 'fit-content',
+  boxShadow: '0 8px 24px rgba(167, 139, 250, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+  textShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
 });
 
 // Posts Grid

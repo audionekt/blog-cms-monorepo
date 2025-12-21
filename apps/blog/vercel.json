@@ -4,4 +4,3 @@
   "installCommand": "pnpm install",
   "buildCommand": "cd ../.. && pnpm build:blog"
 }
-

@@ -148,7 +148,7 @@ export default function PostPage({ params }: PostPageProps) {
             </Typography>
             <div className={styles.tagsContainer}>
               {post.tags.map((tag) => (
-                <Chip key={tag.id} size="sm" variant="secondary">
+                <Chip key={tag.id} size="sm" variant="outlined">
                   {tag.name}
                 </Chip>
               ))}
@@ -198,7 +198,7 @@ function MarkdownRenderer({ content }: { content: string }) {
       const line = lines[i];
 
       // Code blocks
-      if (line.startsWith('```')) {
+      if (line?.startsWith('```')) {
         if (inCodeBlock) {
           elements.push(
             <pre key={elements.length} className={styles.codeBlock}>
@@ -219,58 +219,60 @@ function MarkdownRenderer({ content }: { content: string }) {
       }
 
       if (inCodeBlock) {
-        codeBlockContent.push(line);
+        codeBlockContent.push(line ?? '');
         continue;
       }
 
       // Empty lines
-      if (line.trim() === '') {
+      if (line?.trim() === '' as string || line === null) {
         flushList();
         continue;
+      } else {
+        flushList();
       }
 
       // Headers
-      if (line.startsWith('# ')) {
+      if (line?.startsWith('# ')) {
         flushList();
         elements.push(
           <h1 key={elements.length} className={styles.h1}>
-            {parseInline(line.slice(2))}
+            {parseInline(line?.slice(2) ?? '')}
           </h1>
         );
         continue;
       }
-      if (line.startsWith('## ')) {
+      if (line?.startsWith('## ')) {
         flushList();
         elements.push(
           <h2 key={elements.length} className={styles.h2}>
-            {parseInline(line.slice(3))}
+            {parseInline(line?.slice(3) ?? '')}
           </h2>
         );
         continue;
       }
-      if (line.startsWith('### ')) {
+      if (line?.startsWith('### ')) {
         flushList();
         elements.push(
           <h3 key={elements.length} className={styles.h3}>
-            {parseInline(line.slice(4))}
+            {parseInline(line?.slice(4) ?? '')}
           </h3>
         );
         continue;
       }
 
       // Blockquotes
-      if (line.startsWith('> ')) {
+      if (line?.startsWith('> ')) {
         flushList();
         elements.push(
           <blockquote key={elements.length} className={styles.blockquote}>
-            {parseInline(line.slice(2))}
+            {parseInline(line?.slice(2) ?? '')}
           </blockquote>
         );
         continue;
       }
 
       // Images
-      const imageMatch = line.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+      const imageMatch = line?.match(/!\[([^\]]*)\]\(([^)]+)\)/);
       if (imageMatch) {
         flushList();
         elements.push(
@@ -291,22 +293,22 @@ function MarkdownRenderer({ content }: { content: string }) {
       }
 
       // Unordered lists
-      if (line.match(/^[-*] /)) {
+      if (line?.match(/^[-*] /)) {
         if (listType !== 'ul') {
           flushList();
           listType = 'ul';
         }
-        listItems.push(line.slice(2));
+        listItems.push(line?.slice(2) ?? '');
         continue;
       }
 
       // Ordered lists
-      if (line.match(/^\d+\. /)) {
+      if (line?.match(/^\d+\. /)) {
         if (listType !== 'ol') {
           flushList();
           listType = 'ol';
         }
-        listItems.push(line.replace(/^\d+\. /, ''));
+        listItems.push(line?.replace(/^\d+\. /, '') ?? '' as string);
         continue;
       }
 
@@ -314,7 +316,7 @@ function MarkdownRenderer({ content }: { content: string }) {
       flushList();
       elements.push(
         <p key={elements.length} className={styles.paragraph}>
-          {parseInline(line)}
+          {parseInline(line ?? '')}
         </p>
       );
     }

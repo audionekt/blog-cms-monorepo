@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Button, Typography, Chip, Avatar } from "aurigami";
-import { useBlogPosts, PostStatus } from "@repo/api";
+import { useBlogPosts } from "@repo/api";
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 import * as styles from './page.css';
@@ -27,7 +27,8 @@ export default function Home() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Background image layer */}
+      {/* Background image layers - blur placeholder + optimized image */}
+      <div className={styles.backgroundBlur} />
       <div className={styles.backgroundImage} />
       <div className={styles.backgroundOverlay} />
 
@@ -46,7 +47,7 @@ export default function Home() {
             
             {/* Search Bar */}
             <div className={styles.searchContainer}>
-              <Search className={styles.searchIcon} size={20} />
+              <Search className={styles.searchIcon} size={24} />
               <input
                 type="text"
                 placeholder="Search articles..."

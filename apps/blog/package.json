@@ -18,7 +18,8 @@
     "axios": "^1.6.0",
     "next": "16.0.0",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "lucide-react": "^0.552.0"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.0.0",
