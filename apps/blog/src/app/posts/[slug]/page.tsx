@@ -156,7 +156,7 @@ export default function PostPage({ params }: PostPageProps) {
           </div>
           <div className={styles.footerActions}>
             <Link href="/">
-              <Button variant="secondary">← Back to articles</Button>
+              <Button variant="danger">← Back to articles</Button>
             </Link>
           </div>
         </footer>
