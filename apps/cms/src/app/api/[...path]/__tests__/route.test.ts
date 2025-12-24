@@ -162,6 +162,41 @@ describe('API Proxy Route', () => {
         })
       );
     });
+
+    it('handles multipart/form-data file uploads', async () => {
+      const mockResponse = { id: 1, fileUrl: 'https://cdn.example.com/image.jpg' };
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        status: 201,
+        json: async () => mockResponse,
+      });
+
+      // Create a mock file and FormData
+      const fileContent = new Uint8Array([0x89, 0x50, 0x4E, 0x47]); // PNG magic bytes
+      const file = new File([fileContent], 'test-image.png', { type: 'image/png' });
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('altText', 'Test image');
+
+      const request = new NextRequest('http://localhost:3001/api/v1/media/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const params = Promise.resolve({ path: ['v1', 'media', 'upload'] });
+
+      const response = await POST(request, { params });
+      const data = await response.json();
+
+      // Verify fetch was called with FormData body (not text)
+      expect(global.fetch).toHaveBeenCalledWith(
+        `${API_URL}/api/v1/media/upload`,
+        expect.objectContaining({
+          method: 'POST',
+          body: expect.any(FormData),
+        })
+      );
+      expect(data).toEqual(mockResponse);
+      expect(response.status).toBe(201);
+    });
   });
 
   describe('PUT', () => {
