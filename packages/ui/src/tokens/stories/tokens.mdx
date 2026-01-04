@@ -49,13 +49,13 @@ import { colors, gradients, spacing, shadows, radii, duration, easing, fontFamil
   .radius-box {
     width: 100%;
     height: 60px;
-    background: linear-gradient(135deg, #d4b568 0%, #b8954a 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     margin-bottom: 0.5rem;
   }
 
   .spacing-box {
     height: 40px;
-    background: #d4b568;
+    background: #6366f1;
     border-radius: 4px;
   }
 
@@ -118,81 +118,97 @@ import { colors, gradients, spacing, shadows, radii, duration, easing, fontFamil
     color: #4b5563;
     line-height: 1.6;
   }
-</style>
+`}</style>
 
-# Aurigami Design Tokens
+# Nexus Design Tokens
 
-A comprehensive catalog of all design tokens in the Aurigami design system. These tokens form the foundation of our UI components with a sophisticated color palette featuring warm neutrals and refined gold accents.
+A comprehensive catalog of all design tokens in the Nexus design system. These tokens form the foundation of our UI components with a modern color palette featuring violet brand colors and slate neutrals.
 
 ---
 
 ## Colors
 
-The Aurigami color system is built on a two-tier architecture: **Primitive colors** provide the raw palette, while **Semantic colors** map these primitives to specific use cases.
+The Nexus color system is built on a two-tier architecture: **Primitive colors** provide the raw palette, while **Semantic colors** map these primitives to specific use cases.
 
 ### Primitive Colors
 
 Foundational color scales that form the basis of the design system.
 
-#### Charcoal
+#### Slate
 
 <div className="section-intro">
-Warm neutral gray scale - the primary neutral palette for text, backgrounds, and borders.
+Cool neutral gray scale - the primary neutral palette for text, backgrounds, and borders.
 </div>
 
 <div className="token-grid">
-  {Object.entries(colors.primitive.charcoal).map(([key, value]) => (
+  {Object.entries(colors.primitive.slate).map(([key, value]) => (
     <div key={key} className="token-card">
       <div className="color-swatch" style={{ backgroundColor: value }} />
-      <div className="token-label">charcoal.{key}</div>
+      <div className="token-label">slate.{key}</div>
       <div className="token-value">{value}</div>
     </div>
   ))}
 </div>
 
-#### Gold
+#### Violet
 
 <div className="section-intro">
-Rich, sophisticated gold scale - used for accents, highlights, and premium features.
+Brand violet scale - used for primary actions, links, and brand identity.
 </div>
 
 <div className="token-grid">
-  {Object.entries(colors.primitive.gold).map(([key, value]) => (
+  {Object.entries(colors.primitive.violet).map(([key, value]) => (
     <div key={key} className="token-card">
       <div className="color-swatch" style={{ backgroundColor: value }} />
-      <div className="token-label">gold.{key}</div>
+      <div className="token-label">violet.{key}</div>
       <div className="token-value">{value}</div>
     </div>
   ))}
 </div>
 
-#### Sage
+#### Emerald
 
 <div className="section-intro">
-Subtle green scale - used for success states and natural elements.
+Green scale - used for success states and positive feedback.
 </div>
 
 <div className="token-grid">
-  {Object.entries(colors.primitive.sage).map(([key, value]) => (
+  {Object.entries(colors.primitive.emerald).map(([key, value]) => (
     <div key={key} className="token-card">
       <div className="color-swatch" style={{ backgroundColor: value }} />
-      <div className="token-label">sage.{key}</div>
+      <div className="token-label">emerald.{key}</div>
       <div className="token-value">{value}</div>
     </div>
   ))}
 </div>
 
-#### Terracotta
+#### Rose
 
 <div className="section-intro">
-Warm red-orange scale - used for error states and warm accents.
+Pink-red scale - used for error states and destructive actions.
 </div>
 
 <div className="token-grid">
-  {Object.entries(colors.primitive.terracotta).map(([key, value]) => (
+  {Object.entries(colors.primitive.rose).map(([key, value]) => (
     <div key={key} className="token-card">
       <div className="color-swatch" style={{ backgroundColor: value }} />
-      <div className="token-label">terracotta.{key}</div>
+      <div className="token-label">rose.{key}</div>
+      <div className="token-value">{value}</div>
+    </div>
+  ))}
+</div>
+
+#### Amber
+
+<div className="section-intro">
+Warm orange-yellow scale - used for warnings and highlights.
+</div>
+
+<div className="token-grid">
+  {Object.entries(colors.primitive.amber).map(([key, value]) => (
+    <div key={key} className="token-card">
+      <div className="color-swatch" style={{ backgroundColor: value }} />
+      <div className="token-label">amber.{key}</div>
       <div className="token-value">{value}</div>
     </div>
   ))}
@@ -286,13 +302,13 @@ Purpose-driven color mappings for consistent UI implementation.
   ))}
 </div>
 
-#### Info
+#### Code Syntax
 
 <div className="token-grid">
-  {Object.entries(colors.semantic.info).map(([key, value]) => (
+  {Object.entries(colors.semantic.code).map(([key, value]) => (
     <div key={key} className="token-card">
       <div className="color-swatch" style={{ backgroundColor: value }} />
-      <div className="token-label">info.{key}</div>
+      <div className="token-label">code.{key}</div>
       <div className="token-value">{value}</div>
     </div>
   ))}
@@ -355,7 +371,7 @@ Sophisticated gradient definitions for backgrounds, overlays, and visual effects
           justifyContent: 'center'
         }}
       >
-        Aurigami
+        Nexus
       </div>
       <div className="token-label">text.{key}</div>
     </div>
@@ -419,7 +435,7 @@ Sophisticated gradient definitions for backgrounds, overlays, and visual effects
         <tr key={key}>
           <td><code>fontSize.{key}</code></td>
           <td><code>{value}</code></td>
-          <td style={{ fontSize: value }}>Aurigami</td>
+          <td style={{ fontSize: value }}>Nexus</td>
         </tr>
       ))}
     </tbody>
@@ -442,7 +458,7 @@ Sophisticated gradient definitions for backgrounds, overlays, and visual effects
         <tr key={key}>
           <td><code>fontWeight.{key}</code></td>
           <td><code>{value}</code></td>
-          <td style={{ fontWeight: value }}>Aurigami Design System</td>
+          <td style={{ fontWeight: value }}>Nexus Design System</td>
         </tr>
       ))}
     </tbody>

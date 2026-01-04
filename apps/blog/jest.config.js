@@ -21,6 +21,8 @@ module.exports = {
     // Handle vanilla-extract CSS imports
     '\\.(css)\\.ts$': '<rootDir>/../../packages/ui/src/__mocks__/styleMock.cjs',
     '\\.(css)$': '<rootDir>/../../packages/ui/src/__mocks__/styleMock.cjs',
+    // Mock Next.js font imports
+    'next/font/google': '<rootDir>/../../__mocks__/nextFontMock.js',
   },
   
   // Test file patterns

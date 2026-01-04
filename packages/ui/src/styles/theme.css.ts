@@ -6,14 +6,11 @@ import { vars } from './contract.css';
 export const lightTheme = createTheme(vars, {
   color: {
     primitive: {
-      charcoal: colors.primitive.charcoal,
-      gold: colors.primitive.gold,
-      sage: colors.primitive.sage,
-      azul: colors.primitive.azul,
-      terracotta: colors.primitive.terracotta,
-      amethyst: colors.primitive.amethyst,
-      sky: colors.primitive.sky,
-      ruby: colors.primitive.ruby,
+      slate: colors.primitive.slate,
+      violet: colors.primitive.violet,
+      emerald: colors.primitive.emerald,
+      rose: colors.primitive.rose,
+      amber: colors.primitive.amber,
     },
     semantic: colors.semantic,
   },
@@ -27,32 +24,29 @@ export const lightTheme = createTheme(vars, {
   },
 });
 
-// Create the dark theme - matches blog aesthetic
+// Create the dark theme
 export const darkTheme = createTheme(vars, {
   color: {
     primitive: {
-      // Invert charcoal scale for dark mode
-      charcoal: {
-        50: colors.primitive.charcoal[950],
-        100: colors.primitive.charcoal[900],
-        200: colors.primitive.charcoal[800],
-        300: colors.primitive.charcoal[700],
-        400: colors.primitive.charcoal[600],
-        500: colors.primitive.charcoal[500],
-        600: colors.primitive.charcoal[400],
-        700: colors.primitive.charcoal[300],
-        800: colors.primitive.charcoal[200],
-        900: colors.primitive.charcoal[100],
-        950: colors.primitive.charcoal[50],
+      // Invert slate scale for dark mode
+      slate: {
+        50: colors.primitive.slate[950],
+        100: colors.primitive.slate[900],
+        200: colors.primitive.slate[800],
+        300: colors.primitive.slate[700],
+        400: colors.primitive.slate[600],
+        500: colors.primitive.slate[500],
+        600: colors.primitive.slate[400],
+        700: colors.primitive.slate[300],
+        800: colors.primitive.slate[200],
+        900: colors.primitive.slate[100],
+        950: colors.primitive.slate[50],
       },
       // Keep other primitive colors the same
-      gold: colors.primitive.gold,
-      sage: colors.primitive.sage,
-      terracotta: colors.primitive.terracotta,
-      azul: colors.primitive.azul,
-      amethyst: colors.primitive.amethyst,
-      sky: colors.primitive.sky,
-      ruby: colors.primitive.ruby,
+      violet: colors.primitive.violet,
+      emerald: colors.primitive.emerald,
+      rose: colors.primitive.rose,
+      amber: colors.primitive.amber,
     },
     semantic: colors.semanticDark,
   },

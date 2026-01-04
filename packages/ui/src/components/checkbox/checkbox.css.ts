@@ -45,7 +45,7 @@ export const checkboxBox = style({
       borderColor: vars.color.semantic.brand.primary,
     },
     [`${checkboxInput}:focus-visible + &`]: {
-      outline: `2px solid ${vars.color.primitive.amethyst[400]}`,
+      outline: `2px solid ${vars.color.primitive.violet[400]}`,
       outlineOffset: '2px',
     },
     [`${checkboxInput}:disabled + &`]: {

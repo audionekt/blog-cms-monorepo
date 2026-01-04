@@ -51,9 +51,10 @@ export default function PostPage({ params }: PostPageProps) {
 
   return (
     <div className={styles.container}>
-      <article className={styles.article}>
+      {/* Hero Section - Clean & Minimal */}
+      <section className={styles.heroSection}>
         {/* Back Link */}
-        <Link href="/" className={styles.backLink}>
+        <Link href="/articles" className={styles.backLink}>
           <svg
             width="20"
             height="20"
@@ -69,73 +70,53 @@ export default function PostPage({ params }: PostPageProps) {
           <span>Back to articles</span>
         </Link>
 
-        {/* Header */}
-        <header className={styles.header}>
-          {post.tags.length > 0 && (
-            <div className={styles.tagsContainer}>
-              {post.tags.map((tag) => (
-                <Chip key={tag.id} size="sm">
-                  {tag.name}
-                </Chip>
-              ))}
-            </div>
-          )}
+        <div className={styles.heroContent}>
+          <header className={styles.header}>
+            {post.tags.length > 0 && (
+              <div className={styles.tagsContainer}>
+                {post.tags.map((tag) => (
+                  <span key={tag.id} className={styles.categoryChip}>
+                    {tag.name}
+                  </span>
+                ))}
+              </div>
+            )}
 
-          <Typography variant="h1" className={styles.title}>
-            {post.title}
-          </Typography>
+            <h1 className={styles.title}>{post.title}</h1>
 
-          {post.excerpt && (
-            <Typography variant="p" className={styles.excerpt}>
-              {post.excerpt}
-            </Typography>
-          )}
+            {post.excerpt && (
+              <p className={styles.excerpt}>{post.excerpt}</p>
+            )}
 
-          <div className={styles.meta}>
-            <div className={styles.authorInfo}>
-              <Avatar
-                src={post.author.avatarUrl}
-                alt={`${post.author.firstName} ${post.author.lastName}`}
-                size="md"
-              />
-              <div className={styles.authorDetails}>
-                <Typography variant="p" className={styles.authorName}>
-                  {post.author.firstName} {post.author.lastName}
-                </Typography>
-                <div className={styles.metaDetails}>
-                  {formattedDate && (
-                    <Typography variant="caption">{formattedDate}</Typography>
-                  )}
-                  {post.readingTimeMinutes && (
-                    <>
-                      <span className={styles.metaDot}>•</span>
-                      <Typography variant="caption">
-                        {post.readingTimeMinutes} min read
-                      </Typography>
-                    </>
-                  )}
-                  <span className={styles.metaDot}>•</span>
-                  <Typography variant="caption">
-                    {post.viewCount.toLocaleString()} views
-                  </Typography>
+            <div className={styles.meta}>
+              <div className={styles.authorInfo}>
+                <Avatar
+                  src={post.author.avatarUrl}
+                  alt={`${post.author.firstName} ${post.author.lastName}`}
+                  size="md"
+                />
+                <div className={styles.authorDetails}>
+                  <div className={styles.authorName}>
+                    {post.author.firstName} {post.author.lastName}
+                  </div>
+                  <div className={styles.metaDetails}>
+                    {formattedDate && <span>{formattedDate}</span>}
+                    {post.readingTimeMinutes && (
+                      <>
+                        <span className={styles.metaDot}>•</span>
+                        <span>{post.readingTimeMinutes} min read</span>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
+        </div>
+      </section>
 
-        {/* Featured Image */}
-        {post.featuredImageUrl && (
-          <div className={styles.featuredImageContainer}>
-            <img
-              src={post.featuredImageUrl}
-              alt={post.title}
-              className={styles.featuredImage}
-            />
-          </div>
-        )}
-
-        {/* Content */}
+      {/* Content */}
+      <article className={styles.article}>
         <div className={styles.content}>
           <MarkdownRenderer content={post.mdxContent} />
         </div>
@@ -143,9 +124,7 @@ export default function PostPage({ params }: PostPageProps) {
         {/* Footer */}
         <footer className={styles.footer}>
           <div className={styles.footerTags}>
-            <Typography variant="caption" className={styles.footerLabel}>
-              Tagged in
-            </Typography>
+            <div className={styles.footerLabel}>Tagged in</div>
             <div className={styles.tagsContainer}>
               {post.tags.map((tag) => (
                 <Chip key={tag.id} size="sm" variant="outlined">
@@ -155,8 +134,8 @@ export default function PostPage({ params }: PostPageProps) {
             </div>
           </div>
           <div className={styles.footerActions}>
-            <Link href="/">
-              <Button variant="danger">← Back to articles</Button>
+            <Link href="/articles">
+              <Button variant="secondary">← Back to articles</Button>
             </Link>
           </div>
         </footer>

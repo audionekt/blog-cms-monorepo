@@ -55,7 +55,7 @@ const ColorScale = ({ title, scale }: { title: string; scale: Record<string, str
       fontSize: '1.25rem', 
       fontWeight: 600, 
       marginBottom: '1rem',
-      color: '#1a1816'
+      color: '#0f172a'
     }}>
       {title}
     </h3>
@@ -77,7 +77,7 @@ const SemanticGroup = ({ title, group }: { title: string; group: Record<string, 
       fontSize: '1.125rem', 
       fontWeight: 600, 
       marginBottom: '1rem',
-      color: '#1a1816'
+      color: '#0f172a'
     }}>
       {title}
     </h3>
@@ -93,55 +93,40 @@ const SemanticGroup = ({ title, group }: { title: string; group: Record<string, 
   </div>
 );
 
-export const PrimitiveCharcoal: Story = {
-  render: () => <ColorScale title="Charcoal" scale={colors.primitive.charcoal} />,
+export const PrimitiveSlate: Story = {
+  render: () => <ColorScale title="Slate" scale={colors.primitive.slate} />,
 };
 
-export const PrimitiveGold: Story = {
-  render: () => <ColorScale title="Gold" scale={colors.primitive.gold} />,
+export const PrimitiveViolet: Story = {
+  render: () => <ColorScale title="Violet" scale={colors.primitive.violet} />,
 };
 
-export const PrimitiveSage: Story = {
-  render: () => <ColorScale title="Sage" scale={colors.primitive.sage} />,
+export const PrimitiveEmerald: Story = {
+  render: () => <ColorScale title="Emerald" scale={colors.primitive.emerald} />,
 };
 
-export const PrimitiveTerracotta: Story = {
-  render: () => <ColorScale title="Terracotta" scale={colors.primitive.terracotta} />,
+export const PrimitiveRose: Story = {
+  render: () => <ColorScale title="Rose" scale={colors.primitive.rose} />,
 };
 
-export const PrimitiveAmethyst: Story = {
-  render: () => <ColorScale title="Amethyst" scale={colors.primitive.amethyst} />,
-};
-
-export const PrimitiveSky: Story = {
-  render: () => <ColorScale title="Sky" scale={colors.primitive.sky} />,
-};
-
-export const PrimitiveRuby: Story = {
-  render: () => <ColorScale title="Ruby" scale={colors.primitive.ruby} />,
-};
-
-export const PrimitiveAzul: Story = {
-  render: () => <ColorScale title="Azul" scale={colors.primitive.azul} />,
+export const PrimitiveAmber: Story = {
+  render: () => <ColorScale title="Amber" scale={colors.primitive.amber} />,
 };
 
 export const AllPrimitives: Story = {
   render: () => (
     <div>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: '#1a1816' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: '#0f172a' }}>
         Primitive Color Scales
       </h2>
-      <p style={{ marginBottom: '2rem', color: '#58534e', lineHeight: 1.6 }}>
-        Foundational color scales that form the basis of the Aurigami design system.
+      <p style={{ marginBottom: '2rem', color: '#64748b', lineHeight: 1.6 }}>
+        Foundational color scales that form the basis of the Nexus design system.
       </p>
-      <ColorScale title="Charcoal" scale={colors.primitive.charcoal} />
-      <ColorScale title="Gold" scale={colors.primitive.gold} />
-      <ColorScale title="Sage" scale={colors.primitive.sage} />
-      <ColorScale title="Terracotta" scale={colors.primitive.terracotta} />
-      <ColorScale title="Amethyst" scale={colors.primitive.amethyst} />
-      <ColorScale title="Sky" scale={colors.primitive.sky} />
-      <ColorScale title="Ruby" scale={colors.primitive.ruby} />
-      <ColorScale title="Azul" scale={colors.primitive.azul} />
+      <ColorScale title="Slate" scale={colors.primitive.slate} />
+      <ColorScale title="Violet" scale={colors.primitive.violet} />
+      <ColorScale title="Emerald" scale={colors.primitive.emerald} />
+      <ColorScale title="Rose" scale={colors.primitive.rose} />
+      <ColorScale title="Amber" scale={colors.primitive.amber} />
     </div>
   ),
 };
@@ -165,24 +150,27 @@ export const SemanticBorder: Story = {
 export const SemanticStates: Story = {
   render: () => (
     <div>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: '#1a1816' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: '#0f172a' }}>
         Semantic State Colors
       </h2>
       <SemanticGroup title="Success" group={colors.semantic.success} />
       <SemanticGroup title="Error" group={colors.semantic.error} />
       <SemanticGroup title="Warning" group={colors.semantic.warning} />
-      <SemanticGroup title="Info" group={colors.semantic.info} />
     </div>
   ),
+};
+
+export const SemanticCode: Story = {
+  render: () => <SemanticGroup title="Code Syntax Colors" group={colors.semantic.code} />,
 };
 
 export const AllSemanticColors: Story = {
   render: () => (
     <div>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: '#1a1816' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: '#0f172a' }}>
         Semantic Colors
       </h2>
-      <p style={{ marginBottom: '2rem', color: '#58534e', lineHeight: 1.6 }}>
+      <p style={{ marginBottom: '2rem', color: '#64748b', lineHeight: 1.6 }}>
         Purpose-driven color mappings for consistent UI implementation. These colors adapt to light and dark themes.
       </p>
       <SemanticGroup title="Brand" group={colors.semantic.brand} />
@@ -192,7 +180,8 @@ export const AllSemanticColors: Story = {
       <SemanticGroup title="Success" group={colors.semantic.success} />
       <SemanticGroup title="Error" group={colors.semantic.error} />
       <SemanticGroup title="Warning" group={colors.semantic.warning} />
-      <SemanticGroup title="Info" group={colors.semantic.info} />
+      <SemanticGroup title="Highlight" group={colors.semantic.highlight} />
+      <SemanticGroup title="Code" group={colors.semantic.code} />
     </div>
   ),
 };
@@ -200,30 +189,32 @@ export const AllSemanticColors: Story = {
 export const ColorPalette: Story = {
   render: () => (
     <div>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem', color: '#1a1816' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem', color: '#0f172a' }}>
         Complete Color Palette
       </h2>
-      <p style={{ marginBottom: '2rem', color: '#58534e', lineHeight: 1.6 }}>
-        All 8 primitive color scales in the Aurigami design system.
+      <p style={{ marginBottom: '2rem', color: '#64748b', lineHeight: 1.6 }}>
+        All primitive color scales in the Nexus design system.
       </p>
       <div style={{ display: 'grid', gap: '3rem' }}>
         <div>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem', color: '#1a1816' }}>
-            Neutrals & Warm Tones
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem', color: '#0f172a' }}>
+            Neutral
           </h3>
-          <ColorScale title="Charcoal" scale={colors.primitive.charcoal} />
-          <ColorScale title="Gold" scale={colors.primitive.gold} />
-          <ColorScale title="Sage" scale={colors.primitive.sage} />
-          <ColorScale title="Terracotta" scale={colors.primitive.terracotta} />
+          <ColorScale title="Slate" scale={colors.primitive.slate} />
         </div>
         <div>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem', color: '#1a1816' }}>
-            Accent Colors
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem', color: '#0f172a' }}>
+            Brand & Accent Colors
           </h3>
-          <ColorScale title="Amethyst" scale={colors.primitive.amethyst} />
-          <ColorScale title="Sky" scale={colors.primitive.sky} />
-          <ColorScale title="Ruby" scale={colors.primitive.ruby} />
-          <ColorScale title="Azul" scale={colors.primitive.azul} />
+          <ColorScale title="Violet" scale={colors.primitive.violet} />
+        </div>
+        <div>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem', color: '#0f172a' }}>
+            State Colors
+          </h3>
+          <ColorScale title="Emerald" scale={colors.primitive.emerald} />
+          <ColorScale title="Rose" scale={colors.primitive.rose} />
+          <ColorScale title="Amber" scale={colors.primitive.amber} />
         </div>
       </div>
     </div>
@@ -233,14 +224,14 @@ export const ColorPalette: Story = {
 export const ColorUsageExample: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1a1816' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>
         Color Usage Examples
       </h2>
       
       {/* Primary Button */}
       <div>
-        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#58534e' }}>
-          Primary Button (Amethyst)
+        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#64748b' }}>
+          Primary Button (Violet)
         </h3>
         <button style={{
           backgroundColor: colors.semantic.brand.primary,
@@ -258,22 +249,22 @@ export const ColorUsageExample: Story = {
 
       {/* Colored Chips */}
       <div>
-        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#58534e' }}>
+        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#64748b' }}>
           Chip Colors
         </h3>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           {[
-            { name: 'Amethyst', color: colors.primitive.amethyst },
-            { name: 'Sky', color: colors.primitive.sky },
-            { name: 'Ruby', color: colors.primitive.ruby },
-            { name: 'Sage', color: colors.primitive.sage },
-            { name: 'Gold', color: colors.primitive.gold },
-          ].map(({ name, color }) => (
+            { name: 'Violet', bg: colors.primitive.violet[100], fg: colors.primitive.violet[700] },
+            { name: 'Emerald', bg: colors.primitive.emerald[100], fg: colors.primitive.emerald[600] },
+            { name: 'Rose', bg: colors.primitive.rose[50], fg: colors.primitive.rose[600] },
+            { name: 'Amber', bg: colors.primitive.amber[100], fg: colors.primitive.amber[700] },
+            { name: 'Slate', bg: colors.primitive.slate[200], fg: colors.primitive.slate[700] },
+          ].map(({ name, bg, fg }) => (
             <span
               key={name}
               style={{
-                backgroundColor: color[100],
-                color: color[800],
+                backgroundColor: bg,
+                color: fg,
                 padding: '0.375rem 0.75rem',
                 borderRadius: '9999px',
                 fontSize: '0.875rem',
@@ -288,11 +279,11 @@ export const ColorUsageExample: Story = {
 
       {/* Card */}
       <div>
-        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#58534e' }}>
+        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#64748b' }}>
           Card Component
         </h3>
         <div style={{
-          backgroundColor: colors.semantic.background.base,
+          backgroundColor: colors.semantic.background.content,
           border: `1px solid ${colors.semantic.border.default}`,
           borderRadius: '0.75rem',
           padding: '1.5rem',
@@ -317,16 +308,15 @@ export const ColorUsageExample: Story = {
 
       {/* Alert States */}
       <div>
-        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#58534e' }}>
+        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#64748b' }}>
           Alert States
         </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {[
-            { type: 'Success', colors: colors.semantic.success },
-            { type: 'Error', colors: colors.semantic.error },
-            { type: 'Warning', colors: colors.semantic.warning },
-            { type: 'Info', colors: colors.semantic.info },
-          ].map(({ type, colors: stateColors }) => (
+            { type: 'Success', stateColors: colors.semantic.success },
+            { type: 'Error', stateColors: colors.semantic.error },
+            { type: 'Warning', stateColors: colors.semantic.warning },
+          ].map(({ type, stateColors }) => (
             <div
               key={type}
               style={{
@@ -349,3 +339,60 @@ export const ColorUsageExample: Story = {
   ),
 };
 
+export const DarkThemeColors: Story = {
+  render: () => (
+    <div style={{ 
+      backgroundColor: colors.semanticDark.background.base, 
+      padding: '2rem', 
+      borderRadius: '1rem',
+      color: colors.semanticDark.foreground.primary
+    }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem' }}>
+        Dark Theme Colors
+      </h2>
+      <p style={{ marginBottom: '2rem', color: colors.semanticDark.foreground.secondary, lineHeight: 1.6 }}>
+        Preview of semantic colors in dark mode.
+      </p>
+      
+      <div style={{ display: 'grid', gap: '2rem' }}>
+        {/* Brand Colors */}
+        <div>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem' }}>Brand</h3>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {Object.entries(colors.semanticDark.brand).map(([key, value]) => (
+              <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '50px', 
+                  backgroundColor: value, 
+                  borderRadius: '0.5rem',
+                  border: `1px solid ${colors.semanticDark.border.default}`
+                }} />
+                <span style={{ fontSize: '0.75rem', color: colors.semanticDark.foreground.secondary }}>{key}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Background Colors */}
+        <div>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem' }}>Background</h3>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {Object.entries(colors.semanticDark.background).filter(([, value]) => typeof value === 'string').map(([key, value]) => (
+              <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '50px', 
+                  backgroundColor: value as string, 
+                  borderRadius: '0.5rem',
+                  border: `1px solid ${colors.semanticDark.border.default}`
+                }} />
+                <span style={{ fontSize: '0.75rem', color: colors.semanticDark.foreground.secondary }}>{key}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
+};

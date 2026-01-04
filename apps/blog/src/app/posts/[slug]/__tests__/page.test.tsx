@@ -158,25 +158,11 @@ describe('PostPage', () => {
       expect(screen.getAllByText('TypeScript').length).toBeGreaterThan(0);
     });
 
-    it('renders featured image when available', () => {
-      render(<PostPage params={mockParams} />);
-
-      const image = screen.getByAltText('Test Blog Post');
-      expect(image).toBeInTheDocument();
-      expect(image).toHaveAttribute('src', 'https://example.com/image.jpg');
-    });
-
     it('renders post content', () => {
       render(<PostPage params={mockParams} />);
 
       // Content is rendered as HTML
       expect(screen.getByText(/this is test content/i)).toBeInTheDocument();
-    });
-
-    it('renders view count', () => {
-      render(<PostPage params={mockParams} />);
-
-      expect(screen.getByText(/100/)).toBeInTheDocument();
     });
   });
 

@@ -40,7 +40,7 @@ export const variants = styleVariants({
     },
     
     ':focus-visible': {
-      outline: `3px solid ${vars.color.primitive.amethyst[400]}`,
+      outline: `3px solid ${vars.color.primitive.violet[400]}`,
       outlineOffset: '2px',
     },
   },
@@ -61,7 +61,7 @@ export const variants = styleVariants({
     },
     
     ':focus-visible': {
-      outline: `3px solid ${vars.color.primitive.amethyst[400]}`,
+      outline: `3px solid ${vars.color.primitive.violet[400]}`,
       outlineOffset: '2px',
     },
   },
@@ -80,7 +80,7 @@ export const variants = styleVariants({
     },
     
     ':focus-visible': {
-      outline: `3px solid ${vars.color.primitive.amethyst[400]}`,
+      outline: `3px solid ${vars.color.primitive.violet[400]}`,
       outlineOffset: '2px',
     },
   },
@@ -99,7 +99,7 @@ export const variants = styleVariants({
     },
     
     ':focus-visible': {
-      outline: `3px solid ${vars.color.primitive.terracotta[400]}`,
+      outline: `3px solid ${vars.color.primitive.rose[400]}`,
       outlineOffset: '2px',
     },
   },
@@ -118,7 +118,7 @@ export const variants = styleVariants({
     },
     
     ':focus-visible': {
-      outline: `3px solid ${vars.color.primitive.sage[400]}`,
+      outline: `3px solid ${vars.color.primitive.emerald[400]}`,
       outlineOffset: '2px',
     },
   },

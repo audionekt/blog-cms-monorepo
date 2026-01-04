@@ -13,16 +13,39 @@ const fadeIn = keyframes({
 // Layout
 export const container = style({
   minHeight: '100vh',
-  background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
+  backgroundColor: '#ffffff',
   display: 'flex',
+  flexDirection: 'column',
+});
+
+// Hero Section - Clean minimal style
+export const heroSection = style({
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'flex-end',
   justifyContent: 'center',
+  backgroundColor: '#ffffff',
+  padding: '8rem 1.5rem 3rem',
+  borderBottom: '1px solid #e2e8f0',
+  '@media': {
+    '(min-width: 768px)': {
+      padding: '10rem 2rem 4rem',
+    },
+  },
+});
+
+export const heroContent = style({
+  maxWidth: '48rem',
+  margin: '0 auto',
+  width: '100%',
+  animation: `${fadeIn} 0.8s ease-out`,
 });
 
 export const article = style({
   width: '100%',
   maxWidth: '48rem',
+  margin: '0 auto',
   padding: '3rem 1.5rem',
-  animation: `${fadeIn} 0.5s ease-out`,
   '@media': {
     '(min-width: 768px)': {
       padding: '4rem 2rem',
@@ -38,14 +61,14 @@ export const loadingContainer = style({
   justifyContent: 'center',
   gap: '1rem',
   minHeight: '60vh',
-  color: 'rgba(255, 255, 255, 0.6)',
+  color: '#64748b',
 });
 
 export const loadingSpinner = style({
   width: '2.5rem',
   height: '2.5rem',
-  border: '3px solid rgba(255, 255, 255, 0.1)',
-  borderTopColor: '#a78bfa',
+  border: '3px solid #e2e8f0',
+  borderTopColor: '#6366f1',
   borderRadius: '50%',
   animation: `${spin} 0.8s linear infinite`,
 });
@@ -58,28 +81,31 @@ export const errorContainer = style({
   gap: '1.5rem',
   minHeight: '60vh',
   textAlign: 'center',
-  color: 'rgba(255, 255, 255, 0.8)',
+  color: '#475569',
   padding: '2rem',
 });
 
 // Back Link
 export const backLink = style({
+  position: 'absolute',
+  top: '2rem',
+  left: '2rem',
   display: 'inline-flex',
   alignItems: 'center',
   gap: '0.5rem',
-  color: 'rgba(255, 255, 255, 0.5)',
+  color: 'rgba(15, 23, 42, 0.7)',
   textDecoration: 'none',
   fontSize: '0.875rem',
-  marginBottom: '2rem',
+  fontWeight: 500,
   transition: 'color 0.2s ease',
   ':hover': {
-    color: '#a78bfa',
+    color: '#0f172a',
   },
 });
 
-// Header
+// Header (in hero)
 export const header = style({
-  marginBottom: '2.5rem',
+  marginBottom: 0,
 });
 
 export const tagsContainer = style({
@@ -89,84 +115,106 @@ export const tagsContainer = style({
   marginBottom: '1rem',
 });
 
+export const categoryChip = style({
+  padding: '0.25rem 0.75rem',
+  fontSize: '0.6875rem',
+  fontWeight: 600,
+  color: '#6366f1',
+  backgroundColor: '#f1f5f9',
+  border: 'none',
+  borderRadius: '0.25rem',
+  textTransform: 'uppercase',
+  letterSpacing: '0.05em',
+});
+
 export const title = style({
-  fontSize: '2rem',
+  fontSize: '2.25rem',
   fontWeight: 800,
-  color: '#fff',
+  color: '#0f172a',
   lineHeight: 1.2,
   marginBottom: '1rem',
+  letterSpacing: '-0.02em',
   '@media': {
     '(min-width: 768px)': {
-      fontSize: '2.75rem',
+      fontSize: '3rem',
     },
   },
 });
 
 export const excerpt = style({
-  fontSize: '1.25rem',
-  color: 'rgba(255, 255, 255, 0.6)',
-  lineHeight: 1.6,
+  fontSize: '1.0625rem',
+  color: '#64748b',
+  lineHeight: 1.7,
   marginBottom: '1.5rem',
+  '@media': {
+    '(min-width: 768px)': {
+      fontSize: '1.125rem',
+    },
+  },
 });
 
 export const meta = style({
   display: 'flex',
   alignItems: 'center',
+  gap: '1rem',
+  flexWrap: 'wrap',
   paddingTop: '1.5rem',
-  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+  borderTop: '1px solid #e2e8f0',
 });
 
 export const authorInfo = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '1rem',
+  gap: '0.75rem',
 });
 
 export const authorDetails = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.25rem',
+  gap: '0.125rem',
+  alignItems: 'flex-start',
 });
 
 export const authorName = style({
   fontWeight: 600,
-  color: '#fff',
-  fontSize: '0.9375rem',
+  color: '#0f172a',
+  fontSize: '0.875rem',
 });
 
 export const metaDetails = style({
   display: 'flex',
   alignItems: 'center',
   gap: '0.5rem',
-  color: 'rgba(255, 255, 255, 0.5)',
-  fontSize: '0.875rem',
+  color: '#64748b',
+  fontSize: '0.8125rem',
 });
 
 export const metaDot = style({
-  color: 'rgba(255, 255, 255, 0.2)',
+  color: '#cbd5e1',
 });
 
-// Featured Image
+// Featured Image (removed - now in hero)
 export const featuredImageContainer = style({
-  marginBottom: '2.5rem',
-  borderRadius: '1rem',
-  overflow: 'hidden',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+  display: 'none',
 });
 
 export const featuredImage = style({
-  width: '100%',
-  height: 'auto',
-  display: 'block',
+  display: 'none',
 });
 
 // Content
 export const content = style({
   marginBottom: '3rem',
+  marginTop: '3rem',
+});
+
+export const contentCard = style({
+  backgroundColor: 'transparent',
+  padding: 0,
 });
 
 export const markdown = style({
-  color: 'rgba(255, 255, 255, 0.85)',
+  color: '#475569',
   lineHeight: 1.8,
   fontSize: '1.0625rem',
 });
@@ -175,27 +223,29 @@ export const markdown = style({
 export const h1 = style({
   fontSize: '2rem',
   fontWeight: 700,
-  color: '#fff',
+  color: '#0f172a',
   marginTop: '2.5rem',
   marginBottom: '1rem',
   lineHeight: 1.3,
+  letterSpacing: '-0.01em',
 });
 
 export const h2 = style({
   fontSize: '1.5rem',
   fontWeight: 700,
-  color: '#fff',
+  color: '#0f172a',
   marginTop: '2rem',
   marginBottom: '0.75rem',
   lineHeight: 1.3,
+  letterSpacing: '-0.01em',
   paddingBottom: '0.5rem',
-  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+  borderBottom: '2px solid #e2e8f0',
 });
 
 export const h3 = style({
   fontSize: '1.25rem',
   fontWeight: 600,
-  color: '#fff',
+  color: '#1e293b',
   marginTop: '1.5rem',
   marginBottom: '0.5rem',
   lineHeight: 1.4,
@@ -203,21 +253,21 @@ export const h3 = style({
 
 export const paragraph = style({
   marginBottom: '1.25rem',
-  color: 'rgba(255, 255, 255, 0.8)',
+  color: '#475569',
 });
 
 export const bold = style({
   fontWeight: 600,
-  color: '#fff',
+  color: '#0f172a',
 });
 
 export const link = style({
-  color: '#a78bfa',
+  color: '#6366f1',
   textDecoration: 'underline',
   textUnderlineOffset: '2px',
   transition: 'color 0.2s ease',
   ':hover': {
-    color: '#c4b5fd',
+    color: '#818cf8',
   },
 });
 
@@ -229,9 +279,9 @@ export const list = style({
 
 export const listItem = style({
   marginBottom: '0.5rem',
-  color: 'rgba(255, 255, 255, 0.8)',
+  color: '#475569',
   '::marker': {
-    color: '#a78bfa',
+    color: '#6366f1',
   },
 });
 
@@ -240,8 +290,8 @@ export const codeBlock = style({
   marginBottom: '1.5rem',
   borderRadius: '0.75rem',
   overflow: 'hidden',
-  backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  backgroundColor: '#0f172a',
+  border: '1px solid #1e293b',
 });
 
 export const code = style({
@@ -258,45 +308,53 @@ export const code = style({
 export const inlineCode = style({
   padding: '0.125rem 0.375rem',
   borderRadius: '0.25rem',
-  backgroundColor: 'rgba(167, 139, 250, 0.15)',
-  color: '#c4b5fd',
+  backgroundColor: '#f1f5f9',
+  color: '#6366f1',
   fontFamily: '"JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace',
   fontSize: '0.875em',
+  border: '1px solid #e2e8f0',
 });
 
 // Blockquote
 export const blockquote = style({
   marginBottom: '1.5rem',
   paddingLeft: '1.25rem',
-  borderLeft: '3px solid #a78bfa',
+  paddingTop: '0.5rem',
+  paddingBottom: '0.5rem',
+  borderLeft: '4px solid #6366f1',
   fontStyle: 'italic',
-  color: 'rgba(255, 255, 255, 0.7)',
+  color: '#64748b',
+  backgroundColor: '#f8fafc',
+  borderRadius: '0 0.5rem 0.5rem 0',
 });
 
 // Images
 export const figure = style({
-  marginBottom: '1.5rem',
+  marginBottom: '2rem',
+  marginTop: '2rem',
 });
 
 export const contentImage = style({
   width: '100%',
   height: 'auto',
   borderRadius: '0.75rem',
-  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
+  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)',
+  border: '1px solid #e2e8f0',
 });
 
 export const figcaption = style({
   marginTop: '0.75rem',
   textAlign: 'center',
   fontSize: '0.875rem',
-  color: 'rgba(255, 255, 255, 0.5)',
+  color: '#64748b',
   fontStyle: 'italic',
 });
 
 // Footer
 export const footer = style({
   paddingTop: '2rem',
-  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+  marginTop: '2rem',
+  borderTop: '1px solid #e2e8f0',
   display: 'flex',
   flexDirection: 'column',
   gap: '1.5rem',
@@ -316,10 +374,11 @@ export const footerTags = style({
 });
 
 export const footerLabel = style({
-  color: 'rgba(255, 255, 255, 0.5)',
+  color: '#64748b',
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
   fontSize: '0.75rem',
+  fontWeight: 600,
 });
 
 export const footerActions = style({

@@ -21,7 +21,7 @@ const meta = {
     },
     color: {
       control: 'select',
-      options: ['amethyst', 'sky', 'ruby', 'sage', 'gold', 'charcoal'],
+      options: ['violet', 'emerald', 'rose', 'amber', 'slate'],
       description: 'Color variant (overrides variant prop)',
     },
   },
@@ -103,12 +103,11 @@ export const TagsExample: Story = {
 export const AllColors: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-      <Chip color="amethyst">Amethyst</Chip>
-      <Chip color="sky">Sky</Chip>
-      <Chip color="ruby">Ruby</Chip>
-      <Chip color="sage">Sage</Chip>
-      <Chip color="gold">Gold</Chip>
-      <Chip color="charcoal">Charcoal</Chip>
+      <Chip color="violet">Violet</Chip>
+      <Chip color="emerald">Emerald</Chip>
+      <Chip color="rose">Rose</Chip>
+      <Chip color="amber">Amber</Chip>
+      <Chip color="slate">Slate</Chip>
     </div>
   ),
 };
@@ -116,12 +115,11 @@ export const AllColors: Story = {
 export const ColoredTagsExample: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-      <Chip color="sky">React</Chip>
-      <Chip color="amethyst">TypeScript</Chip>
-      <Chip color="sage">Next.js</Chip>
-      <Chip color="gold">Vanilla Extract</Chip>
-      <Chip color="ruby">Storybook</Chip>
-      <Chip color="charcoal">MSW</Chip>
+      <Chip color="violet">React</Chip>
+      <Chip color="emerald">TypeScript</Chip>
+      <Chip color="rose">Next.js</Chip>
+      <Chip color="amber">Vanilla Extract</Chip>
+      <Chip color="slate">Storybook</Chip>
     </div>
   ),
 };
@@ -129,14 +127,14 @@ export const ColoredTagsExample: Story = {
 export const DismissibleChips: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-      <Chip color="sky" dismissible onDismiss={() => alert('Dismissed!')}>
-        Dismissible Sky
+      <Chip color="violet" dismissible onDismiss={() => alert('Dismissed!')}>
+        Dismissible Violet
       </Chip>
-      <Chip color="sage" dismissible onDismiss={() => alert('Dismissed!')}>
-        Dismissible Sage
+      <Chip color="emerald" dismissible onDismiss={() => alert('Dismissed!')}>
+        Dismissible Emerald
       </Chip>
-      <Chip color="ruby" dismissible onDismiss={() => alert('Dismissed!')}>
-        Dismissible Ruby
+      <Chip color="rose" dismissible onDismiss={() => alert('Dismissed!')}>
+        Dismissible Rose
       </Chip>
     </div>
   ),
@@ -148,4 +146,3 @@ export const WithCustomClassName: Story = {
     children: 'Custom Color',
   },
 };
-
