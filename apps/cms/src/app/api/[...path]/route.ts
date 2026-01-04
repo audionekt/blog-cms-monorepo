@@ -15,12 +15,23 @@ async function proxyRequest(request: NextRequest, params: { path: string[] }) {
 
   try {
     const headers = new Headers();
-    headers.set('Content-Type', 'application/json');
     
     // Forward auth header if present
     const authHeader = request.headers.get('Authorization');
     if (authHeader) {
       headers.set('Authorization', authHeader);
+    }
+
+    // Get the original content type to detect multipart/form-data uploads
+    const contentType = request.headers.get('Content-Type');
+    const isMultipart = contentType?.includes('multipart/form-data');
+
+    // For non-multipart requests, set JSON content type
+    // For multipart, let fetch set it automatically with the boundary
+    if (!isMultipart && contentType) {
+      headers.set('Content-Type', contentType);
+    } else if (!isMultipart) {
+      headers.set('Content-Type', 'application/json');
     }
 
     const fetchOptions: RequestInit = {
@@ -30,9 +41,16 @@ async function proxyRequest(request: NextRequest, params: { path: string[] }) {
 
     // Include body for POST, PUT, PATCH requests
     if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
-      const body = await request.text();
-      if (body) {
-        fetchOptions.body = body;
+      if (isMultipart) {
+        // For file uploads, forward the FormData directly
+        // This preserves the binary data and boundary
+        const formData = await request.formData();
+        fetchOptions.body = formData;
+      } else {
+        const body = await request.text();
+        if (body) {
+          fetchOptions.body = body;
+        }
       }
     }
 

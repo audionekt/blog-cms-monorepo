@@ -42,7 +42,7 @@ export const trigger = style({
 
   ":focus": {
     outline: "none",
-    boxShadow: `0 0 0 2px ${vars.color.primitive.amethyst[400]}`,
+    boxShadow: `0 0 0 2px ${vars.color.primitive.violet[400]}`,
     borderColor: "transparent",
   },
 
@@ -110,7 +110,7 @@ export const searchInput = style({
   },
 
   ":focus": {
-    borderBottomColor: vars.color.primitive.amethyst[400],
+    borderBottomColor: vars.color.primitive.violet[400],
   },
 });
 

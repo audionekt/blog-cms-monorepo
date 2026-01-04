@@ -6,7 +6,7 @@ export interface ChipProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
   variant?: 'default' | 'outlined' | 'featured' | 'success' | 'warning' | 'error';
   size?: 'sm' | 'md' | 'lg';
-  color?: 'amethyst' | 'sky' | 'ruby' | 'sage' | 'gold' | 'charcoal';
+  color?: 'violet' | 'emerald' | 'rose' | 'amber' | 'slate';
   dismissible?: boolean;
   onDismiss?: () => void;
 }

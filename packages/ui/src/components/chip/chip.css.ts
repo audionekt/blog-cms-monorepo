@@ -52,8 +52,8 @@ export const variants = styleVariants({
     color: vars.color.semantic.foreground.secondary,
   },
   featured: {
-    backgroundColor: vars.color.primitive.gold[100],
-    color: vars.color.primitive.gold[800],
+    backgroundColor: vars.color.primitive.amber[100],
+    color: vars.color.primitive.amber[700],
   },
   success: {
     backgroundColor: vars.color.semantic.success.subtle,
@@ -70,29 +70,25 @@ export const variants = styleVariants({
 });
 
 export const colors = styleVariants({
-  amethyst: {
-    backgroundColor: vars.color.primitive.amethyst[100],
-    color: vars.color.primitive.amethyst[800],
+  violet: {
+    backgroundColor: vars.color.primitive.violet[100],
+    color: vars.color.primitive.violet[700],
   },
-  sky: {
-    backgroundColor: vars.color.primitive.sky[100],
-    color: vars.color.primitive.sky[800],
+  emerald: {
+    backgroundColor: vars.color.primitive.emerald[100],
+    color: vars.color.primitive.emerald[600],
   },
-  ruby: {
-    backgroundColor: vars.color.primitive.ruby[100],
-    color: vars.color.primitive.ruby[800],
+  rose: {
+    backgroundColor: vars.color.primitive.rose[50],
+    color: vars.color.primitive.rose[600],
   },
-  sage: {
-    backgroundColor: vars.color.primitive.sage[100],
-    color: vars.color.primitive.sage[800],
+  amber: {
+    backgroundColor: vars.color.primitive.amber[100],
+    color: vars.color.primitive.amber[700],
   },
-  gold: {
-    backgroundColor: vars.color.primitive.gold[100],
-    color: vars.color.primitive.gold[800],
-  },
-  charcoal: {
-    backgroundColor: vars.color.primitive.charcoal[200],
-    color: vars.color.primitive.charcoal[800],
+  slate: {
+    backgroundColor: vars.color.primitive.slate[200],
+    color: vars.color.primitive.slate[700],
   },
 });
 
@@ -113,4 +109,3 @@ export const dismissButton = style({
     opacity: 1,
   },
 });
-

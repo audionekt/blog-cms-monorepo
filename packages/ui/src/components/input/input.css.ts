@@ -49,7 +49,7 @@ export const input = style({
 
   ':focus': {
     outline: 'none',
-    boxShadow: `0 0 0 2px ${vars.color.primitive.amethyst[400]}`,
+    boxShadow: `0 0 0 2px ${vars.color.primitive.violet[400]}`,
     borderColor: 'transparent',
   },
 
