@@ -1,6 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import path from 'path';
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
@@ -25,9 +24,6 @@ const config: StorybookConfig = {
       config.plugins = config.plugins.filter(
         (plugin: any) => plugin && plugin.name !== 'vite:dts'
       );
-      
-      // Add vanilla-extract plugin
-      config.plugins.push(vanillaExtractPlugin());
     }
 
     // Configure alias for workspace packages

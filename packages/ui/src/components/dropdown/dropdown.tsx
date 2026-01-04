@@ -16,10 +16,8 @@ import {
   FloatingFocusManager,
   Placement,
 } from '@floating-ui/react';
-import { cn } from '../../styles';
-import { lightTheme } from '../../styles/theme.css';
 import { Checkbox } from '../checkbox';
-import * as styles from './dropdown.css';
+import * as S from './dropdown.styles';
 
 export interface DropdownProps<T> {
   // Core props
@@ -212,18 +210,15 @@ export function Dropdown<T>({
     const label = getItemLabel(item);
     const isActive = activeIndex === index;
     return (
-      <button
+      <S.MenuItem
         key={index}
         type="button"
         ref={(node) => {
           listRef.current[index] = node;
         }}
-        className={cn(
-          styles.menuItem,
-          isActive && styles.menuItemActive,
-          selected && styles.menuItemSelected,
-          disabled && styles.menuItemDisabled
-        )}
+        $isActive={isActive}
+        $isSelected={selected}
+        $disabled={disabled}
         {...getItemProps({
           onClick: () => !disabled && handleSelect(item),
         })}
@@ -241,14 +236,14 @@ export function Dropdown<T>({
           />
         )}
         <span>{label}</span>
-      </button>
+      </S.MenuItem>
     );
   };
 
   const defaultRenderSelected = () => {
     if (multiple) {
       if (selectedValues.length === 0) {
-        return <span className={styles.triggerPlaceholder}>{placeholder || 'Select...'}</span>;
+        return <S.TriggerPlaceholder>{placeholder || 'Select...'}</S.TriggerPlaceholder>;
       }
       if (selectedValues.length === 1) {
         return <span>{getItemLabel(selectedValues[0]!)}</span>;
@@ -256,7 +251,7 @@ export function Dropdown<T>({
       return <span>{selectedValues.length} selected</span>;
     } else {
       if (!value) {
-        return <span className={styles.triggerPlaceholder}>{placeholder || 'Select...'}</span>;
+        return <S.TriggerPlaceholder>{placeholder || 'Select...'}</S.TriggerPlaceholder>;
       }
       return <span>{getItemLabel(value as T)}</span>;
     }
@@ -295,31 +290,30 @@ export function Dropdown<T>({
     }
 
     return (
-      <button
-        ref={refs.setReference}
-        type="button"
-        className={cn(
-          styles.trigger,
-          styles.inputStates[dropdownState],
-          disabled && styles.menuItemDisabled
-        )}
-        {...getReferenceProps({
-          onClick: () => !disabled && setIsOpen(!isOpen),
-          onKeyDown: handleKeyDown,
-          'aria-expanded': isOpen,
-          'aria-haspopup': 'listbox',
-          'aria-controls': `${dropdownId}-menu`,
-          'aria-invalid': error ? 'true' : 'false',
-          'aria-describedby':
-            error ? `${dropdownId}-error` : helper ? `${dropdownId}-helper` : undefined,
-          disabled,
-        })}
-      >
-        {renderSelected
-          ? renderSelected(multiple ? (value as T[] | undefined) : (value as T | undefined))
-          : defaultRenderSelected()}
-        <svg
-          className={cn(styles.dropdownIcon, isOpen && styles.dropdownIconOpen)}
+      <S.TriggerWrapper>
+        <S.Trigger
+          ref={refs.setReference}
+          type="button"
+          $state={dropdownState}
+          $disabled={disabled}
+          {...getReferenceProps({
+            onClick: () => !disabled && setIsOpen(!isOpen),
+            onKeyDown: handleKeyDown,
+            'aria-expanded': isOpen,
+            'aria-haspopup': 'listbox',
+            'aria-controls': `${dropdownId}-menu`,
+            'aria-invalid': error ? 'true' : 'false',
+            'aria-describedby':
+              error ? `${dropdownId}-error` : helper ? `${dropdownId}-helper` : undefined,
+            disabled,
+          })}
+        >
+          {renderSelected
+            ? renderSelected(multiple ? (value as T[] | undefined) : (value as T | undefined))
+            : defaultRenderSelected()}
+        </S.Trigger>
+        <S.DropdownIcon
+          $isOpen={isOpen}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -330,45 +324,45 @@ export function Dropdown<T>({
             strokeWidth={2}
             d="M19 9l-7 7-7-7"
           />
-        </svg>
-      </button>
+        </S.DropdownIcon>
+      </S.TriggerWrapper>
     );
   };
 
   return (
-    <div className={cn(styles.wrapper, fullWidth && styles.fullWidth)}>
+    <S.DropdownWrapper $fullWidth={fullWidth}>
       {label && (
-        <label htmlFor={dropdownId} className={styles.label}>
+        <S.Label htmlFor={dropdownId}>
           {label}
-          {required && <span className={styles.required}>*</span>}
-        </label>
+          {required && <S.Required>*</S.Required>}
+        </S.Label>
       )}
 
-      <div className={styles.triggerWrapper}>{renderTriggerContent()}</div>
+      {renderTriggerContent()}
 
       {error && (
-        <p id={`${dropdownId}-error`} className={cn(styles.message, styles.errorMessage)}>
-          <svg className={styles.errorIcon} fill="currentColor" viewBox="0 0 20 20">
+        <S.Message id={`${dropdownId}-error`} $type="error">
+          <S.ErrorIcon fill="currentColor" viewBox="0 0 20 20">
             <path
               fillRule="evenodd"
               d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
               clipRule="evenodd"
             />
-          </svg>
+          </S.ErrorIcon>
           {error}
-        </p>
+        </S.Message>
       )}
 
       {helper && !error && (
-        <p id={`${dropdownId}-helper`} className={cn(styles.message, styles.helperMessage)}>
+        <S.Message id={`${dropdownId}-helper`} $type="helper">
           {helper}
-        </p>
+        </S.Message>
       )}
 
       {isOpen &&
         createPortal(
           <FloatingFocusManager context={context} modal={false} initialFocus={-1}>
-            <div
+            <S.Menu
               ref={refs.setFloating}
               style={{
                 ...floatingStyles,
@@ -379,7 +373,6 @@ export function Dropdown<T>({
                 minWidth: '200px',
               }}
               {...getFloatingProps()}
-              className={cn(styles.menu, lightTheme)}
               id={`${dropdownId}-menu`}
               onKeyDown={(e) => {
                 if (e.key === 'ArrowDown') {
@@ -408,9 +401,8 @@ export function Dropdown<T>({
               }}
             >
               {searchable && (
-                <input
+                <S.SearchInput
                   type="text"
-                  className={styles.searchInput}
                   placeholder={searchPlaceholder}
                   value={searchQuery}
                   onChange={handleSearchChange}
@@ -427,9 +419,9 @@ export function Dropdown<T>({
                   autoFocus
                 />
               )}
-              <div className={styles.menuList}>
+              <S.MenuList>
                 {filteredOptions.length === 0 ? (
-                  <div className={styles.emptyState}>No options found</div>
+                  <S.EmptyState>No options found</S.EmptyState>
                 ) : (
                   filteredOptions.map((item, index) => {
                     const selected = isSelected(item);
@@ -437,17 +429,14 @@ export function Dropdown<T>({
                     if (renderItem) {
                       const customItem = renderItem(item, index, selected);
                       return (
-                        <button
+                        <S.MenuItem
                           key={index}
                           type="button"
                           ref={(node) => {
                             listRef.current[index] = node;
                           }}
-                          className={cn(
-                            styles.menuItem,
-                            isActive && styles.menuItemActive,
-                            selected && styles.menuItemSelected
-                          )}
+                          $isActive={isActive}
+                          $isSelected={selected}
                           {...getItemProps({
                             onClick: () => !disabled && handleSelect(item),
                           })}
@@ -456,18 +445,18 @@ export function Dropdown<T>({
                           tabIndex={isActive ? 0 : -1}
                         >
                           {customItem}
-                        </button>
+                        </S.MenuItem>
                       );
                     }
                     return defaultRenderItem(item, index, selected);
                   })
                 )}
-              </div>
-            </div>
+              </S.MenuList>
+            </S.Menu>
           </FloatingFocusManager>,
           document.body
         )}
-    </div>
+    </S.DropdownWrapper>
   );
 }
 

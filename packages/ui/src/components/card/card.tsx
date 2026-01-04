@@ -1,6 +1,5 @@
 import React from 'react';
-import { cn } from '../../styles';
-import * as styles from './card.css';
+import { StyledCard } from './card.styles';
 
 export interface CardProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
@@ -19,20 +18,16 @@ export function Card({
   as = 'article',
   ...props
 }: CardProps) {
-  const Component = as;
-  
   return (
-    <Component
-      className={cn(
-        styles.card,
-        styles.variants[variant],
-        styles.padding[padding],
-        interactive && styles.interactive,
-        className
-      )}
+    <StyledCard
+      as={as}
+      $variant={variant}
+      $padding={padding}
+      $interactive={interactive}
+      className={className}
       {...props}
     >
       {children}
-    </Component>
+    </StyledCard>
   );
 }

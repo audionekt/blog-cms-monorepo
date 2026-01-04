@@ -1,6 +1,5 @@
 import React from 'react';
-import { cn } from '../../styles';
-import * as styles from './chip.css';
+import { StyledChip, DismissButton } from './chip.styles';
 
 export interface ChipProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
@@ -23,21 +22,18 @@ export function Chip({
   ...props
 }: ChipProps) {
   return (
-    <span
-      className={cn(
-        styles.chip,
-        color ? styles.colors[color] : styles.variants[variant],
-        styles.sizes[size],
-        (onClick || dismissible) && styles.clickable,
-        className
-      )}
+    <StyledChip
+      $variant={variant}
+      $size={size}
+      $color={color}
+      $clickable={!!(onClick || dismissible)}
+      className={className}
       onClick={onClick}
       {...props}
     >
       {children}
       {dismissible && onDismiss && (
-        <button
-          className={styles.dismissButton}
+        <DismissButton
           onClick={(e) => {
             e.stopPropagation();
             onDismiss();
@@ -53,8 +49,8 @@ export function Chip({
               strokeLinejoin="round"
             />
           </svg>
-        </button>
+        </DismissButton>
       )}
-    </span>
+    </StyledChip>
   );
 }

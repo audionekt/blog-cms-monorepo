@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
-import { lightTheme } from "../styles";
-import "../styles/global.css";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -22,7 +20,7 @@ const geistSans = Geist({
     return (
       <html lang="en">
         <body
-          className={`${lightTheme} ${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           {children}
         </body>

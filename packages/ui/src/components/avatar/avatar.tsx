@@ -1,6 +1,5 @@
 import React from 'react';
-import { cn } from '../../styles';
-import * as styles from './avatar.css';
+import { AvatarWrapper, AvatarImage, AvatarFallback } from './avatar.styles';
 
 export interface AvatarProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src'> {
   src?: string | undefined;
@@ -26,36 +25,28 @@ export function Avatar({
 
   if (showFallback) {
     return (
-      <div
-        className={cn(
-          styles.avatarBase,
-          styles.avatarFallback,
-          styles.sizes[size],
-          styles.shapes[shape],
-          className
-        )}
+      <AvatarFallback
+        $size={size}
+        $shape={shape}
+        className={className}
         aria-label={alt}
       >
         {initials}
-      </div>
+      </AvatarFallback>
     );
   }
 
   return (
-    <div className={cn(styles.avatarWrapper, styles.shapes[shape])}>
-    <img
-      src={src}
-      alt={alt}
-      onError={() => setImageError(true)}
-      className={cn(
-        styles.avatarBase,
-        styles.avatarImage,
-        styles.sizes[size],
-        styles.shapes[shape],
-        className
-      )}
-      {...props}
-    />
-    </div>
+    <AvatarWrapper $shape={shape}>
+      <AvatarImage
+        $size={size}
+        $shape={shape}
+        src={src}
+        alt={alt}
+        onError={() => setImageError(true)}
+        className={className}
+        {...props}
+      />
+    </AvatarWrapper>
   );
 }

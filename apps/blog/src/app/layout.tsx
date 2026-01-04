@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Layout } from "aurigami";
+import { StyledComponentsRegistry, ThemeProvider } from "aurigami";
 import { Providers } from "./providers";
 import { Navigation } from "../components/navigation";
 import "aurigami/styles/fonts.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Alex Dev - Freelance Web Developer",
@@ -15,11 +16,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Layout>
-      <Providers>
-        <Navigation />
-        {children}
-      </Providers>
-    </Layout>
+    <html lang="en">
+      <body>
+        <StyledComponentsRegistry>
+          <ThemeProvider>
+            <Providers>
+              <Navigation />
+              {children}
+            </Providers>
+          </ThemeProvider>
+        </StyledComponentsRegistry>
+      </body>
+    </html>
   );
 }

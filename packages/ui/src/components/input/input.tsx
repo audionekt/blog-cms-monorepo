@@ -1,6 +1,5 @@
 import React from 'react';
-import { cn } from '../../styles';
-import * as styles from './input.css';
+import * as S from './input.styles';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string | undefined;
@@ -33,29 +32,26 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputState = error ? 'error' : state || 'default';
 
     return (
-      <div className={cn(styles.wrapper, fullWidth && styles.fullWidth)}>
+      <S.InputWrapper $fullWidth={fullWidth}>
         {label && (
-          <label htmlFor={inputId} className={styles.label}>
+          <S.Label htmlFor={inputId}>
             {label}
-            {props.required && <span className={styles.required}>*</span>}
-          </label>
+            {props.required && <S.Required>*</S.Required>}
+          </S.Label>
         )}
 
-        <div className={styles.inputWrapper}>
+        <S.InputContainer>
           {leftIcon && (
-            <div className={cn(styles.icon, styles.leftIcon)}>{leftIcon}</div>
+            <S.Icon $position="left">{leftIcon}</S.Icon>
           )}
 
-          <input
+          <S.StyledInput
             ref={ref}
             id={inputId}
-            className={cn(
-              styles.input,
-              styles.inputStates[inputState],
-              leftIcon ? styles.withLeftIcon : '',
-              rightIcon ? styles.withRightIcon : '',
-              className
-            )}
+            $state={inputState}
+            $hasLeftIcon={!!leftIcon}
+            $hasRightIcon={!!rightIcon}
+            className={className}
             disabled={disabled}
             aria-invalid={error ? 'true' : 'false'}
             aria-describedby={
@@ -65,14 +61,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
 
           {rightIcon && (
-            <div className={cn(styles.icon, styles.rightIcon)}>{rightIcon}</div>
+            <S.Icon $position="right">{rightIcon}</S.Icon>
           )}
-        </div>
+        </S.InputContainer>
 
         {error && (
-          <p id={`${inputId}-error`} className={cn(styles.message, styles.errorMessage)}>
-            <svg
-              className={styles.errorIcon}
+          <S.Message id={`${inputId}-error`} $type="error">
+            <S.ErrorIcon
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -81,17 +76,17 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                 clipRule="evenodd"
               />
-            </svg>
+            </S.ErrorIcon>
             {error}
-          </p>
+          </S.Message>
         )}
 
         {helper && !error && (
-          <p id={`${inputId}-helper`} className={cn(styles.message, styles.helperMessage)}>
+          <S.Message id={`${inputId}-helper`} $type="helper">
             {helper}
-          </p>
+          </S.Message>
         )}
-      </div>
+      </S.InputWrapper>
     );
   }
 );

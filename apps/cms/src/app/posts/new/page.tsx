@@ -19,7 +19,7 @@ import {
 } from 'aurigami';
 import { useCreateBlogPost, useTags, useUploadMedia, PostStatus } from '@repo/api';
 import type { CreateBlogPostRequest } from '@repo/api';
-import * as styles from './page.css';
+import * as S from './page.styles';
 
 export default function NewPostPage() {
   const router = useRouter();
@@ -40,7 +40,6 @@ export default function NewPostPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async () => {
-    // Validation
     const newErrors: Record<string, string> = {};
     if (!formData.title) newErrors.title = 'Title is required';
     if (!formData.slug) newErrors.slug = 'Slug is required';
@@ -52,8 +51,6 @@ export default function NewPostPage() {
     }
 
     try {
-      // TODO: Get authorId from authenticated user context
-      // For now, using authorId 1 (first user)
       await createPost.mutateAsync({ 
         data: formData as CreateBlogPostRequest, 
         authorId: 1 
@@ -66,7 +63,6 @@ export default function NewPostPage() {
 
   const handleInputChange = (field: keyof CreateBlogPostRequest, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    // Clear error when user types
     if (errors[field]) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -77,43 +73,43 @@ export default function NewPostPage() {
   };
 
   return (
-    <div className={styles.container}>
+    <S.Container>
       {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.headerInner}>
-          <div className={styles.headerContent}>
-            <div className={styles.headerLeft}>
+      <S.Header>
+        <S.HeaderInner>
+          <S.HeaderContent>
+            <S.HeaderLeft>
               <Button
                 variant="ghost"
                 size="md"
                 onClick={() => router.back()}
-                leftIcon={<ChevronLeft className={styles.svgIcon} />}
+                leftIcon={<ChevronLeft size={18} />}
               >
                 Back
               </Button>
-              <div className={styles.headerTitles}>
+              <S.HeaderTitles>
                 <Typography variant="h2">Create New Post</Typography>
                 <Typography variant="caption">
                   Fill in the details below to publish your blog post
                 </Typography>
-              </div>
-            </div>
+              </S.HeaderTitles>
+            </S.HeaderLeft>
 
-            <div className={styles.headerRight}>
+            <S.HeaderRight>
               <Chip variant={formData.status === PostStatus.PUBLISHED ? 'default' : 'outlined'}>
                 {formData.status === PostStatus.PUBLISHED ? '✅ Published' : '📄 Draft'}
               </Chip>
-            </div>
-          </div>
-        </div>
-      </div>
+            </S.HeaderRight>
+          </S.HeaderContent>
+        </S.HeaderInner>
+      </S.Header>
 
       {/* Form */}
-      <div className={styles.formContainer}>
+      <S.FormContainer>
         <Form onSubmit={handleSubmit}>
-          <div className={styles.formGrid}>
+          <S.FormGrid>
             {/* Main Content - 2/3 width */}
-            <div className={styles.mainColumn}>
+            <S.MainColumn>
               <Card padding="md">
                 <FormSection
                   title="Post Content"
@@ -127,7 +123,7 @@ export default function NewPostPage() {
                     error={errors.title || ''}
                     required
                     fullWidth
-                    leftIcon={<MessageSquare className={styles.svgIcon} />}
+                    leftIcon={<MessageSquare size={16} />}
                   />
 
                   <Input
@@ -137,7 +133,7 @@ export default function NewPostPage() {
                     onChange={(e) => handleInputChange('slug', e.target.value)}
                     helper="URL-friendly version of the title (auto-generated if left empty)"
                     fullWidth
-                    leftIcon={<LinkIcon className={styles.svgIcon} />}
+                    leftIcon={<LinkIcon size={16} />}
                   />
 
                   <TextArea
@@ -198,10 +194,10 @@ export default function NewPostPage() {
                   />
                 </FormSection>
               </Card>
-            </div>
+            </S.MainColumn>
 
             {/* Sidebar - 1/3 width */}
-            <div className={styles.sidebar}>
+            <S.Sidebar>
               <Card padding="md">
                 <FormSection title="Publish Settings">
                   <Dropdown
@@ -219,54 +215,24 @@ export default function NewPostPage() {
                     fullWidth
                   />
 
-                  <div className={styles.featuredToggle}>
-                    <div className={styles.toggleText}>
+                  <S.FeaturedToggle>
+                    <S.ToggleText>
                       <Typography variant="p" style={{ fontWeight: 500, marginBottom: '0.25rem' }}>
                         Featured Post
                       </Typography>
                       <Typography variant="caption">
                         Show on homepage
                       </Typography>
-                    </div>
-                    <label className={styles.toggleSwitch}>
+                    </S.ToggleText>
+                    <S.ToggleSwitch>
                       <input
                         type="checkbox"
                         checked={formData.featured}
                         onChange={(e) => handleInputChange('featured', e.target.checked)}
-                        style={{
-                          position: 'absolute',
-                          width: '1px',
-                          height: '1px',
-                          padding: 0,
-                          margin: '-1px',
-                          overflow: 'hidden',
-                          clip: 'rect(0, 0, 0, 0)',
-                          whiteSpace: 'nowrap',
-                          borderWidth: 0,
-                        }}
                       />
-                      <div style={{
-                        width: '2.75rem',
-                        height: '1.5rem',
-                        backgroundColor: formData.featured ? '#2563eb' : '#d1d5db',
-                        borderRadius: '9999px',
-                        position: 'relative',
-                        transition: 'background-color 0.2s',
-                      }}>
-                        <div style={{
-                          position: 'absolute',
-                          top: '2px',
-                          left: formData.featured ? 'calc(100% - 1.25rem - 2px)' : '2px',
-                          width: '1.25rem',
-                          height: '1.25rem',
-                          backgroundColor: 'white',
-                          border: formData.featured ? '1px solid white' : '1px solid #d1d5db',
-                          borderRadius: '9999px',
-                          transition: 'left 0.2s',
-                        }}></div>
-                      </div>
-                    </label>
-                  </div>
+                      <span />
+                    </S.ToggleSwitch>
+                  </S.FeaturedToggle>
                 </FormSection>
               </Card>
 
@@ -287,7 +253,7 @@ export default function NewPostPage() {
                   />
 
                   {formData.tagIds && formData.tagIds.length > 0 && (
-                    <div className={styles.tagsContainer}>
+                    <S.TagsContainer>
                       {formData.tagIds.map((tagId) => {
                         const tag = tagsData?.content.find((t) => t.id === tagId);
                         return tag ? (
@@ -306,7 +272,7 @@ export default function NewPostPage() {
                           </Chip>
                         ) : null;
                       })}
-                    </div>
+                    </S.TagsContainer>
                   )}
                 </FormSection>
               </Card>
@@ -334,48 +300,49 @@ export default function NewPostPage() {
                   />
                 </FormSection>
               </Card>
-            </div>
-          </div>
+            </S.Sidebar>
+          </S.FormGrid>
 
           {/* Form Actions */}
-          <Card padding="md" className={styles.formActionsCard}>
-            <FormActions align="between">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => router.back()}
-              >
-                Cancel
-              </Button>
-              
-              <div className={styles.formActionsButtons}>
+          <S.FormActionsCard>
+            <Card padding="md">
+              <FormActions align="between">
                 <Button
                   type="button"
-                  variant="secondary"
-                  onClick={() => {
-                    handleInputChange('status', PostStatus.DRAFT);
-                    setTimeout(handleSubmit, 0);
-                  }}
-                  loading={createPost.isPending}
-                  leftIcon={<Check className={styles.svgIcon} />}
+                  variant="ghost"
+                  onClick={() => router.back()}
                 >
-                  Save as Draft
+                  Cancel
                 </Button>
                 
-                <Button
-                  type="submit"
-                  variant="success"
-                  loading={createPost.isPending}
-                  leftIcon={<Bell className={styles.svgIcon} />}
-                >
-                  Publish Post
-                </Button>
-              </div>
-            </FormActions>
-          </Card>
+                <S.FormActionsButtons>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => {
+                      handleInputChange('status', PostStatus.DRAFT);
+                      setTimeout(handleSubmit, 0);
+                    }}
+                    loading={createPost.isPending}
+                    leftIcon={<Check size={16} />}
+                  >
+                    Save as Draft
+                  </Button>
+                  
+                  <Button
+                    type="submit"
+                    variant="success"
+                    loading={createPost.isPending}
+                    leftIcon={<Bell size={16} />}
+                  >
+                    Publish Post
+                  </Button>
+                </S.FormActionsButtons>
+              </FormActions>
+            </Card>
+          </S.FormActionsCard>
         </Form>
-      </div>
-    </div>
+      </S.FormContainer>
+    </S.Container>
   );
 }
-

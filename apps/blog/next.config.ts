@@ -1,8 +1,5 @@
 import type { NextConfig } from "next";
 import path from 'path';
-import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
-
-const withVanillaExtract = createVanillaExtractPlugin();
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -11,6 +8,9 @@ const nextConfig: NextConfig = {
   transpilePackages: ['aurigami'],
   experimental: {
     externalDir: true,
+  },
+  compiler: {
+    styledComponents: true,
   },
   webpack: (config) => {
     // Add alias for workspace packages to resolve from source
@@ -24,4 +24,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withVanillaExtract(nextConfig);
+export default nextConfig;

@@ -108,6 +108,12 @@ export const semantic = {
     hover: primitive.violet[300],
     line: primitive.slate[300],
   },
+  status: {
+    success: primitive.emerald[600],
+    error: primitive.rose[600],
+    warning: primitive.amber[600],
+    info: primitive.violet[500],
+  },
   success: {
     base: primitive.emerald[500],
     main: primitive.emerald[600],

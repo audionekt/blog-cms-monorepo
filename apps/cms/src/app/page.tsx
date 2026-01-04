@@ -5,7 +5,7 @@ import { useBlogPosts } from "@repo/api";
 import { useRouter } from 'next/navigation';
 import { Plus, AlertCircle, FileText, CheckCircle, FilePen, Star } from 'lucide-react';
 import { PostsTable } from '../components/posts-table';
-import * as styles from './page.css';
+import * as S from './page.styles';
 
 export default function PostsPage() {
   const router = useRouter();
@@ -15,74 +15,74 @@ export default function PostsPage() {
   });
 
   return (
-    <div className={styles.container}>
+    <S.Container>
       {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.headerInner}>
-          <div className={styles.headerTop}>
-            <div className={styles.headerTitles}>
+      <S.Header>
+        <S.HeaderInner>
+          <S.HeaderTop>
+            <S.HeaderTitles>
               <Typography variant="h1">
                 Content Management
               </Typography>
               <Typography variant="p">
                 Manage your blog posts and content
               </Typography>
-            </div>
+            </S.HeaderTitles>
             <Button
               size="lg"
-              leftIcon={<Plus className={styles.svgIcon} />}
+              leftIcon={<Plus />}
               onClick={() => router.push('/posts/new')}
             >
               New Post
             </Button>
-          </div>
+          </S.HeaderTop>
 
           {/* Stats Bar */}
-          <div className={styles.statsBar}>
-            <div className={styles.statItem}>
-              <FileText size={16} className={styles.statItemIconBlue} />
-              <span className={styles.statItemValue}>{data?.totalElements || 0}</span>
-              <span className={styles.statItemLabel}>Total</span>
-            </div>
-            <div className={styles.statDivider} />
-            <div className={styles.statItem}>
-              <CheckCircle size={16} className={styles.statItemIconGreen} />
-              <span className={styles.statItemValue}>{data?.content.filter(p => p.status === 'PUBLISHED').length || 0}</span>
-              <span className={styles.statItemLabel}>Published</span>
-            </div>
-            <div className={styles.statDivider} />
-            <div className={styles.statItem}>
-              <FilePen size={16} className={styles.statItemIconGray} />
-              <span className={styles.statItemValue}>{data?.content.filter(p => p.status === 'DRAFT').length || 0}</span>
-              <span className={styles.statItemLabel}>Drafts</span>
-            </div>
-            <div className={styles.statDivider} />
-            <div className={styles.statItem}>
-              <Star size={16} className={styles.statItemIconYellow} />
-              <span className={styles.statItemValue}>{data?.content.filter(p => p.featured).length || 0}</span>
-              <span className={styles.statItemLabel}>Featured</span>
-            </div>
-          </div>
-        </div>
-      </div>
+          <S.StatsBar>
+            <S.StatItem>
+              <S.StatItemIconBlue as={FileText} size={20} />
+              <S.StatItemValue>{data?.totalElements || 0}</S.StatItemValue>
+              <S.StatItemLabel>Total</S.StatItemLabel>
+            </S.StatItem>
+            <S.StatDivider />
+            <S.StatItem>
+              <S.StatItemIconGreen as={CheckCircle} size={20} />
+              <S.StatItemValue>{data?.content.filter(p => p.status === 'PUBLISHED').length || 0}</S.StatItemValue>
+              <S.StatItemLabel>Published</S.StatItemLabel>
+            </S.StatItem>
+            <S.StatDivider />
+            <S.StatItem>
+              <S.StatItemIconGray as={FilePen} size={20} />
+              <S.StatItemValue>{data?.content.filter(p => p.status === 'DRAFT').length || 0}</S.StatItemValue>
+              <S.StatItemLabel>Drafts</S.StatItemLabel>
+            </S.StatItem>
+            <S.StatDivider />
+            <S.StatItem>
+              <S.StatItemIconYellow as={Star} size={20} />
+              <S.StatItemValue>{data?.content.filter(p => p.featured).length || 0}</S.StatItemValue>
+              <S.StatItemLabel>Featured</S.StatItemLabel>
+            </S.StatItem>
+          </S.StatsBar>
+        </S.HeaderInner>
+      </S.Header>
 
       {/* Content */}
-      <div className={styles.content}>
+      <S.Content>
         {isLoading && (
-          <div className={styles.loadingContainer}>
-            <div className={styles.loadingInner}>
-              <div className={styles.spinner}></div>
+          <S.LoadingContainer>
+            <S.LoadingInner>
+              <S.Spinner />
               <Typography variant="p">
                 Loading posts...
               </Typography>
-            </div>
-          </div>
+            </S.LoadingInner>
+          </S.LoadingContainer>
         )}
 
         {error && (
           <Card padding="md">
-            <div className={styles.errorContent}>
-              <AlertCircle className={styles.errorIcon} />
+            <S.ErrorContent>
+              <S.ErrorIcon as={AlertCircle} />
               <div>
                 <Typography variant="h3">
                   Error loading posts
@@ -91,16 +91,16 @@ export default function PostsPage() {
                   {error.message}
                 </Typography>
               </div>
-            </div>
+            </S.ErrorContent>
           </Card>
         )}
 
         {data && data.content.length === 0 && !isLoading && (
           <Card padding="lg">
-            <div className={styles.emptyState}>
-              <div className={styles.emptyIconWrapper}>
+            <S.EmptyState>
+              <S.EmptyIconWrapper>
                 <FileText size={32} />
-              </div>
+              </S.EmptyIconWrapper>
               <Typography variant="h2">
                 No posts yet
               </Typography>
@@ -110,18 +110,18 @@ export default function PostsPage() {
               <Button
                 size="lg"
                 onClick={() => router.push('/posts/new')}
-                leftIcon={<Plus className={styles.svgIcon} />}
+                leftIcon={<Plus />}
               >
                 Create Your First Post
               </Button>
-            </div>
+            </S.EmptyState>
           </Card>
         )}
 
         {data && data.content.length > 0 && (
           <PostsTable posts={data.content} isLoading={isLoading} />
         )}
-      </div>
-    </div>
+      </S.Content>
+    </S.Container>
   );
 }

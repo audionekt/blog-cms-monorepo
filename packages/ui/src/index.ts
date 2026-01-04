@@ -34,5 +34,13 @@ export type { ImageUploadProps } from './components/image-upload';
 export { Layout } from './utils/layout';
 export type { AppLayoutProps } from './utils/layout';
 
+export { FocusLock } from './utils/FocusLock';
+
+// Export theme system
+export { ThemeProvider } from './theme/ThemeProvider';
+export { StyledComponentsRegistry } from './theme/registry';
+export { theme } from './theme';
+export type { ThemeType } from './theme';
+
 // Export styles and theme
 export * from './styles';

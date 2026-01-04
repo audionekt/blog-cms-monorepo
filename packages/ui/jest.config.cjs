@@ -21,8 +21,7 @@ module.exports = {
     '^@repo/tokens/(.*)$': '<rootDir>/../tokens/src/$1',
     '^@repo/styles$': '<rootDir>/../styles/src/index.ts',
     '^@repo/styles/(.*)$': '<rootDir>/../styles/src/$1',
-    // Handle vanilla-extract CSS imports - order matters! .css.ts must come first
-    '\\.(css)\\.ts$': '<rootDir>/src/__mocks__/styleMock.cjs',
+    // Handle CSS imports
     '\\.(css)$': '<rootDir>/src/__mocks__/styleMock.cjs',
   },
   
@@ -46,12 +45,13 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.stories.{ts,tsx}', // Exclude Storybook files
-    '!src/**/*.css.ts',           // Exclude vanilla-extract files
+    '!src/**/*.styles.tsx',       // Exclude styled-components files
     '!src/**/index.{ts,tsx}',     // Exclude barrel exports
     '!src/**/*.d.ts',              // Exclude type definitions
     '!src/utils/layout.tsx',      // Exclude Layout (Next.js specific)
     '!src/layout.ts',             // Exclude layout barrel export
     '!src/tokens/**',             // Exclude design tokens
+    '!src/theme/**',              // Exclude theme system
   ],
   
   // Coverage thresholds - enforcing good test coverage

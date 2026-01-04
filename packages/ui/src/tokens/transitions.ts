@@ -3,6 +3,7 @@
 export const duration = {
   fast: '150ms',
   base: '200ms',
+  normal: '200ms',
   slow: '300ms',
   slower: '500ms',
 } as const;

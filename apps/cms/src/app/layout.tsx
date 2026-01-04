@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Layout } from "aurigami";
+import { StyledComponentsRegistry, ThemeProvider } from "aurigami";
 import { Providers } from "./providers";
 import "aurigami/styles/fonts.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "CMS Dashboard",
@@ -14,8 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Layout>
-      <Providers>{children}</Providers>
-    </Layout>
+    <html lang="en">
+      <body>
+        <StyledComponentsRegistry>
+          <ThemeProvider>
+            <Providers>{children}</Providers>
+          </ThemeProvider>
+        </StyledComponentsRegistry>
+      </body>
+    </html>
   );
 }
