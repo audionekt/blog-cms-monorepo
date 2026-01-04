@@ -11,7 +11,7 @@ export const Toolbar = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: ${({ theme }) => theme.spacing[4]};
-  background-color: ${({ theme }) => theme.colors.semantic.background.secondary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
   border-radius: ${({ theme }) => theme.radii.md};
   border: 1px solid ${({ theme }) => theme.colors.semantic.border.default};
 `;
@@ -40,7 +40,7 @@ export const BulkActions = styled.div`
 `;
 
 export const TableWrapper = styled.div`
-  background-color: ${({ theme }) => theme.colors.semantic.background.secondary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
   border-radius: ${({ theme }) => theme.radii.lg};
   border: 1px solid ${({ theme }) => theme.colors.semantic.border.default};
   overflow: hidden;
@@ -52,7 +52,7 @@ export const Table = styled.table`
 `;
 
 export const Thead = styled.thead`
-  background-color: ${({ theme }) => theme.colors.semantic.background.primary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
   border-bottom: 1px solid ${({ theme }) => theme.colors.semantic.border.default};
 `;
 
@@ -67,7 +67,7 @@ export const Th = styled.th<{ $sortable?: boolean }>`
 
   &:hover {
     background-color: ${({ $sortable, theme }) =>
-      $sortable ? theme.colors.semantic.background.secondary : 'transparent'};
+      $sortable ? theme.colors.semantic.background.base : 'transparent'};
   }
 `;
 
@@ -87,7 +87,7 @@ export const Tr = styled.tr`
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.semantic.background.primary};
+    background-color: ${({ theme }) => theme.colors.semantic.background.base};
   }
 `;
 
@@ -136,7 +136,7 @@ export const Pagination = styled.div`
   align-items: center;
   padding: ${({ theme }) => theme.spacing[6]};
   border-top: 1px solid ${({ theme }) => theme.colors.semantic.border.default};
-  background-color: ${({ theme }) => theme.colors.semantic.background.primary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
 `;
 
 export const PaginationInfo = styled.div`
@@ -168,7 +168,7 @@ export const PostImagePlaceholder = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.semantic.background.primary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
   border-radius: ${({ theme }) => theme.radii.md};
   color: ${({ theme }) => theme.colors.semantic.foreground.tertiary};
 `;
@@ -253,11 +253,11 @@ export const ActionButton = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.semantic.border.default};
   border-radius: ${({ theme }) => theme.radii.sm};
   cursor: pointer;
-  transition: all ${({ theme }) => theme.transitions.duration.fast} ${({ theme }) => theme.transitions.easing.easeInOut};
+  transition: all ${({ theme }) => theme.transitions.duration.fast} ${({ theme }) => theme.transitions.easing.inOut};
   color: ${({ theme }) => theme.colors.semantic.foreground.secondary};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.semantic.background.primary};
+    background-color: ${({ theme }) => theme.colors.semantic.background.base};
     border-color: ${({ theme }) => theme.colors.semantic.border.hover};
   }
 `;

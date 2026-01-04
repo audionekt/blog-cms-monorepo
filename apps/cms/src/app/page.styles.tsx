@@ -8,11 +8,11 @@ const spin = keyframes`
 
 export const Container = styled.div`
   min-height: 100vh;
-  background-color: ${({ theme }) => theme.colors.semantic.background.primary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
 `;
 
 export const Header = styled.div`
-  background-color: ${({ theme }) => theme.colors.semantic.background.secondary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
   border-bottom: 1px solid ${({ theme }) => theme.colors.semantic.border.default};
   padding: ${({ theme }) => theme.spacing[8]} ${({ theme }) => theme.spacing[6]};
 `;
@@ -47,7 +47,7 @@ export const StatsBar = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: ${({ theme }) => theme.spacing[4]} ${({ theme }) => theme.spacing[6]};
-  background-color: ${({ theme }) => theme.colors.semantic.background.primary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
   border-radius: ${({ theme }) => theme.radii.md};
   border: 1px solid ${({ theme }) => theme.colors.semantic.border.default};
 
@@ -171,7 +171,7 @@ export const EmptyIconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.semantic.background.secondary};
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
   border-radius: ${({ theme }) => theme.radii.full};
   color: ${({ theme }) => theme.colors.semantic.foreground.secondary};
   margin-bottom: ${({ theme }) => theme.spacing[6]};
