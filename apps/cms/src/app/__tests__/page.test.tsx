@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../test-utils';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PostsPage from '../page';
 
@@ -9,18 +9,6 @@ jest.mock('next/navigation', () => ({
     push: jest.fn(),
     back: jest.fn(),
   }),
-}));
-
-// Mock the aurigami components
-jest.mock('aurigami', () => ({
-  Button: ({ children, leftIcon, ...props }: any) => <button {...props}>{leftIcon}{children}</button>,
-  Typography: ({ children, variant, ...props }: any) => <div data-variant={variant} {...props}>{children}</div>,
-  Card: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-  Chip: ({ children, ...props }: any) => <span {...props}>{children}</span>,
-  Avatar: ({ alt, ...props }: any) => <img alt={alt} {...props} />,
-  Checkbox: ({ checked, onChange, ...props }: any) => (
-    <input type="checkbox" checked={checked} onChange={onChange} {...props} />
-  ),
 }));
 
 // Mock the API hooks
@@ -66,6 +54,7 @@ const createTestQueryClient = () =>
 
 function renderWithQueryClient(ui: React.ReactElement) {
   const queryClient = createTestQueryClient();
+  // render from test-utils already wraps with ThemeProvider
   return render(
     <QueryClientProvider client={queryClient}>
       {ui}

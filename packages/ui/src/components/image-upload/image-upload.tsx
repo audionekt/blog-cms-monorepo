@@ -129,7 +129,7 @@ export function ImageUpload({
   };
 
   return (
-    <S.Container className={className}>
+    <S.Container className={className} data-testid="image-upload">
       {label && (
         <Typography variant="caption" weight="medium">{label}</Typography>
       )}
@@ -139,7 +139,7 @@ export function ImageUpload({
         <S.Preview>
           <S.PreviewImage
             src={value}
-            alt="Preview"
+            alt="preview"
           />
           
           {isUploading && (
@@ -154,6 +154,7 @@ export function ImageUpload({
               type="button"
               onClick={handleRemove}
               aria-label="Remove image"
+              data-testid="image-remove"
             >
               <X size={16} />
             </S.RemoveButton>

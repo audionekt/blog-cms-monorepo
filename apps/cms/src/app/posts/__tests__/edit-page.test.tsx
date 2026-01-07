@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../../test-utils';
 import EditPostPage from '../[id]/page';
 
 // Mock Next.js router
@@ -25,6 +25,7 @@ jest.mock('lucide-react', () => ({
 
 // Mock aurigami components
 jest.mock('aurigami', () => ({
+  ThemeProvider: ({ children }: any) => <>{children}</>,
   Typography: ({ children, ...props }: any) => <div {...props}>{children}</div>,
   Button: ({ children, onClick, leftIcon }: any) => <button onClick={onClick}>{leftIcon}{children}</button>,
   Input: ({ label, ...props }: any) => <div><label>{label}</label><input {...props} /></div>,
@@ -37,6 +38,7 @@ jest.mock('aurigami', () => ({
   Card: ({ children }: any) => <div>{children}</div>,
   Chip: ({ children }: any) => <span>{children}</span>,
   ImageUpload: () => <div>Image Upload</div>,
+  FocusLock: ({ children }: any) => <>{children}</>,
 }));
 
 // Mock the API hooks

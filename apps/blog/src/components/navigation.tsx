@@ -10,7 +10,7 @@ export function Navigation() {
     <S.Nav>
       <S.NavContainer>
         <S.NavBrand href="/">
-          ALEXDEV
+          KONSOLE.BLOG
         </S.NavBrand>
 
         <S.NavLinks>

@@ -602,25 +602,23 @@ Import tokens in your components:
 
 ```typescript
 import { colors, gradients, spacing, shadows } from '@repo/ui/tokens';
+import styled from 'styled-components';
 
-// Use in vanilla-extract
-import { style } from '@vanilla-extract/css';
-
-export const button = style({
-  backgroundColor: colors.semantic.brand.primary,
-  padding: spacing[4],
-  boxShadow: shadows.md,
-  background: gradients.brand.accent,
-});
+export const Button = styled.button`
+  background-color: ${colors.semantic.brand.primary};
+  padding: ${spacing[4]};
+  box-shadow: ${shadows.md};
+  background: ${gradients.brand.accent};
+`;
 ```
 
-For themed values, use the theme contract:
+For themed values, use the theme prop:
 
 ```typescript
-import { vars } from '@repo/ui/styles/contract.css';
+import styled from 'styled-components';
 
-export const card = style({
-  backgroundColor: vars.color.semantic.background.base,
-  borderColor: vars.color.semantic.border.default,
-});
+export const Card = styled.div`
+  background-color: ${({ theme }) => theme.colors.semantic.background.base};
+  border-color: ${({ theme }) => theme.colors.semantic.border.default};
+`;
 ```

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '../../../test-utils';
 import userEvent from '@testing-library/user-event';
 import ReactDOM from 'react-dom';
 import { Dropdown } from '../dropdown';
@@ -442,6 +442,37 @@ describe('Dropdown', () => {
         </Dropdown>
       );
       expect(screen.getByText('Custom Trigger')).toBeInTheDocument();
+    });
+
+    it('renders custom trigger with non-element children', () => {
+      render(
+        <Dropdown options={testOptions}>
+          Custom Text Trigger
+        </Dropdown>
+      );
+      expect(screen.getByText('Custom Text Trigger')).toBeInTheDocument();
+    });
+  });
+
+  describe('getItemLabel edge cases', () => {
+    it('handles object items without label property', () => {
+      const items = [{ id: 1, value: 'test' }];
+      render(<Dropdown options={items} />);
+      const trigger = screen.getByRole('combobox');
+      expect(trigger).toBeInTheDocument();
+    });
+
+    it('handles null items', () => {
+      const items = [null, 'Option 1'];
+      render(<Dropdown options={items} />);
+      const trigger = screen.getByRole('combobox');
+      expect(trigger).toBeInTheDocument();
+    });
+
+    it('handles number items', () => {
+      const items = [1, 2, 3];
+      render(<Dropdown options={items} value={1} />);
+      expect(screen.getByText('1')).toBeInTheDocument();
     });
   });
 

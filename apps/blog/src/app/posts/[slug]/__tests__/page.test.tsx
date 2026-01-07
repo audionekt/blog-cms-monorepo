@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../../../test-utils';
 import { useBlogPostBySlug } from '@repo/api';
 import PostPage from '../page';
 import { use } from 'react';
@@ -18,14 +18,6 @@ jest.mock('next/link', () => ({
 // Mock the API hook
 jest.mock('@repo/api', () => ({
   useBlogPostBySlug: jest.fn(),
-}));
-
-// Mock the aurigami components
-jest.mock('aurigami', () => ({
-  Typography: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-  Chip: ({ children, ...props }: any) => <span {...props}>{children}</span>,
-  Avatar: ({ alt, ...props }: any) => <div {...props}>{alt}</div>,
-  Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
 }));
 
 const mockPost = {

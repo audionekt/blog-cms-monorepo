@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '../../../test-utils';
 import { ImageUpload } from '../image-upload';
 
 describe('ImageUpload', () => {
@@ -191,7 +191,7 @@ describe('ImageUpload', () => {
         />
       );
       
-      const img = screen.getByAltText('Preview');
+      const img = screen.getByAltText('preview');
       expect(img).toHaveAttribute('src', 'https://example.com/image.jpg');
     });
 

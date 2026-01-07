@@ -5,6 +5,7 @@ import { Button, Typography, Input } from "aurigami";
 import { useBlogPosts } from "@repo/api";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import * as S from "./page.styles";
 
 export default function ArticlesPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,17 +34,17 @@ export default function ArticlesPage() {
   ];
 
   return (
-    <div>
+    <S.PageWrapper>
       {/* Background */}
-      <div />
-      <div />
-      <div />
+      <S.BackgroundBlur />
+      <S.BackgroundImage />
+      <S.BackgroundOverlay />
 
       {/* Content layer */}
-      <div>
+      <S.ContentLayer>
         {/* Hero Section */}
-        <section>
-          <div>
+        <S.HeroSection>
+          <S.HeroContent>
             <Typography variant="h1">Articles & Insights</Typography>
             <Typography variant="p">
               Explore articles about web development, design systems, and best
@@ -51,7 +52,7 @@ export default function ArticlesPage() {
             </Typography>
 
             {/* Search Bar */}
-            <div>
+            <S.SearchContainer>
               <Input
                 type="text"
                 placeholder="Search articles..."
@@ -60,109 +61,111 @@ export default function ArticlesPage() {
                 leftIcon={<Search size={20} />}
                 fullWidth
               />
-            </div>
+            </S.SearchContainer>
 
             {/* Popular Categories */}
-            <div>
-              <span>Popular:</span>
-              <div>
+            <S.PopularSection>
+              <S.PopularLabel>Popular:</S.PopularLabel>
+              <S.PopularTags>
                 {popularCategories.map((category) => (
-                  <button
+                  <S.PopularTag
                     key={category}
                     onClick={() => setSearchQuery(category)}
                   >
                     {category}
-                  </button>
+                  </S.PopularTag>
                 ))}
-              </div>
-            </div>
-          </div>
-        </section>
+              </S.PopularTags>
+            </S.PopularSection>
+          </S.HeroContent>
+        </S.HeroSection>
 
         {/* Divider */}
-        <div />
+        <S.Divider />
 
         {/* Main Content - Posts List */}
-        <main>
+        <S.MainContent>
           <Typography variant="h3">All Articles</Typography>
 
           {isLoading && (
-            <div>
-              <div />
+            <S.LoadingContainer>
+              <S.LoadingSpinner />
               <Typography variant="caption">Loading articles...</Typography>
-            </div>
+            </S.LoadingContainer>
           )}
 
           {error && (
-            <div>
+            <S.ErrorContainer>
               <Typography variant="p">
                 Error loading articles: {error.message}
               </Typography>
-            </div>
+            </S.ErrorContainer>
           )}
 
           {filteredPosts.length > 0 && (
-            <div>
+            <S.ArticlesGrid>
               {filteredPosts.map((post) => (
                 <Link key={post.id} href={`/posts/${post.slug}`}>
-                  <article>
-                    <div>
+                  <S.ArticleCard>
+                    <S.ArticleImageContainer>
                       {post.featuredImageUrl ? (
-                        <img src={post.featuredImageUrl} alt={post.title} />
+                        <S.ArticleImage src={post.featuredImageUrl} alt={post.title} />
                       ) : (
-                        <div />
+                        <S.ArticleImagePlaceholder />
                       )}
-                    </div>
-                    <div>
-                      <span>{post.readingTimeMinutes} min read</span>
-                      <h3>{post.title}</h3>
-                      {post.excerpt && <p>{post.excerpt}</p>}
-                      <div>
-                        <span>
+                    </S.ArticleImageContainer>
+                    <S.ArticleContent>
+                      <S.ArticleMeta>{post.readingTimeMinutes} min read</S.ArticleMeta>
+                      <S.ArticleTitle>{post.title}</S.ArticleTitle>
+                      {post.excerpt && <S.ArticleExcerpt>{post.excerpt}</S.ArticleExcerpt>}
+                      <S.ArticleAuthor>
+                        <S.ArticleAuthorName>
                           {post.author.firstName} {post.author.lastName}
-                        </span>
-                      </div>
-                    </div>
-                  </article>
+                        </S.ArticleAuthorName>
+                      </S.ArticleAuthor>
+                    </S.ArticleContent>
+                  </S.ArticleCard>
                 </Link>
               ))}
-            </div>
+            </S.ArticlesGrid>
           )}
 
           {filteredPosts.length === 0 && searchQuery && (
-            <div>
+            <S.EmptyState>
               <Typography variant="h3">No results found</Typography>
               <Typography variant="p">Try a different search term</Typography>
-            </div>
+            </S.EmptyState>
           )}
 
           {posts.length === 0 && !searchQuery && !isLoading && (
-            <div>
+            <S.EmptyState>
               <Typography variant="h3">No articles yet</Typography>
               <Typography variant="p">
                 Check back soon for new content!
               </Typography>
-            </div>
+            </S.EmptyState>
           )}
 
           {/* Pagination */}
           {data && data.totalPages > 1 && (
-            <div>
-              <Typography variant="caption">
-                Page {data.number + 1} of {data.totalPages}
-              </Typography>
-              <div>
+            <S.PaginationContainer>
+              <S.PaginationInfo>
+                <Typography variant="caption">
+                  Page {data.number + 1} of {data.totalPages}
+                </Typography>
+              </S.PaginationInfo>
+              <S.PaginationButtons>
                 <Button variant="secondary" size="sm" disabled={data.first}>
                   Previous
                 </Button>
                 <Button variant="secondary" size="sm" disabled={data.last}>
                   Next
                 </Button>
-              </div>
-            </div>
+              </S.PaginationButtons>
+            </S.PaginationContainer>
           )}
-        </main>
-      </div>
-    </div>
+        </S.MainContent>
+      </S.ContentLayer>
+    </S.PageWrapper>
   );
 }

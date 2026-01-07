@@ -6,7 +6,7 @@ import "aurigami/styles/fonts.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Alex Dev - Freelance Web Developer",
+  title: "konsole.blog - Freelance Web Developer",
   description: "Crafting digital experiences that matter. Freelance web developer and software engineer building minimalist, high-performance interfaces.",
 };
 

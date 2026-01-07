@@ -3,7 +3,6 @@ import { AvatarWrapper, AvatarImage, AvatarFallback } from './avatar.styles';
 
 export interface AvatarProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src'> {
   src?: string | undefined;
-  alt: string;
   size?: 'sm' | 'md' | 'lg';
   shape?: 'circle' | 'square' | 'rounded';
   fallback?: string;
@@ -21,7 +20,7 @@ export function Avatar({
   const [imageError, setImageError] = React.useState(false);
   
   const showFallback = !src || imageError;
-  const initials = fallback || alt.substring(0, 2).toUpperCase();
+  const initials = fallback || alt?.substring(0, 2).toUpperCase();
 
   if (showFallback) {
     return (
