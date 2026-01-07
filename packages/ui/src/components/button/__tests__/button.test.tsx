@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '../../../test-utils';
 import userEvent from '@testing-library/user-event';
 import { Button } from '../button';
 
@@ -21,8 +21,7 @@ describe('Button', () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('can be disabled', async () => {
-    const user = userEvent.setup();
+  it('can be disabled', () => {
     const handleClick = jest.fn();
     
     render(<Button onClick={handleClick} disabled>Click me</Button>);
@@ -30,8 +29,8 @@ describe('Button', () => {
     const button = screen.getByRole('button', { name: /click me/i });
     expect(button).toBeDisabled();
     
-    // Attempt to click - should not trigger handler
-    await user.click(button);
+    // Verify handler is not called when disabled button is clicked via fireEvent
+    fireEvent.click(button);
     expect(handleClick).not.toHaveBeenCalled();
   });
 

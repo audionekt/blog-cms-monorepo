@@ -1,4 +1,4 @@
-// Mock for vanilla-extract .css.ts files in Jest
+// Mock for CSS imports in Jest
 // Returns plain strings to ensure compatibility with libraries expecting string classNames
 
 const MOCK_CLASS_NAME = 'mock-class';

@@ -23,9 +23,9 @@ import {
   Star,
   ImageIcon,
 } from 'lucide-react';
-import { Typography, Button, Avatar, Chip, Checkbox } from 'aurigami';
+import { Typography, Button, Avatar, Chip, Checkbox, FocusLock } from 'aurigami';
 import { useDeleteBlogPost, PostStatus, type BlogPostSummaryResponse } from '@repo/api';
-import * as styles from './posts-table.css';
+import * as S from './posts-table.styles';
 
 interface PostsTableProps {
   posts: BlogPostSummaryResponse[];
@@ -66,34 +66,33 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
       columnHelper.accessor('title', {
         header: 'Post',
         cell: ({ row }) => (
-          <div className={styles.titleCell}>
+          <S.TitleCell>
             {row.original.featuredImageUrl ? (
-              <img
+              <S.PostImage
                 src={row.original.featuredImageUrl}
                 alt=""
-                className={styles.postImage}
               />
             ) : (
-              <div className={styles.postImagePlaceholder}>
+              <S.PostImagePlaceholder>
                 <ImageIcon size={20} />
-              </div>
+              </S.PostImagePlaceholder>
             )}
-            <div className={styles.titleContent}>
-              <div className={styles.title}>
+            <S.TitleContent>
+              <S.Title>
                 {row.original.featured && (
-                  <Star size={14} className={styles.featuredStar} fill="currentColor" />
+                  <S.FeaturedStar as={Star} size={14} fill="currentColor" />
                 )}{' '}
                 {row.original.title}
-              </div>
-              <div className={styles.slug}>/{row.original.slug}</div>
-            </div>
-          </div>
+              </S.Title>
+              <S.Slug>/{row.original.slug}</S.Slug>
+            </S.TitleContent>
+          </S.TitleCell>
         ),
       }),
       columnHelper.accessor('author', {
         header: 'Author',
         cell: ({ row }) => (
-          <div className={styles.authorCell}>
+          <S.AuthorCell>
             <Avatar
               src={row.original.author.avatarUrl}
               alt={`${row.original.author.firstName} ${row.original.author.lastName}`}
@@ -102,19 +101,19 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
             <span>
               {row.original.author.firstName} {row.original.author.lastName}
             </span>
-          </div>
+          </S.AuthorCell>
         ),
       }),
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => {
           const status = row.original.status;
-          const statusStyles = {
-            [PostStatus.PUBLISHED]: styles.statusPublished,
-            [PostStatus.DRAFT]: styles.statusDraft,
-            [PostStatus.SCHEDULED]: styles.statusScheduled,
-            [PostStatus.ARCHIVED]: styles.statusArchived,
-          };
+          const StatusComponent = {
+            [PostStatus.PUBLISHED]: S.StatusPublished,
+            [PostStatus.DRAFT]: S.StatusDraft,
+            [PostStatus.SCHEDULED]: S.StatusScheduled,
+            [PostStatus.ARCHIVED]: S.StatusArchived,
+          }[status];
           const statusIcons = {
             [PostStatus.PUBLISHED]: '✅',
             [PostStatus.DRAFT]: '📄',
@@ -122,16 +121,16 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
             [PostStatus.ARCHIVED]: '📦',
           };
           return (
-            <span className={`${styles.statusBadge} ${statusStyles[status]}`}>
+            <StatusComponent>
               {statusIcons[status]} {status}
-            </span>
+            </StatusComponent>
           );
         },
       }),
       columnHelper.accessor('tags', {
         header: 'Tags',
         cell: ({ row }) => (
-          <div className={styles.tagsCell}>
+          <S.TagsCell>
             {row.original.tags.slice(0, 2).map((tag) => (
               <Chip key={tag.id} size="sm">
                 {tag.name}
@@ -142,7 +141,7 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
                 +{row.original.tags.length - 2}
               </Chip>
             )}
-          </div>
+          </S.TagsCell>
         ),
       }),
       columnHelper.accessor('viewCount', {
@@ -154,22 +153,21 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
       columnHelper.accessor('createdAt', {
         header: 'Created',
         cell: ({ row }) => (
-          <span className={styles.dateCell}>
+          <S.DateCell>
             {new Date(row.original.createdAt).toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',
               year: 'numeric',
             })}
-          </span>
+          </S.DateCell>
         ),
       }),
       columnHelper.display({
         id: 'actions',
         header: '',
         cell: ({ row }) => (
-          <div className={styles.actionsCell}>
-            <button
-              className={styles.actionButton}
+          <S.ActionsCell>
+            <S.ActionButton
               onClick={(e) => {
                 e.stopPropagation();
                 router.push(`/posts/${row.original.id}`);
@@ -177,9 +175,8 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
               title="Edit"
             >
               <Edit size={16} />
-            </button>
-            <button
-              className={`${styles.actionButton} ${styles.actionButtonDanger}`}
+            </S.ActionButton>
+            <S.ActionButtonDanger
               onClick={(e) => {
                 e.stopPropagation();
                 handleDeleteClick([row.original.id]);
@@ -187,8 +184,8 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
               title="Delete"
             >
               <Trash2 size={16} />
-            </button>
-          </div>
+            </S.ActionButtonDanger>
+          </S.ActionsCell>
         ),
       }),
     ],
@@ -242,40 +239,40 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
   const renderSortIcon = (columnId: string) => {
     const sortedColumn = sorting.find((s) => s.id === columnId);
     if (!sortedColumn) {
-      return <ChevronsUpDown size={14} className={styles.sortIcon} />;
+      return <S.SortIcon as={ChevronsUpDown} size={14} />;
     }
     return sortedColumn.desc ? (
-      <ChevronDown size={14} className={`${styles.sortIcon} ${styles.sortIconActive}`} />
+      <S.SortIconActive as={ChevronDown} size={14} />
     ) : (
-      <ChevronUp size={14} className={`${styles.sortIcon} ${styles.sortIconActive}`} />
+      <S.SortIconActive as={ChevronUp} size={14} />
     );
   };
 
   if (posts.length === 0 && !isLoading) {
     return (
-      <div className={styles.tableWrapper}>
-        <div className={styles.emptyState}>
-          <div className={styles.emptyIcon}>📝</div>
+      <S.TableWrapper>
+        <S.EmptyState>
+          <S.EmptyIcon>📝</S.EmptyIcon>
           <Typography variant="h3">No posts yet</Typography>
           <Typography variant="p">
             Create your first post to get started.
           </Typography>
-        </div>
-      </div>
+        </S.EmptyState>
+      </S.TableWrapper>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <S.Container>
       {/* Toolbar */}
-      <div className={styles.toolbar}>
-        <div className={styles.toolbarLeft}>
+      <S.Toolbar>
+        <S.ToolbarLeft>
           {selectedCount > 0 ? (
-            <div className={styles.selectionInfo}>
+            <S.SelectionInfo>
               <Typography variant="caption">
                 {selectedCount} post{selectedCount !== 1 ? 's' : ''} selected
               </Typography>
-              <div className={styles.bulkActions}>
+              <S.BulkActions>
                 <Button
                   size="sm"
                   variant="ghost"
@@ -285,21 +282,21 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
                 </Button>
                 <Button
                   size="sm"
-                  variant="secondary"
+                  variant="ghost"
                   onClick={handleBulkDelete}
-                  leftIcon={<Trash2 className={styles.svgIcon} />}
+                  leftIcon={<Trash2 size={16} />}
                 >
                   Delete Selected
                 </Button>
-              </div>
-            </div>
+              </S.BulkActions>
+            </S.SelectionInfo>
           ) : (
             <Typography variant="caption">
               {posts.length} post{posts.length !== 1 ? 's' : ''} total
             </Typography>
           )}
-        </div>
-        <div className={styles.toolbarRight}>
+        </S.ToolbarLeft>
+        <S.ToolbarRight>
           <Button
             size="sm"
             variant="ghost"
@@ -308,66 +305,64 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
           >
             First
           </Button>
-        </div>
-      </div>
+        </S.ToolbarRight>
+      </S.Toolbar>
 
       {/* Table */}
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead className={styles.thead}>
+      <S.TableWrapper>
+        <S.Table>
+          <S.Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   const canSort = header.column.getCanSort();
                   return (
-                    <th
+                    <S.Th
                       key={header.id}
-                      className={`${styles.th} ${canSort ? styles.thSortable : ''}`}
+                      $sortable={canSort}
                       onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
                     >
-                      <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <S.ThContent>
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {canSort && renderSortIcon(header.column.id)}
-                      </span>
-                    </th>
+                      </S.ThContent>
+                    </S.Th>
                   );
                 })}
               </tr>
             ))}
-          </thead>
-          <tbody>
+          </S.Thead>
+          <S.Tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr
+              <S.Tr
                 key={row.id}
-                className={`${styles.tr} ${row.getIsSelected() ? styles.trSelected : ''}`}
                 onClick={() => router.push(`/posts/${row.original.id}`)}
                 style={{ cursor: 'pointer' }}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td
+                  <S.Td
                     key={cell.id}
-                    className={styles.td}
                     onClick={cell.column.id === 'select' ? (e) => e.stopPropagation() : undefined}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+                  </S.Td>
                 ))}
-              </tr>
+              </S.Tr>
             ))}
-          </tbody>
-        </table>
+          </S.Tbody>
+        </S.Table>
 
         {/* Pagination */}
-        <div className={styles.pagination}>
-          <div className={styles.paginationInfo}>
+        <S.Pagination>
+          <S.PaginationInfo>
             Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{' '}
             {Math.min(
               (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
               posts.length
             )}{' '}
             of {posts.length} posts
-          </div>
-          <div className={styles.paginationButtons}>
+          </S.PaginationInfo>
+          <S.PaginationControls>
             <Button
               size="sm"
               variant="ghost"
@@ -386,40 +381,42 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
             >
               Next
             </Button>
-          </div>
-        </div>
-      </div>
+          </S.PaginationControls>
+        </S.Pagination>
+      </S.TableWrapper>
 
       {/* Delete Confirmation Modal */}
       {deleteModalOpen && (
-        <div className={styles.confirmModal} onClick={() => setDeleteModalOpen(false)}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.modalTitle}>
-              Delete {postsToDelete.length} post{postsToDelete.length !== 1 ? 's' : ''}?
-            </div>
-            <div className={styles.modalDescription}>
-              This action cannot be undone. The selected posts will be permanently deleted.
-            </div>
-            <div className={styles.modalActions}>
-              <Button
-                variant="ghost"
-                onClick={() => setDeleteModalOpen(false)}
-                disabled={deletePost.isPending}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={handleConfirmDelete}
-                disabled={deletePost.isPending}
-              >
-                {deletePost.isPending ? 'Deleting...' : 'Delete'}
-              </Button>
-            </div>
-          </div>
-        </div>
+        <S.ConfirmModal onClick={() => setDeleteModalOpen(false)}>
+          <FocusLock>
+            <S.ModalContent onClick={(e) => e.stopPropagation()}>
+              <S.ModalTitle>
+                Delete {postsToDelete.length} post{postsToDelete.length !== 1 ? 's' : ''}?
+              </S.ModalTitle>
+              <S.ModalDescription>
+                This action cannot be undone. The selected posts will be permanently deleted.
+              </S.ModalDescription>
+              <S.ModalActions>
+                <Button
+                  variant="ghost"
+                  onClick={() => setDeleteModalOpen(false)}
+                  disabled={deletePost.isPending}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={handleConfirmDelete}
+                  disabled={deletePost.isPending}
+                >
+                  {deletePost.isPending ? 'Deleting...' : 'Delete'}
+                </Button>
+              </S.ModalActions>
+            </S.ModalContent>
+          </FocusLock>
+        </S.ConfirmModal>
       )}
-    </div>
+    </S.Container>
   );
 }
 

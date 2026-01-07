@@ -1,38 +1,36 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import * as styles from './navigation.css';
+import * as S from './navigation.styles';
 
 export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className={styles.nav}>
-      <div className={styles.navContainer}>
-        <Link href="/" className={styles.logo}>
-          ALEXDEV
-        </Link>
+    <S.Nav>
+      <S.NavContainer>
+        <S.NavBrand href="/">
+          KONSOLE.BLOG
+        </S.NavBrand>
 
-        <div className={styles.navLinks}>
-          <Link 
+        <S.NavLinks>
+          <S.NavLink 
             href="/" 
-            className={pathname === '/' ? styles.navLinkActive : styles.navLink}
+            $active={pathname === '/'}
           >
             About
-          </Link>
-          <Link 
+          </S.NavLink>
+          <S.NavLink 
             href="/articles" 
-            className={pathname.startsWith('/articles') || pathname.startsWith('/posts') ? styles.navLinkActive : styles.navLink}
+            $active={pathname.startsWith('/articles') || pathname.startsWith('/posts')}
           >
             Journal
-          </Link>
-          <button className={styles.ctaButton}>
+          </S.NavLink>
+          <S.CtaButton>
             Let's Talk
-          </button>
-        </div>
-      </div>
-    </nav>
+          </S.CtaButton>
+        </S.NavLinks>
+      </S.NavContainer>
+    </S.Nav>
   );
 }
-

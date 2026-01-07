@@ -18,8 +18,7 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^aurigami$': '<rootDir>/../../packages/ui/src/index.ts',
-    // Handle vanilla-extract CSS imports
-    '\\.(css)\\.ts$': '<rootDir>/../../packages/ui/src/__mocks__/styleMock.cjs',
+    // Handle CSS imports
     '\\.(css)$': '<rootDir>/../../packages/ui/src/__mocks__/styleMock.cjs',
     // Mock Next.js font imports
     'next/font/google': '<rootDir>/../../__mocks__/nextFontMock.js',
@@ -42,7 +41,6 @@ module.exports = {
   // Coverage configuration
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
-    '!src/**/*.css.ts',            // Exclude vanilla-extract CSS files
     '!src/app/**/layout.tsx',      // Exclude Next.js root layouts
     '!src/**/*.d.ts',              // Exclude type definitions
     '!src/**/__tests__/**',        // Exclude test files

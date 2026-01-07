@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { use } from 'react';
-import Link from 'next/link';
+import { use } from "react";
+import Link from "next/link";
 import { Button, Typography, Chip, Avatar } from "aurigami";
 import { useBlogPostBySlug } from "@repo/api";
-import * as styles from './page.css';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -16,9 +15,9 @@ export default function PostPage({ params }: PostPageProps) {
 
   if (isLoading) {
     return (
-      <div className={styles.container}>
-        <div className={styles.loadingContainer}>
-          <div className={styles.loadingSpinner} />
+      <div>
+        <div>
+          <div />
           <Typography variant="caption">Loading post...</Typography>
         </div>
       </div>
@@ -27,11 +26,12 @@ export default function PostPage({ params }: PostPageProps) {
 
   if (error || !post) {
     return (
-      <div className={styles.container}>
-        <div className={styles.errorContainer}>
+      <div>
+        <div>
           <Typography variant="h2">Post not found</Typography>
           <Typography variant="p">
-            The post you&apos;re looking for doesn&apos;t exist or has been removed.
+            The post you&apos;re looking for doesn&apos;t exist or has been
+            removed.
           </Typography>
           <Link href="/">
             <Button variant="secondary">Back to Home</Button>
@@ -42,19 +42,19 @@ export default function PostPage({ params }: PostPageProps) {
   }
 
   const formattedDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+    ? new Date(post.publishedAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       })
     : null;
 
   return (
-    <div className={styles.container}>
+    <div>
       {/* Hero Section - Clean & Minimal */}
-      <section className={styles.heroSection}>
+      <section>
         {/* Back Link */}
-        <Link href="/articles" className={styles.backLink}>
+        <Link href="/articles">
           <svg
             width="20"
             height="20"
@@ -70,40 +70,36 @@ export default function PostPage({ params }: PostPageProps) {
           <span>Back to articles</span>
         </Link>
 
-        <div className={styles.heroContent}>
-          <header className={styles.header}>
+        <div>
+          <header>
             {post.tags.length > 0 && (
-              <div className={styles.tagsContainer}>
+              <div>
                 {post.tags.map((tag) => (
-                  <span key={tag.id} className={styles.categoryChip}>
-                    {tag.name}
-                  </span>
+                  <span key={tag.id}>{tag.name}</span>
                 ))}
               </div>
             )}
 
-            <h1 className={styles.title}>{post.title}</h1>
+            <h1>{post.title}</h1>
 
-            {post.excerpt && (
-              <p className={styles.excerpt}>{post.excerpt}</p>
-            )}
+            {post.excerpt && <p>{post.excerpt}</p>}
 
-            <div className={styles.meta}>
-              <div className={styles.authorInfo}>
+            <div>
+              <div>
                 <Avatar
                   src={post.author.avatarUrl}
                   alt={`${post.author.firstName} ${post.author.lastName}`}
                   size="md"
                 />
-                <div className={styles.authorDetails}>
-                  <div className={styles.authorName}>
+                <div>
+                  <div>
                     {post.author.firstName} {post.author.lastName}
                   </div>
-                  <div className={styles.metaDetails}>
+                  <div>
                     {formattedDate && <span>{formattedDate}</span>}
                     {post.readingTimeMinutes && (
                       <>
-                        <span className={styles.metaDot}>•</span>
+                        <span>•</span>
                         <span>{post.readingTimeMinutes} min read</span>
                       </>
                     )}
@@ -116,16 +112,16 @@ export default function PostPage({ params }: PostPageProps) {
       </section>
 
       {/* Content */}
-      <article className={styles.article}>
-        <div className={styles.content}>
+      <article>
+        <div>
           <MarkdownRenderer content={post.mdxContent} />
         </div>
 
         {/* Footer */}
-        <footer className={styles.footer}>
-          <div className={styles.footerTags}>
-            <div className={styles.footerLabel}>Tagged in</div>
-            <div className={styles.tagsContainer}>
+        <footer>
+          <div>
+            <div>Tagged in</div>
+            <div>
               {post.tags.map((tag) => (
                 <Chip key={tag.id} size="sm" variant="outlined">
                   {tag.name}
@@ -133,7 +129,7 @@ export default function PostPage({ params }: PostPageProps) {
               ))}
             </div>
           </div>
-          <div className={styles.footerActions}>
+          <div>
             <Link href="/articles">
               <Button variant="secondary">← Back to articles</Button>
             </Link>
@@ -148,23 +144,21 @@ export default function PostPage({ params }: PostPageProps) {
 function MarkdownRenderer({ content }: { content: string }) {
   // Parse markdown to HTML-like structure
   const parseMarkdown = (md: string): React.ReactNode[] => {
-    const lines = md.split('\n');
+    const lines = md.split("\n");
     const elements: React.ReactNode[] = [];
     let inCodeBlock = false;
     let codeBlockContent: string[] = [];
-    let codeBlockLang = '';
+    let codeBlockLang = "";
     let listItems: string[] = [];
-    let listType: 'ul' | 'ol' | null = null;
+    let listType: "ul" | "ol" | null = null;
 
     const flushList = () => {
       if (listItems.length > 0 && listType) {
-        const ListTag = listType === 'ol' ? 'ol' : 'ul';
+        const ListTag = listType === "ol" ? "ol" : "ul";
         elements.push(
-          <ListTag key={elements.length} className={styles.list}>
+          <ListTag key={elements.length}>
             {listItems.map((item, i) => (
-              <li key={i} className={styles.listItem}>
-                {parseInline(item)}
-              </li>
+              <li key={i}>{parseInline(item)}</li>
             ))}
           </ListTag>
         );
@@ -177,17 +171,17 @@ function MarkdownRenderer({ content }: { content: string }) {
       const line = lines[i];
 
       // Code blocks
-      if (line?.startsWith('```')) {
+      if (line?.startsWith("```")) {
         if (inCodeBlock) {
           elements.push(
-            <pre key={elements.length} className={styles.codeBlock}>
-              <code className={styles.code} data-language={codeBlockLang}>
-                {codeBlockContent.join('\n')}
+            <pre key={elements.length}>
+              <code data-language={codeBlockLang}>
+                {codeBlockContent.join("\n")}
               </code>
             </pre>
           );
           codeBlockContent = [];
-          codeBlockLang = '';
+          codeBlockLang = "";
           inCodeBlock = false;
         } else {
           flushList();
@@ -198,12 +192,12 @@ function MarkdownRenderer({ content }: { content: string }) {
       }
 
       if (inCodeBlock) {
-        codeBlockContent.push(line ?? '');
+        codeBlockContent.push(line ?? "");
         continue;
       }
 
       // Empty lines
-      if (line?.trim() === '' as string || line === null) {
+      if (line?.trim() === ("" as string) || line === null) {
         flushList();
         continue;
       } else {
@@ -211,40 +205,34 @@ function MarkdownRenderer({ content }: { content: string }) {
       }
 
       // Headers
-      if (line?.startsWith('# ')) {
+      if (line?.startsWith("# ")) {
         flushList();
         elements.push(
-          <h1 key={elements.length} className={styles.h1}>
-            {parseInline(line?.slice(2) ?? '')}
-          </h1>
+          <h1 key={elements.length}>{parseInline(line?.slice(2) ?? "")}</h1>
         );
         continue;
       }
-      if (line?.startsWith('## ')) {
+      if (line?.startsWith("## ")) {
         flushList();
         elements.push(
-          <h2 key={elements.length} className={styles.h2}>
-            {parseInline(line?.slice(3) ?? '')}
-          </h2>
+          <h2 key={elements.length}>{parseInline(line?.slice(3) ?? "")}</h2>
         );
         continue;
       }
-      if (line?.startsWith('### ')) {
+      if (line?.startsWith("### ")) {
         flushList();
         elements.push(
-          <h3 key={elements.length} className={styles.h3}>
-            {parseInline(line?.slice(4) ?? '')}
-          </h3>
+          <h3 key={elements.length}>{parseInline(line?.slice(4) ?? "")}</h3>
         );
         continue;
       }
 
       // Blockquotes
-      if (line?.startsWith('> ')) {
+      if (line?.startsWith("> ")) {
         flushList();
         elements.push(
-          <blockquote key={elements.length} className={styles.blockquote}>
-            {parseInline(line?.slice(2) ?? '')}
+          <blockquote key={elements.length}>
+            {parseInline(line?.slice(2) ?? "")}
           </blockquote>
         );
         continue;
@@ -255,17 +243,9 @@ function MarkdownRenderer({ content }: { content: string }) {
       if (imageMatch) {
         flushList();
         elements.push(
-          <figure key={elements.length} className={styles.figure}>
-            <img
-              src={imageMatch[2]}
-              alt={imageMatch[1]}
-              className={styles.contentImage}
-            />
-            {imageMatch[1] && (
-              <figcaption className={styles.figcaption}>
-                {imageMatch[1]}
-              </figcaption>
-            )}
+          <figure key={elements.length}>
+            <img src={imageMatch[2]} alt={imageMatch[1]} />
+            {imageMatch[1] && <figcaption>{imageMatch[1]}</figcaption>}
           </figure>
         );
         continue;
@@ -273,31 +253,27 @@ function MarkdownRenderer({ content }: { content: string }) {
 
       // Unordered lists
       if (line?.match(/^[-*] /)) {
-        if (listType !== 'ul') {
+        if (listType !== "ul") {
           flushList();
-          listType = 'ul';
+          listType = "ul";
         }
-        listItems.push(line?.slice(2) ?? '');
+        listItems.push(line?.slice(2) ?? "");
         continue;
       }
 
       // Ordered lists
       if (line?.match(/^\d+\. /)) {
-        if (listType !== 'ol') {
+        if (listType !== "ol") {
           flushList();
-          listType = 'ol';
+          listType = "ol";
         }
-        listItems.push(line?.replace(/^\d+\. /, '') ?? '' as string);
+        listItems.push(line?.replace(/^\d+\. /, "") ?? ("" as string));
         continue;
       }
 
       // Paragraphs
       flushList();
-      elements.push(
-        <p key={elements.length} className={styles.paragraph}>
-          {parseInline(line ?? '')}
-        </p>
-      );
+      elements.push(<p key={elements.length}>{parseInline(line ?? "")}</p>);
     }
 
     flushList();
@@ -315,13 +291,11 @@ function MarkdownRenderer({ content }: { content: string }) {
       const boldMatch = remaining.match(/\*\*([^*]+)\*\*/);
       if (boldMatch && boldMatch.index !== undefined) {
         if (boldMatch.index > 0) {
-          parts.push(parseInlineRest(remaining.slice(0, boldMatch.index), key++));
+          parts.push(
+            parseInlineRest(remaining.slice(0, boldMatch.index), key++)
+          );
         }
-        parts.push(
-          <strong key={key++} className={styles.bold}>
-            {boldMatch[1]}
-          </strong>
-        );
+        parts.push(<strong key={key++}>{boldMatch[1]}</strong>);
         remaining = remaining.slice(boldMatch.index + boldMatch[0].length);
         continue;
       }
@@ -330,13 +304,11 @@ function MarkdownRenderer({ content }: { content: string }) {
       const codeMatch = remaining.match(/`([^`]+)`/);
       if (codeMatch && codeMatch.index !== undefined) {
         if (codeMatch.index > 0) {
-          parts.push(parseInlineRest(remaining.slice(0, codeMatch.index), key++));
+          parts.push(
+            parseInlineRest(remaining.slice(0, codeMatch.index), key++)
+          );
         }
-        parts.push(
-          <code key={key++} className={styles.inlineCode}>
-            {codeMatch[1]}
-          </code>
-        );
+        parts.push(<code key={key++}>{codeMatch[1]}</code>);
         remaining = remaining.slice(codeMatch.index + codeMatch[0].length);
         continue;
       }
@@ -345,13 +317,14 @@ function MarkdownRenderer({ content }: { content: string }) {
       const linkMatch = remaining.match(/\[([^\]]+)\]\(([^)]+)\)/);
       if (linkMatch && linkMatch.index !== undefined) {
         if (linkMatch.index > 0) {
-          parts.push(parseInlineRest(remaining.slice(0, linkMatch.index), key++));
+          parts.push(
+            parseInlineRest(remaining.slice(0, linkMatch.index), key++)
+          );
         }
         parts.push(
           <a
             key={key++}
             href={linkMatch[2]}
-            className={styles.link}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -374,6 +347,5 @@ function MarkdownRenderer({ content }: { content: string }) {
     return <span key={key}>{text}</span>;
   };
 
-  return <div className={styles.markdown}>{parseMarkdown(content)}</div>;
+  return <div>{parseMarkdown(content)}</div>;
 }
-

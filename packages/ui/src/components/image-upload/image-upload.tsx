@@ -3,7 +3,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Upload, X } from 'lucide-react';
 import { Typography } from '../typography';
-import * as styles from './image-upload.css';
+import * as S from './image-upload.styles';
 
 export interface ImageUploadProps {
   /** Current image URL (for preview) */
@@ -128,49 +128,43 @@ export function ImageUpload({
     }
   };
 
-  const dropzoneClasses = [
-    styles.dropzone,
-    isDragging && styles.dropzoneActive,
-    disabled && styles.dropzoneDisabled,
-  ].filter(Boolean).join(' ');
-
   return (
-    <div className={`${styles.container} ${className || ''}`}>
+    <S.Container className={className} data-testid="image-upload">
       {label && (
         <Typography variant="caption" weight="medium">{label}</Typography>
       )}
 
       {value ? (
         // Preview mode
-        <div className={styles.preview}>
-          <img
+        <S.Preview>
+          <S.PreviewImage
             src={value}
-            alt="Preview"
-            className={styles.previewImage}
+            alt="preview"
           />
           
           {isUploading && (
-            <div className={styles.uploadingOverlay}>
-              <div className={styles.spinner} />
+            <S.UploadingOverlay>
+              <S.Spinner />
               <Typography variant="caption">Uploading...</Typography>
-            </div>
+            </S.UploadingOverlay>
           )}
 
           {!isUploading && !disabled && (
-            <button
+            <S.RemoveButton
               type="button"
-              className={styles.removeButton}
               onClick={handleRemove}
               aria-label="Remove image"
+              data-testid="image-remove"
             >
               <X size={16} />
-            </button>
+            </S.RemoveButton>
           )}
-        </div>
+        </S.Preview>
       ) : (
         // Dropzone mode
-        <div
-          className={dropzoneClasses}
+        <S.Dropzone
+          $isDragging={isDragging}
+          $disabled={disabled}
           onClick={handleClick}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
@@ -182,33 +176,32 @@ export function ImageUpload({
         >
           {isUploading ? (
             <>
-              <div className={styles.spinner} />
-              <Typography variant="p" className={styles.text}>
+              <S.Spinner />
+              <Typography variant="p">
                 Uploading...
               </Typography>
             </>
           ) : (
             <>
-              <Upload className={styles.icon} />
-              <div className={styles.text}>
+              <S.Icon as={Upload} />
+              <S.Text>
                 <Typography variant="p" style={{ fontWeight: 500 }}>
                   Click to upload or drag and drop
                 </Typography>
                 <Typography variant="caption">
                   PNG, JPG, GIF up to {Math.round(maxSize / 1024 / 1024)}MB
                 </Typography>
-              </div>
+              </S.Text>
             </>
           )}
-        </div>
+        </S.Dropzone>
       )}
 
-      <input
+      <S.HiddenInput
         ref={inputRef}
         type="file"
         accept={accept}
         onChange={handleInputChange}
-        className={styles.hiddenInput}
         disabled={disabled || isUploading}
       />
 
@@ -217,9 +210,9 @@ export function ImageUpload({
       )}
 
       {displayError && (
-        <div className={styles.error}>{displayError}</div>
+        <S.ErrorMessage>{displayError}</S.ErrorMessage>
       )}
-    </div>
+    </S.Container>
   );
 }
 

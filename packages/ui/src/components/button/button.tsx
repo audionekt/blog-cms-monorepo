@@ -1,7 +1,6 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
-import { cn } from '../../styles';
-import * as styles from './button.css';
+import { StyledButton, LoadingSpinner, IconWrapper } from './button.styles';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -31,33 +30,32 @@ export function Button({
   const finalLeftIcon = icon || leftIcon;
   
   return (
-    <button 
-      className={cn(
-        styles.button,
-        styles.variants[variant],
-        styles.sizes[size],
-        fullWidth && styles.fullWidth,
-        className
-      )}
+    <StyledButton 
+      $variant={variant}
+      $size={size}
+      $fullWidth={fullWidth}
+      className={className}
       disabled={disabled || loading}
       {...props}
     >
       {loading ? (
         <>
-          <Loader2 className={styles.loadingSpinner} />
+          <LoadingSpinner>
+            <Loader2 />
+          </LoadingSpinner>
           Loading...
         </>
       ) : (
         <>
           {finalLeftIcon && (
-            <span className={styles.iconWrapper}>{finalLeftIcon}</span>
+            <IconWrapper>{finalLeftIcon}</IconWrapper>
           )}
           {children}
           {rightIcon && (
-            <span className={styles.iconWrapper}>{rightIcon}</span>
+            <IconWrapper>{rightIcon}</IconWrapper>
           )}
         </>
       )}
-    </button>
+    </StyledButton>
   );
 }

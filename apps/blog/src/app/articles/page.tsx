@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 import { Button, Typography, Input } from "aurigami";
 import { useBlogPosts } from "@repo/api";
-import { Search } from 'lucide-react';
-import { useState } from 'react';
-import * as styles from './page.css';
+import { Search } from "lucide-react";
+import { useState } from "react";
+import * as S from "./page.styles";
 
 export default function ArticlesPage() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const { data, isLoading, error } = useBlogPosts({
     page: 0,
     size: 12,
@@ -17,35 +17,42 @@ export default function ArticlesPage() {
   const posts = data?.content || [];
 
   // Filter posts based on search query
-  const filteredPosts = posts.filter(post => 
-    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPosts = posts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Popular categories for quick search
-  const popularCategories = ['React', 'TypeScript', 'Design Systems', 'Web Performance', 'CSS', 'Testing'];
+  const popularCategories = [
+    "React",
+    "TypeScript",
+    "Design Systems",
+    "Web Performance",
+    "CSS",
+    "Testing",
+  ];
 
   return (
-    <div className={styles.pageWrapper}>
+    <S.PageWrapper>
       {/* Background */}
-      <div className={styles.backgroundBlur} />
-      <div className={styles.backgroundImage} />
-      <div className={styles.backgroundOverlay} />
+      <S.BackgroundBlur />
+      <S.BackgroundImage />
+      <S.BackgroundOverlay />
 
       {/* Content layer */}
-      <div className={styles.contentLayer}>
+      <S.ContentLayer>
         {/* Hero Section */}
-        <section className={styles.heroSection}>
-          <div className={styles.heroContent}>
-            <Typography variant="h1" className={styles.heroTitle}>
-              Articles & Insights
+        <S.HeroSection>
+          <S.HeroContent>
+            <Typography variant="h1">Articles & Insights</Typography>
+            <Typography variant="p">
+              Explore articles about web development, design systems, and best
+              practices.
             </Typography>
-            <Typography variant="p" className={styles.heroSubtitle}>
-              Explore articles about web development, design systems, and best practices.
-            </Typography>
-            
+
             {/* Search Bar */}
-            <div className={styles.searchWrapper}>
+            <S.SearchContainer>
               <Input
                 type="text"
                 placeholder="Search articles..."
@@ -53,125 +60,112 @@ export default function ArticlesPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 leftIcon={<Search size={20} />}
                 fullWidth
-                className={styles.searchInput}
               />
-            </div>
+            </S.SearchContainer>
 
             {/* Popular Categories */}
-            <div className={styles.popularSection}>
-              <span className={styles.popularLabel}>Popular:</span>
-              <div className={styles.popularTags}>
+            <S.PopularSection>
+              <S.PopularLabel>Popular:</S.PopularLabel>
+              <S.PopularTags>
                 {popularCategories.map((category) => (
-                  <button
+                  <S.PopularTag
                     key={category}
                     onClick={() => setSearchQuery(category)}
-                    className={styles.popularTag}
                   >
                     {category}
-                  </button>
+                  </S.PopularTag>
                 ))}
-              </div>
-            </div>
-          </div>
-        </section>
+              </S.PopularTags>
+            </S.PopularSection>
+          </S.HeroContent>
+        </S.HeroSection>
 
         {/* Divider */}
-        <div className={styles.divider} />
+        <S.Divider />
 
         {/* Main Content - Posts List */}
-        <main className={styles.mainContent}>
-          <Typography variant="h3" className={styles.sectionTitle}>
-            All Articles
-          </Typography>
+        <S.MainContent>
+          <Typography variant="h3">All Articles</Typography>
 
           {isLoading && (
-            <div className={styles.loadingContainer}>
-              <div className={styles.loadingSpinner} />
+            <S.LoadingContainer>
+              <S.LoadingSpinner />
               <Typography variant="caption">Loading articles...</Typography>
-            </div>
+            </S.LoadingContainer>
           )}
 
           {error && (
-            <div className={styles.errorBox}>
+            <S.ErrorContainer>
               <Typography variant="p">
                 Error loading articles: {error.message}
               </Typography>
-            </div>
+            </S.ErrorContainer>
           )}
 
           {filteredPosts.length > 0 && (
-            <div className={styles.postsGrid}>
+            <S.ArticlesGrid>
               {filteredPosts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/posts/${post.slug}`}
-                  className={styles.postCardLink}
-                >
-                  <article className={styles.postCard}>
-                    <div className={styles.postImageContainer}>
+                <Link key={post.id} href={`/posts/${post.slug}`}>
+                  <S.ArticleCard>
+                    <S.ArticleImageContainer>
                       {post.featuredImageUrl ? (
-                        <img
-                          src={post.featuredImageUrl}
-                          alt={post.title}
-                          className={styles.postImage}
-                        />
+                        <S.ArticleImage src={post.featuredImageUrl} alt={post.title} />
                       ) : (
-                        <div className={styles.postImagePlaceholder} />
+                        <S.ArticleImagePlaceholder />
                       )}
-                    </div>
-                    <div className={styles.postCardContent}>
-                      <span className={styles.readingTime}>
-                        {post.readingTimeMinutes} min read
-                      </span>
-                      <h3 className={styles.postTitle}>{post.title}</h3>
-                      {post.excerpt && (
-                        <p className={styles.postExcerpt}>{post.excerpt}</p>
-                      )}
-                      <div className={styles.postMeta}>
-                        <span className={styles.authorName}>
+                    </S.ArticleImageContainer>
+                    <S.ArticleContent>
+                      <S.ArticleMeta>{post.readingTimeMinutes} min read</S.ArticleMeta>
+                      <S.ArticleTitle>{post.title}</S.ArticleTitle>
+                      {post.excerpt && <S.ArticleExcerpt>{post.excerpt}</S.ArticleExcerpt>}
+                      <S.ArticleAuthor>
+                        <S.ArticleAuthorName>
                           {post.author.firstName} {post.author.lastName}
-                        </span>
-                      </div>
-                    </div>
-                  </article>
+                        </S.ArticleAuthorName>
+                      </S.ArticleAuthor>
+                    </S.ArticleContent>
+                  </S.ArticleCard>
                 </Link>
               ))}
-            </div>
+            </S.ArticlesGrid>
           )}
 
           {filteredPosts.length === 0 && searchQuery && (
-            <div className={styles.emptyState}>
+            <S.EmptyState>
               <Typography variant="h3">No results found</Typography>
               <Typography variant="p">Try a different search term</Typography>
-            </div>
+            </S.EmptyState>
           )}
 
           {posts.length === 0 && !searchQuery && !isLoading && (
-            <div className={styles.emptyState}>
+            <S.EmptyState>
               <Typography variant="h3">No articles yet</Typography>
-              <Typography variant="p">Check back soon for new content!</Typography>
-            </div>
+              <Typography variant="p">
+                Check back soon for new content!
+              </Typography>
+            </S.EmptyState>
           )}
 
           {/* Pagination */}
           {data && data.totalPages > 1 && (
-            <div className={styles.pagination}>
-              <Typography variant="caption">
-                Page {data.number + 1} of {data.totalPages}
-              </Typography>
-              <div className={styles.paginationButtons}>
+            <S.PaginationContainer>
+              <S.PaginationInfo>
+                <Typography variant="caption">
+                  Page {data.number + 1} of {data.totalPages}
+                </Typography>
+              </S.PaginationInfo>
+              <S.PaginationButtons>
                 <Button variant="secondary" size="sm" disabled={data.first}>
                   Previous
                 </Button>
                 <Button variant="secondary" size="sm" disabled={data.last}>
                   Next
                 </Button>
-              </div>
-            </div>
+              </S.PaginationButtons>
+            </S.PaginationContainer>
           )}
-        </main>
-      </div>
-    </div>
+        </S.MainContent>
+      </S.ContentLayer>
+    </S.PageWrapper>
   );
 }
-

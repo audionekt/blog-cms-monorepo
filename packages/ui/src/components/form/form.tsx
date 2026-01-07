@@ -1,6 +1,5 @@
 import React from 'react';
-import { cn } from '../../styles';
-import * as styles from './form.css';
+import * as S from './form.styles';
 
 export interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode;
@@ -15,14 +14,14 @@ export const Form = React.forwardRef<HTMLFormElement, FormProps>(
     };
 
     return (
-      <form
+      <S.StyledForm
         ref={ref}
         onSubmit={handleSubmit}
-        className={cn(styles.form, className)}
+        className={className}
         {...props}
       >
         {children}
-      </form>
+      </S.StyledForm>
     );
   }
 );
@@ -44,15 +43,15 @@ export const FormSection: React.FC<FormSectionProps> = ({
   className,
 }) => {
   return (
-    <div className={cn(styles.formSection, className)}>
+    <S.FormSection className={className}>
       {(title || description) && (
-        <div className={styles.formSectionHeader}>
-          {title && <h3 className={styles.formSectionTitle}>{title}</h3>}
-          {description && <p className={styles.formSectionDescription}>{description}</p>}
-        </div>
+        <S.FormSectionHeader>
+          {title && <S.FormSectionTitle>{title}</S.FormSectionTitle>}
+          {description && <S.FormSectionDescription>{description}</S.FormSectionDescription>}
+        </S.FormSectionHeader>
       )}
-      <div className={styles.formSectionContent}>{children}</div>
-    </div>
+      <S.FormSectionContent>{children}</S.FormSectionContent>
+    </S.FormSection>
   );
 };
 
@@ -69,9 +68,9 @@ export const FormGrid: React.FC<FormGridProps> = ({
   className,
 }) => {
   return (
-    <div className={cn(styles.formGrid, styles.gridColumns[columns], className)}>
+    <S.FormGrid $columns={columns} className={className}>
       {children}
-    </div>
+    </S.FormGrid>
   );
 };
 
@@ -88,8 +87,8 @@ export const FormActions: React.FC<FormActionsProps> = ({
   className,
 }) => {
   return (
-    <div className={cn(styles.formActions, styles.formActionsAlign[align], className)}>
+    <S.FormActions $align={align} className={className}>
       {children}
-    </div>
+    </S.FormActions>
   );
 };

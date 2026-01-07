@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { Button, Typography } from "aurigami";
+import { Button } from "aurigami";
 import { useBlogPosts } from "@repo/api";
 import { ArrowRight, Layers, Zap } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import * as styles from './page.css';
+import * as S from './page.styles';
 
 export default function Home() {
   const { data } = useBlogPosts({
@@ -65,134 +65,133 @@ export default function Home() {
   }, [testimonials.length]);
 
   return (
-    <div className={styles.pageWrapper}>
+    <S.PageWrapper>
       {/* Background */}
-      <div className={styles.backgroundBlur} />
-      <div className={styles.backgroundImage} />
-      <div className={styles.backgroundOverlay} />
+      <S.BackgroundBlur />
+      <S.BackgroundImage />
+      <S.BackgroundOverlay />
 
       {/* Content layer */}
-      <div className={styles.contentLayer}>
+      <S.ContentLayer>
         {/* Hero Section */}
-        <section className={styles.heroSection}>
-          <div className={styles.heroContent}>
-            <Typography variant="h1" className={styles.heroTitle}>
-              Crafting digital <span className={styles.heroTitleAccent}>experiences</span> that matter.
-            </Typography>
-            <Typography variant="p" className={styles.heroSubtitle}>
+        <S.HeroSection>
+          <S.HeroContent>
+            <S.HeroTitle>
+              Crafting digital <S.HeroTitleAccent>experiences</S.HeroTitleAccent> that matter.
+            </S.HeroTitle>
+            <S.HeroSubtitle>
               Hi, I'm a freelance web developer and software engineer building minimalist, high-performance interfaces for forward-thinking brands. I blend technical precision with creative direction.
-            </Typography>
+            </S.HeroSubtitle>
             
             {/* CTA Buttons */}
-            <div className={styles.ctaButtons}>
+            <S.CtaButtons>
               <Link href="/articles">
-                <Button variant="primary" size="lg" className={styles.primaryCta}>
-                  Read My Journal <ArrowRight size={20} />
-                </Button>
+                <S.PrimaryCta>
+                  <Button variant="primary" size="lg">
+                    Read My Journal <ArrowRight size={20} />
+                  </Button>
+                </S.PrimaryCta>
               </Link>
-              <Button variant="secondary" size="lg" className={styles.secondaryCta}>
-                Let's Talk
-              </Button>
-            </div>
+              <S.SecondaryCta>
+                <Button variant="secondary" size="lg">
+                  Let's Talk
+                </Button>
+              </S.SecondaryCta>
+            </S.CtaButtons>
 
             {/* Social Links */}
-            <div className={styles.socialLinks}>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="GitHub">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <S.SocialLinks>
+              <S.SocialLink href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <S.SvgIcon width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Twitter">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                </S.SvgIcon>
+              </S.SocialLink>
+              <S.SocialLink href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <S.SvgIcon width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
-                </svg>
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="LinkedIn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                </S.SvgIcon>
+              </S.SocialLink>
+              <S.SocialLink href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <S.SvgIcon width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
                   <circle cx="4" cy="4" r="2"/>
-                </svg>
-              </a>
-              <a href="mailto:hello@example.com" className={styles.socialLink} aria-label="Email">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                </S.SvgIcon>
+              </S.SocialLink>
+              <S.SocialLink href="mailto:hello@example.com" aria-label="Email">
+                <S.SvgIcon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                   <polyline points="22,6 12,13 2,6"/>
-                </svg>
-              </a>
-            </div>
-          </div>
+                </S.SvgIcon>
+              </S.SocialLink>
+            </S.SocialLinks>
+          </S.HeroContent>
 
           {/* Portrait Image */}
-          <div className={styles.heroImageContainer}>
-            <img
-              src="/me.JPG"
+          <S.HeroImageContainer>
+            <S.HeroImage
+              src="/me&pheebs.png"
               alt="Portrait"
-              className={styles.heroImage}
             />
-          </div>
-        </section>
+          </S.HeroImageContainer>
+        </S.HeroSection>
 
         {/* Methodology Section */}
-        <section className={styles.methodologySection}>
-          <div className={styles.methodologyHeader}>
-            <span className={styles.sectionLabel}>MY METHODOLOGY</span>
-            <Typography variant="h2" className={styles.sectionTitle}>
-              How I Work
-            </Typography>
-          </div>
+        <S.MethodologySection>
+          <S.MethodologyHeader>
+            <S.SectionLabel>MY METHODOLOGY</S.SectionLabel>
+            <S.SectionTitle>How I Work</S.SectionTitle>
+          </S.MethodologyHeader>
 
-          <div className={styles.methodologyGrid}>
-            <div className={styles.methodologyCard}>
-              <div className={styles.methodologyIcon}>
+          <S.MethodologyGrid>
+            <S.MethodologyCard>
+              <S.MethodologyIcon>
                 <Layers size={24} />
-              </div>
-              <h3 className={styles.methodologyTitle}>Collaborative</h3>
-              <p className={styles.methodologyDescription}>
+              </S.MethodologyIcon>
+              <S.MethodologyTitle>Collaborative</S.MethodologyTitle>
+              <S.MethodologyDescription>
                 I believe in the power of collaboration to create exceptional products. As an extension of your team, I immerse myself in your vision and goals. I work closely with you to develop a website that not only reflects your brand but exceeds your expectations.
-              </p>
-            </div>
+              </S.MethodologyDescription>
+            </S.MethodologyCard>
 
-            <div className={styles.methodologyCard}>
-              <div className={styles.methodologyIcon}>
+            <S.MethodologyCard>
+              <S.MethodologyIcon>
                 <Zap size={24} />
-              </div>
-              <h3 className={styles.methodologyTitle}>Iterative</h3>
-              <p className={styles.methodologyDescription}>
+              </S.MethodologyIcon>
+              <S.MethodologyTitle>Iterative</S.MethodologyTitle>
+              <S.MethodologyDescription>
                 I take an iterative approach in my work to ensure the final result aligns with your creative vision and reflects your unique brand identity. We'll work together to refine and fine-tune your site's design, leaving no detail overlooked.
-              </p>
-            </div>
-          </div>
-        </section>
+              </S.MethodologyDescription>
+            </S.MethodologyCard>
+          </S.MethodologyGrid>
+        </S.MethodologySection>
 
         {/* Testimonials Section */}
-        <section className={styles.testimonialsSection}>
-          <div className={styles.testimonialsHeader}>
-            <span className={styles.sectionLabel}>TESTIMONIALS</span>
-            <Typography variant="h2" className={styles.sectionTitle}>
-              What People Say
-            </Typography>
-          </div>
+        <S.TestimonialsSection>
+          <S.TestimonialsHeader>
+            <S.SectionLabel>TESTIMONIALS</S.SectionLabel>
+            <S.SectionTitle>What People Say</S.SectionTitle>
+          </S.TestimonialsHeader>
 
-          <div className={styles.carouselContainer}>
+          <S.CarouselContainer>
             {testimonials[currentTestimonial] && (
-              <div className={`${styles.testimonialCard} ${isTransitioning ? styles.testimonialFadeOut : styles.testimonialFadeIn}`}>
-                <p className={styles.testimonialQuote}>
+              <S.TestimonialCard $isTransitioning={isTransitioning}>
+                <S.TestimonialQuote>
                   "{testimonials[currentTestimonial].quote}"
-                </p>
-                <div className={styles.testimonialAuthor}>
-                  <div className={styles.authorAvatar}>A</div>
+                </S.TestimonialQuote>
+                <S.TestimonialAuthor>
+                  <S.AuthorAvatar>A</S.AuthorAvatar>
                   <div>
-                    <div className={styles.authorName}>{testimonials[currentTestimonial].author}</div>
-                    <div className={styles.authorTitle}>{testimonials[currentTestimonial].title}</div>
+                    <S.AuthorName>{testimonials[currentTestimonial].author}</S.AuthorName>
+                    <S.AuthorTitle>{testimonials[currentTestimonial].title}</S.AuthorTitle>
                   </div>
-                </div>
-              </div>
+                </S.TestimonialAuthor>
+              </S.TestimonialCard>
             )}
 
             {/* Carousel Indicators */}
-            <div className={styles.carouselIndicators}>
+            <S.CarouselIndicators>
               {testimonials.map((_, index) => (
-                <button
+                <S.Indicator
                   key={index}
                   onClick={() => {
                     setIsTransitioning(true);
@@ -201,64 +200,60 @@ export default function Home() {
                       setIsTransitioning(false);
                     }, 500);
                   }}
-                  className={`${styles.indicator} ${index === currentTestimonial ? styles.indicatorActive : ''}`}
+                  $isActive={index === currentTestimonial}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
               ))}
-            </div>
-          </div>
-        </section>
+            </S.CarouselIndicators>
+          </S.CarouselContainer>
+        </S.TestimonialsSection>
 
         {/* Latest Writings Section */}
         {latestPosts.length > 0 && (
-          <section className={styles.writingsSection}>
-            <div className={styles.writingsHeader}>
+          <S.WritingsSection>
+            <S.WritingsHeader>
               <div>
-                <span className={styles.sectionLabel}>LATEST WRITINGS</span>
-                <Typography variant="h2" className={styles.sectionTitle}>
-                  From the Journal
-                </Typography>
+                <S.SectionLabel>LATEST WRITINGS</S.SectionLabel>
+                <S.SectionTitle>From the Journal</S.SectionTitle>
               </div>
-              <Link href="/articles" className={styles.viewAllLink}>
+              <S.ViewAllLink href="/articles">
                 View all articles <ArrowRight size={16} />
-              </Link>
-            </div>
+              </S.ViewAllLink>
+            </S.WritingsHeader>
 
-            <div className={styles.writingsGrid}>
+            <S.WritingsGrid>
               {latestPosts.map((post) => (
-                <Link
+                <S.WritingCard
                   key={post.id}
                   href={`/posts/${post.slug}`}
-                  className={styles.writingCard}
                 >
                   {post.featuredImageUrl && (
-                    <div className={styles.writingImageContainer}>
-                      <img
+                    <S.WritingImageContainer>
+                      <S.WritingImage
                         src={post.featuredImageUrl}
                         alt={post.title}
-                        className={styles.writingImage}
                       />
-                    </div>
+                    </S.WritingImageContainer>
                   )}
-                  <div className={styles.writingContent}>
-                    <span className={styles.writingDate}>
+                  <S.WritingContent>
+                    <S.WritingDate>
                       {new Date(post.createdAt).toLocaleDateString('en-US', { 
                         month: 'short', 
                         day: 'numeric', 
                         year: 'numeric' 
                       })}
-                    </span>
-                    <h3 className={styles.writingTitle}>{post.title}</h3>
+                    </S.WritingDate>
+                    <S.WritingTitle>{post.title}</S.WritingTitle>
                     {post.excerpt && (
-                      <p className={styles.writingExcerpt}>{post.excerpt}</p>
+                      <S.WritingExcerpt>{post.excerpt}</S.WritingExcerpt>
                     )}
-                  </div>
-                </Link>
+                  </S.WritingContent>
+                </S.WritingCard>
               ))}
-            </div>
-          </section>
+            </S.WritingsGrid>
+          </S.WritingsSection>
         )}
-      </div>
-    </div>
+      </S.ContentLayer>
+    </S.PageWrapper>
   );
 }

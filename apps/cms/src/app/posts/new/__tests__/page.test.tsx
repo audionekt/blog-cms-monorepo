@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '../../../../test-utils';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import NewPostPage from '../page';
 import { PostStatus } from '@repo/api';
@@ -52,6 +52,7 @@ jest.mock('@repo/api', () => ({
 
 // Mock aurigami components
 jest.mock('aurigami', () => ({
+  ThemeProvider: ({ children }: any) => <>{children}</>,
   Typography: ({ children, variant, className }: any) => (
     <div data-testid={`typography-${variant}`} className={className}>{children}</div>
   ),

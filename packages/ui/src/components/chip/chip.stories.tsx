@@ -93,7 +93,7 @@ export const TagsExample: Story = {
       <Chip>React</Chip>
       <Chip>TypeScript</Chip>
       <Chip>Next.js</Chip>
-      <Chip>Vanilla Extract CSS</Chip>
+      <Chip>Styled Components</Chip>
       <Chip>Storybook</Chip>
       <Chip variant="featured">MSW</Chip>
     </div>
@@ -118,7 +118,7 @@ export const ColoredTagsExample: Story = {
       <Chip color="violet">React</Chip>
       <Chip color="emerald">TypeScript</Chip>
       <Chip color="rose">Next.js</Chip>
-      <Chip color="amber">Vanilla Extract</Chip>
+      <Chip color="amber">Styled Components</Chip>
       <Chip color="slate">Storybook</Chip>
     </div>
   ),

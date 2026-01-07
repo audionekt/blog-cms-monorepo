@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '../../test-utils';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PostsTable } from '../posts-table';
 import type { BlogPostSummaryResponse } from '@repo/api';
@@ -10,29 +10,6 @@ jest.mock('next/navigation', () => ({
     push: mockPush,
     back: jest.fn(),
   }),
-}));
-
-// Mock aurigami components
-jest.mock('aurigami', () => ({
-  Typography: ({ children, variant }: any) => <span data-variant={variant}>{children}</span>,
-  Button: ({ children, onClick, disabled, leftIcon, rightIcon, size, variant }: any) => (
-    <button onClick={onClick} disabled={disabled} data-size={size} data-variant={variant}>
-      {leftIcon}
-      {children}
-      {rightIcon}
-    </button>
-  ),
-  Avatar: ({ alt, size }: any) => <div data-testid="avatar" data-size={size}>{alt}</div>,
-  Chip: ({ children, size, variant }: any) => <span data-size={size} data-variant={variant}>{children}</span>,
-  Checkbox: ({ checked, onChange, disabled, 'aria-label': ariaLabel }: any) => (
-    <input 
-      type="checkbox" 
-      checked={checked} 
-      onChange={onChange} 
-      disabled={disabled}
-      aria-label={ariaLabel}
-    />
-  ),
 }));
 
 // Mock the delete hook
@@ -275,12 +252,19 @@ describe('PostsTable', () => {
       const deleteButtons = screen.getAllByTitle('Delete');
       fireEvent.click(deleteButtons[0]!);
       
-      // Find the Delete button in the modal (not the Cancel button)
-      const modalButtons = screen.getAllByRole('button');
-      const confirmButton = modalButtons.find(btn => 
-        btn.textContent === 'Delete' && btn.getAttribute('data-variant') === 'secondary'
+      await waitFor(() => {
+        expect(screen.getByText(/delete 1 post/i)).toBeInTheDocument();
+      });
+      
+      // Find the Delete button in the modal by its text content
+      const allButtons = screen.getAllByRole('button');
+      const confirmButton = allButtons.find(btn => 
+        btn.textContent?.includes('Delete') && !btn.textContent?.includes('selected')
       );
-      fireEvent.click(confirmButton!);
+      
+      if (confirmButton) {
+        fireEvent.click(confirmButton);
+      }
       
       await waitFor(() => {
         expect(mockDeleteMutateAsync).toHaveBeenCalledWith(1);

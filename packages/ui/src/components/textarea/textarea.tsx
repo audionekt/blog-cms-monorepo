@@ -1,6 +1,5 @@
 import React from 'react';
-import { cn } from '../../styles';
-import * as styles from './textarea.css';
+import * as S from './textarea.styles';
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string | undefined;
@@ -32,24 +31,21 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const textAreaState = error ? 'error' : state || 'default';
 
     return (
-      <div className={cn(styles.wrapper, fullWidth && styles.fullWidth)}>
+      <S.TextAreaWrapper $fullWidth={fullWidth}>
         {label && (
-          <label htmlFor={textAreaId} className={styles.label}>
+          <S.Label htmlFor={textAreaId}>
             {label}
-            {props.required && <span className={styles.required}>*</span>}
-          </label>
+            {props.required && <S.Required>*</S.Required>}
+          </S.Label>
         )}
 
-        <textarea
+        <S.StyledTextArea
           ref={ref}
           id={textAreaId}
           rows={rows}
-          className={cn(
-            styles.textarea,
-            styles.inputStates[textAreaState],
-            styles.resize[resize],
-            className
-          )}
+          $state={textAreaState}
+          $resize={resize}
+          className={className}
           disabled={disabled}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={
@@ -59,9 +55,8 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         />
 
         {error && (
-          <p id={`${textAreaId}-error`} className={cn(styles.message, styles.errorMessage)}>
-            <svg
-              className={styles.errorIcon}
+          <S.Message id={`${textAreaId}-error`} $type="error">
+            <S.ErrorIcon
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -70,17 +65,17 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                 clipRule="evenodd"
               />
-            </svg>
+            </S.ErrorIcon>
             {error}
-          </p>
+          </S.Message>
         )}
 
         {helper && !error && (
-          <p id={`${textAreaId}-helper`} className={cn(styles.message, styles.helperMessage)}>
+          <S.Message id={`${textAreaId}-helper`} $type="helper">
             {helper}
-          </p>
+          </S.Message>
         )}
-      </div>
+      </S.TextAreaWrapper>
     );
   }
 );

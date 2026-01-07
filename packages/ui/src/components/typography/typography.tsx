@@ -1,6 +1,5 @@
 import React from 'react';
-import { cn } from '../../styles';
-import * as styles from './typography.css';
+import { StyledTypography } from './typography.styles';
 
 export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
@@ -34,17 +33,15 @@ export function Typography({
   const Component = as || defaultElements[variant];
 
   return (
-    <Component
-      className={cn(
-        styles.typography,
-        styles.variants[variant],
-        weight && styles.weights[weight as keyof typeof styles.weights],
-        align && styles.aligns[align],
-        className
-      )}
+    <StyledTypography
+      as={Component}
+      $variant={variant}
+      $weight={weight}
+      $align={align}
+      className={className}
       {...props}
     >
       {children}
-    </Component>
+    </StyledTypography>
   );
 }

@@ -1,13 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../test-utils';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from '../page';
-
-// Mock the aurigami components
-jest.mock('aurigami', () => ({
-  Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
-  Typography: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-}));
 
 // Mock Next.js Link
 jest.mock('next/link', () => ({

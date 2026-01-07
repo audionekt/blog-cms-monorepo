@@ -16,10 +16,11 @@ import {
   Card,
   Chip,
   ImageUpload,
+  FocusLock,
 } from 'aurigami';
 import { useBlogPost, useUpdateBlogPost, useDeleteBlogPost, useTags, useUploadMedia, PostStatus } from '@repo/api';
 import type { UpdateBlogPostRequest } from '@repo/api';
-import * as styles from '../new/page.css';
+import * as S from '../new/page.styles';
 
 export default function EditPostPage() {
   const router = useRouter();
@@ -37,7 +38,6 @@ export default function EditPostPage() {
   const [isInitialized, setIsInitialized] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // Initialize form data when post loads
   useEffect(() => {
     if (post && !isInitialized) {
       const initialData: UpdateBlogPostRequest = {
@@ -52,7 +52,6 @@ export default function EditPostPage() {
         allowComments: post.allowComments,
         featured: post.featured,
       };
-      // Only set optional fields if they have values
       if (post.featuredImageUrl) initialData.featuredImageUrl = post.featuredImageUrl;
       if (post.featuredMedia?.id) initialData.featuredMediaId = post.featuredMedia.id;
       if (post.readingTimeMinutes) initialData.readingTimeMinutes = post.readingTimeMinutes;
@@ -63,7 +62,6 @@ export default function EditPostPage() {
   }, [post, isInitialized]);
 
   const handleSubmit = async () => {
-    // Validation
     const newErrors: Record<string, string> = {};
     if (!formData.title) newErrors.title = 'Title is required';
     if (!formData.slug) newErrors.slug = 'Slug is required';
@@ -75,10 +73,7 @@ export default function EditPostPage() {
     }
 
     try {
-      await updatePost.mutateAsync({ 
-        id: postId,
-        data: formData,
-      });
+      await updatePost.mutateAsync({ id: postId, data: formData });
       router.push('/');
     } catch (error) {
       console.error('Failed to update post:', error);
@@ -87,7 +82,6 @@ export default function EditPostPage() {
 
   const handleDelete = async () => {
     try {
-      console.log('[EditPostPage] Deleting post - postId:', postId, 'params.id:', params.id);
       await deletePost.mutateAsync(postId);
       router.push('/');
     } catch (error) {
@@ -97,7 +91,6 @@ export default function EditPostPage() {
 
   const handleInputChange = (field: keyof UpdateBlogPostRequest, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    // Clear error when user types
     if (errors[field]) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -109,55 +102,55 @@ export default function EditPostPage() {
 
   if (isLoadingPost) {
     return (
-      <div className={styles.container}>
+      <S.Container>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
           <Typography variant="p">Loading post...</Typography>
         </div>
-      </div>
+      </S.Container>
     );
   }
 
   if (loadError || !post) {
     return (
-      <div className={styles.container}>
+      <S.Container>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', gap: '1rem' }}>
           <Typography variant="h2">Post not found</Typography>
           <Typography variant="p">The post you're looking for doesn't exist or has been deleted.</Typography>
           <Button onClick={() => router.push('/')}>Go Back</Button>
         </div>
-      </div>
+      </S.Container>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <S.Container>
       {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.headerInner}>
-          <div className={styles.headerContent}>
-            <div className={styles.headerLeft}>
+      <S.Header>
+        <S.HeaderInner>
+          <S.HeaderContent>
+            <S.HeaderLeft>
               <Button
                 variant="ghost"
                 size="md"
                 onClick={() => router.back()}
-                leftIcon={<ChevronLeft className={styles.svgIcon} />}
+                leftIcon={<ChevronLeft size={18} />}
               >
                 Back
               </Button>
-              <div className={styles.headerTitles}>
+              <S.HeaderTitles>
                 <Typography variant="h2">Edit Post</Typography>
                 <Typography variant="caption">
                   Update your blog post details
                 </Typography>
-              </div>
-            </div>
+              </S.HeaderTitles>
+            </S.HeaderLeft>
 
-            <div className={styles.headerRight}>
+            <S.HeaderRight>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowDeleteModal(true)}
-                leftIcon={<Trash2 className={styles.svgIcon} />}
+                leftIcon={<Trash2 size={16} />}
                 style={{ color: '#dc2626' }}
               >
                 Delete
@@ -165,17 +158,17 @@ export default function EditPostPage() {
               <Chip variant={formData.status === PostStatus.PUBLISHED ? 'default' : 'outlined'}>
                 {formData.status === PostStatus.PUBLISHED ? '✅ Published' : '📄 Draft'}
               </Chip>
-            </div>
-          </div>
-        </div>
-      </div>
+            </S.HeaderRight>
+          </S.HeaderContent>
+        </S.HeaderInner>
+      </S.Header>
 
       {/* Form */}
-      <div className={styles.formContainer}>
+      <S.FormContainer>
         <Form onSubmit={handleSubmit}>
-          <div className={styles.formGrid}>
-            {/* Main Content - 2/3 width */}
-            <div className={styles.mainColumn}>
+          <S.FormGrid>
+            {/* Main Content */}
+            <S.MainColumn>
               <Card padding="md">
                 <FormSection
                   title="Post Content"
@@ -189,7 +182,7 @@ export default function EditPostPage() {
                     error={errors.title || ''}
                     required
                     fullWidth
-                    leftIcon={<MessageSquare className={styles.svgIcon} />}
+                    leftIcon={<MessageSquare size={16} />}
                   />
 
                   <Input
@@ -200,7 +193,7 @@ export default function EditPostPage() {
                     error={errors.slug || ''}
                     helper="URL-friendly version of the title"
                     fullWidth
-                    leftIcon={<LinkIcon className={styles.svgIcon} />}
+                    leftIcon={<LinkIcon size={16} />}
                   />
 
                   <TextArea
@@ -261,10 +254,10 @@ export default function EditPostPage() {
                   />
                 </FormSection>
               </Card>
-            </div>
+            </S.MainColumn>
 
-            {/* Sidebar - 1/3 width */}
-            <div className={styles.sidebar}>
+            {/* Sidebar */}
+            <S.Sidebar>
               <Card padding="md">
                 <FormSection title="Publish Settings">
                   <Dropdown
@@ -282,54 +275,24 @@ export default function EditPostPage() {
                     fullWidth
                   />
 
-                  <div className={styles.featuredToggle}>
-                    <div className={styles.toggleText}>
+                  <S.FeaturedToggle>
+                    <S.ToggleText>
                       <Typography variant="p" style={{ fontWeight: 500, marginBottom: '0.25rem' }}>
                         Featured Post
                       </Typography>
                       <Typography variant="caption">
                         Show on homepage
                       </Typography>
-                    </div>
-                    <label className={styles.toggleSwitch}>
+                    </S.ToggleText>
+                    <S.ToggleSwitch>
                       <input
                         type="checkbox"
                         checked={formData.featured || false}
                         onChange={(e) => handleInputChange('featured', e.target.checked)}
-                        style={{
-                          position: 'absolute',
-                          width: '1px',
-                          height: '1px',
-                          padding: 0,
-                          margin: '-1px',
-                          overflow: 'hidden',
-                          clip: 'rect(0, 0, 0, 0)',
-                          whiteSpace: 'nowrap',
-                          borderWidth: 0,
-                        }}
                       />
-                      <div style={{
-                        width: '2.75rem',
-                        height: '1.5rem',
-                        backgroundColor: formData.featured ? '#2563eb' : '#d1d5db',
-                        borderRadius: '9999px',
-                        position: 'relative',
-                        transition: 'background-color 0.2s',
-                      }}>
-                        <div style={{
-                          position: 'absolute',
-                          top: '2px',
-                          left: formData.featured ? 'calc(100% - 1.25rem - 2px)' : '2px',
-                          width: '1.25rem',
-                          height: '1.25rem',
-                          backgroundColor: 'white',
-                          border: formData.featured ? '1px solid white' : '1px solid #d1d5db',
-                          borderRadius: '9999px',
-                          transition: 'left 0.2s',
-                        }}></div>
-                      </div>
-                    </label>
-                  </div>
+                      <span />
+                    </S.ToggleSwitch>
+                  </S.FeaturedToggle>
                 </FormSection>
               </Card>
 
@@ -350,7 +313,7 @@ export default function EditPostPage() {
                   />
 
                   {formData.tagIds && formData.tagIds.length > 0 && (
-                    <div className={styles.tagsContainer}>
+                    <S.TagsContainer>
                       {formData.tagIds.map((tagId) => {
                         const tag = tagsData?.content.find((t) => t.id === tagId);
                         return tag ? (
@@ -369,7 +332,7 @@ export default function EditPostPage() {
                           </Chip>
                         ) : null;
                       })}
-                    </div>
+                    </S.TagsContainer>
                   )}
                 </FormSection>
               </Card>
@@ -423,47 +386,49 @@ export default function EditPostPage() {
                   </div>
                 </FormSection>
               </Card>
-            </div>
-          </div>
+            </S.Sidebar>
+          </S.FormGrid>
 
           {/* Form Actions */}
-          <Card padding="md" className={styles.formActionsCard}>
-            <FormActions align="between">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => router.back()}
-              >
-                Cancel
-              </Button>
-              
-              <div className={styles.formActionsButtons}>
+          <S.FormActionsCard>
+            <Card padding="md">
+              <FormActions align="between">
                 <Button
                   type="button"
-                  variant="secondary"
-                  onClick={() => {
-                    handleInputChange('status', PostStatus.DRAFT);
-                    setTimeout(handleSubmit, 0);
-                  }}
-                  loading={updatePost.isPending}
-                  leftIcon={<Check className={styles.svgIcon} />}
+                  variant="ghost"
+                  onClick={() => router.back()}
                 >
-                  Save as Draft
+                  Cancel
                 </Button>
                 
-                <Button
-                  type="submit"
-                  variant="success"
-                  loading={updatePost.isPending}
-                  leftIcon={<Bell className={styles.svgIcon} />}
-                >
-                  {formData.status === PostStatus.PUBLISHED ? 'Update Post' : 'Publish Post'}
-                </Button>
-              </div>
-            </FormActions>
-          </Card>
+                <S.FormActionsButtons>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => {
+                      handleInputChange('status', PostStatus.DRAFT);
+                      setTimeout(handleSubmit, 0);
+                    }}
+                    loading={updatePost.isPending}
+                    leftIcon={<Check size={16} />}
+                  >
+                    Save as Draft
+                  </Button>
+                  
+                  <Button
+                    type="submit"
+                    variant="success"
+                    loading={updatePost.isPending}
+                    leftIcon={<Bell size={16} />}
+                  >
+                    {formData.status === PostStatus.PUBLISHED ? 'Update Post' : 'Publish Post'}
+                  </Button>
+                </S.FormActionsButtons>
+              </FormActions>
+            </Card>
+          </S.FormActionsCard>
         </Form>
-      </div>
+      </S.FormContainer>
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
@@ -475,47 +440,49 @@ export default function EditPostPage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 50,
+            zIndex: 9999,
           }}
           onClick={() => setShowDeleteModal(false)}
         >
-          <div 
-            style={{
-              backgroundColor: 'white',
-              borderRadius: '0.75rem',
-              padding: '1.5rem',
-              maxWidth: '400px',
-              width: '90%',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Typography variant="h3" style={{ marginBottom: '0.5rem' }}>
-              Delete this post?
-            </Typography>
-            <Typography variant="p" style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
-              This action cannot be undone. "{post.title}" will be permanently deleted.
-            </Typography>
-            <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
-              <Button
-                variant="ghost"
-                onClick={() => setShowDeleteModal(false)}
-                disabled={deletePost.isPending}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={handleDelete}
-                loading={deletePost.isPending}
-                style={{ backgroundColor: '#dc2626', borderColor: '#dc2626' }}
-              >
-                Delete
-              </Button>
+          <FocusLock>
+            <div 
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                padding: '24px',
+                maxWidth: '400px',
+                width: '90%',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Typography variant="h3" style={{ marginBottom: '8px' }}>
+                Delete this post?
+              </Typography>
+              <Typography variant="p" style={{ color: '#6b7280', marginBottom: '24px' }}>
+                This action cannot be undone. "{post.title}" will be permanently deleted.
+              </Typography>
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowDeleteModal(false)}
+                  disabled={deletePost.isPending}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={handleDelete}
+                  loading={deletePost.isPending}
+                  style={{ backgroundColor: '#dc2626', borderColor: '#dc2626' }}
+                >
+                  Delete
+                </Button>
+              </div>
             </div>
-          </div>
+          </FocusLock>
         </div>
       )}
-    </div>
+    </S.Container>
   );
 }

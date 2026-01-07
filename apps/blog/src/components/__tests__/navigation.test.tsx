@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../test-utils';
 import { Navigation } from '../navigation';
 import { usePathname } from 'next/navigation';
 
@@ -21,7 +21,7 @@ describe('Navigation', () => {
 
   it('renders the logo', () => {
     render(<Navigation />);
-    const logo = screen.getByText('ALEXDEV');
+    const logo = screen.getByText('KONSOLE.BLOG');
     expect(logo).toBeInTheDocument();
   });
 
@@ -71,7 +71,7 @@ describe('Navigation', () => {
 
   it('logo links to home page', () => {
     render(<Navigation />);
-    const logo = screen.getByText('ALEXDEV');
+    const logo = screen.getByText('KONSOLE.BLOG');
     expect(logo).toHaveAttribute('href', '/');
   });
 

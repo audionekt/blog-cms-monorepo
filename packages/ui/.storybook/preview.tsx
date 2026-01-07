@@ -2,9 +2,7 @@ import React from 'react';
 import type { Preview } from '@storybook/react';
 import { initialize, mswLoader } from 'msw-storybook-addon';
 import { handlers } from '@repo/api/mocks/handlers';
-import { withThemeByClassName } from '@storybook/addon-themes';
-import '../src/styles/global.css';
-import { lightTheme, darkTheme } from '../src/styles/theme.css';
+import { ThemeProvider } from '../src/theme/ThemeProvider';
 import './fonts.css';
 
 // Initialize MSW
@@ -27,13 +25,11 @@ const preview: Preview = {
   },
   loaders: [mswLoader],
   decorators: [
-    withThemeByClassName({
-      themes: {
-        light: lightTheme,
-        dark: darkTheme,
-      },
-      defaultTheme: 'light',
-    }),
+    (Story) => (
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    ),
   ],
 };
 
