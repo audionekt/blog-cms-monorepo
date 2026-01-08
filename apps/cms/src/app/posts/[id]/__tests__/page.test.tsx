@@ -23,8 +23,6 @@ const mockPost = {
   slug: 'test-post',
   excerpt: 'Test excerpt',
   mdxContent: '# Test Content',
-  featuredImageUrl: 'https://example.com/image.jpg',
-  featuredMedia: { id: 1 },
   author: {
     id: 1,
     username: 'testuser',
@@ -294,28 +292,6 @@ describe('Edit Post Page', () => {
       expect(readingTimeInput).toHaveValue(10);
     });
 
-    it('renders image upload component', async () => {
-      renderWithQueryClient(<EditPostPage />);
-      expect(await screen.findByTestId('image-upload')).toBeInTheDocument();
-    });
-
-    it('shows existing featured image in upload', async () => {
-      renderWithQueryClient(<EditPostPage />);
-      const preview = await screen.findByAltText('preview');
-      expect(preview).toHaveAttribute('src', 'https://example.com/image.jpg');
-    });
-
-    it('can remove featured image', async () => {
-      renderWithQueryClient(<EditPostPage />);
-      const removeButton = await screen.findByTestId('image-remove');
-      
-      fireEvent.click(removeButton);
-      
-      await waitFor(() => {
-        expect(screen.queryByAltText('preview')).not.toBeInTheDocument();
-      });
-    });
-
     it('renders status dropdown', async () => {
       renderWithQueryClient(<EditPostPage />);
       expect(await screen.findByText('Status')).toBeInTheDocument();
@@ -488,6 +464,86 @@ describe('Edit Post Page', () => {
       await waitFor(() => {
         expect(screen.getByText(/title is required/i)).toBeInTheDocument();
       }, { timeout: 3000 });
+    });
+
+    it('clears error when user starts typing after validation error', async () => {
+      renderWithQueryClient(<EditPostPage />);
+      
+      const titleInput = await screen.findByPlaceholderText('Enter an engaging title...');
+      
+      // Wait for initialization
+      await waitFor(() => {
+        expect(titleInput).toHaveValue('Test Post');
+      });
+      
+      // Clear and submit to trigger error
+      fireEvent.change(titleInput, { target: { value: '' } });
+      const form = titleInput.closest('form');
+      fireEvent.submit(form!);
+      
+      // Wait for error
+      await waitFor(() => {
+        expect(screen.getByText(/title is required/i)).toBeInTheDocument();
+      });
+      
+      // Start typing - error should clear
+      fireEvent.change(titleInput, { target: { value: 'New Title' } });
+      
+      await waitFor(() => {
+        expect(screen.queryByText(/title is required/i)).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('error handling', () => {
+    it('handles update errors gracefully', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+      
+      useBlogPost.mockReturnValue({
+        data: mockPost,
+        isLoading: false,
+        error: null,
+      });
+      
+      mockUpdateMutateAsync.mockRejectedValue(new Error('Update failed'));
+      
+      renderWithQueryClient(<EditPostPage />);
+      
+      const submitButton = await screen.findByText(/update post|publish post/i);
+      fireEvent.click(submitButton);
+      
+      await waitFor(() => {
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to update post:', expect.any(Error));
+      });
+      
+      consoleErrorSpy.mockRestore();
+    });
+
+    it('handles delete errors gracefully', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+      
+      useBlogPost.mockReturnValue({
+        data: mockPost,
+        isLoading: false,
+        error: null,
+      });
+      
+      mockDeleteMutateAsync.mockRejectedValue(new Error('Delete failed'));
+      
+      renderWithQueryClient(<EditPostPage />);
+      
+      const deleteButtons = await screen.findAllByRole('button', { name: /delete/i });
+      fireEvent.click(deleteButtons[0]); // Click the first delete button in the header
+      
+      // Now find the confirm button in the modal
+      const confirmButton = await screen.findByText('Delete', { selector: 'button[style*="background-color: rgb(220, 38, 38)"]' });
+      fireEvent.click(confirmButton);
+      
+      await waitFor(() => {
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to delete post:', expect.any(Error));
+      });
+      
+      consoleErrorSpy.mockRestore();
     });
   });
 

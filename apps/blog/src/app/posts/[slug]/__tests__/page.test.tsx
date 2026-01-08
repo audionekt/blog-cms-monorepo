@@ -27,7 +27,6 @@ const mockPost = {
   content: '<p>This is test content</p>',
   mdxContent: 'This is test content',
   excerpt: 'Test excerpt',
-  featuredImageUrl: 'https://example.com/image.jpg',
   status: 'PUBLISHED' as const,
   featured: false,
   readingTimeMinutes: 5,
@@ -159,10 +158,10 @@ describe('PostPage', () => {
   });
 
   describe('post without optional fields', () => {
-    it('renders post without featured image', () => {
-      const postWithoutImage = { ...mockPost, featuredImageUrl: null };
+    it('renders post without excerpt', () => {
+      const postWithoutExcerpt = { ...mockPost, excerpt: null };
       (useBlogPostBySlug as jest.Mock).mockReturnValue({
-        data: postWithoutImage,
+        data: postWithoutExcerpt,
         isLoading: false,
         error: null,
       });

@@ -233,14 +233,6 @@ Building a modern blog with Next.js provides excellent performance, developer ex
 ![Blog Architecture](https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop)
 
 > This blog post demonstrates the power of modern web development with Next.js and TypeScript.`,
-    featuredImageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=600&fit=crop',
-    featuredMedia: {
-      id: 1,
-      fileName: 'nextjs-blog-cover.jpg',
-      fileUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=600&fit=crop',
-      contentType: 'image/jpeg',
-      mediaType: MediaType.IMAGE,
-    },
     author: {
       id: 1,
       username: 'johndoe',
@@ -319,14 +311,6 @@ Both approaches have their merits:
 - **Choose Tailwind** if you prioritize rapid development and utility-first approach
 
 For our monorepo, we chose Styled Components for its component encapsulation and theming capabilities.`,
-    featuredImageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=600&fit=crop',
-    featuredMedia: {
-      id: 2,
-      fileName: 'css-styling-cover.jpg',
-      fileUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=600&fit=crop',
-      contentType: 'image/jpeg',
-      mediaType: MediaType.IMAGE,
-    },
     author: {
       id: 2,
       username: 'janesmith',
@@ -402,14 +386,6 @@ monorepo/
 4. **Collaboration**: Easier team coordination
 
 Monorepos are powerful when used correctly, but require careful planning and tooling to be effective.`,
-    featuredImageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop',
-    featuredMedia: {
-      id: 3,
-      fileName: 'monorepo-architecture.jpg',
-      fileUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop',
-      contentType: 'image/jpeg',
-      mediaType: MediaType.IMAGE,
-    },
     author: {
       id: 3,
       username: 'mikejohnson',

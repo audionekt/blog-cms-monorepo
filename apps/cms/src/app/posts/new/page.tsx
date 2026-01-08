@@ -15,16 +15,14 @@ import {
   FormActions,
   Card,
   Chip,
-  ImageUpload,
 } from 'aurigami';
-import { useCreateBlogPost, useTags, useUploadMedia, PostStatus } from '@repo/api';
+import { useCreateBlogPost, useTags, PostStatus } from '@repo/api';
 import type { CreateBlogPostRequest } from '@repo/api';
 import * as S from './page.styles';
 
 export default function NewPostPage() {
   const router = useRouter();
   const createPost = useCreateBlogPost();
-  const uploadMedia = useUploadMedia();
   const { data: tagsData } = useTags({ page: 0, size: 100 });
 
   const [formData, setFormData] = useState<Partial<CreateBlogPostRequest>>({
@@ -274,30 +272,6 @@ export default function NewPostPage() {
                       })}
                     </S.TagsContainer>
                   )}
-                </FormSection>
-              </Card>
-
-              <Card padding="md">
-                <FormSection title="Featured Image">
-                  <ImageUpload
-                    value={formData.featuredImageUrl || ''}
-                    onFileSelect={async (file) => {
-                      try {
-                        const result = await uploadMedia.mutateAsync({ file });
-                        handleInputChange('featuredImageUrl', result.fileUrl);
-                        handleInputChange('featuredMediaId', result.id);
-                      } catch (error) {
-                        console.error('Failed to upload image:', error);
-                      }
-                    }}
-                    onRemove={() => {
-                      handleInputChange('featuredImageUrl', undefined);
-                      handleInputChange('featuredMediaId', undefined);
-                    }}
-                    isUploading={uploadMedia.isPending}
-                    error={uploadMedia.isError ? 'Failed to upload image' : ''}
-                    helper="Upload a featured image for your post"
-                  />
                 </FormSection>
               </Card>
             </S.Sidebar>

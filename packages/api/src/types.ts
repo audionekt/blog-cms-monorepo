@@ -125,7 +125,6 @@ export interface BlogPostSummaryResponse {
   title: string;
   slug: string;
   excerpt?: string;
-  featuredImageUrl?: string;
   author: UserSummaryResponse;
   tags: TagSummaryResponse[];
   status: PostStatus;
@@ -142,8 +141,6 @@ export interface BlogPostResponse {
   slug: string;
   excerpt?: string;
   mdxContent: string;
-  featuredImageUrl?: string;
-  featuredMedia?: MediaSummaryResponse;
   author: UserSummaryResponse;
   tags: TagSummaryResponse[];
   status: PostStatus;
@@ -165,8 +162,6 @@ export interface CreateBlogPostRequest {
   slug: string;
   excerpt?: string;
   mdxContent: string;
-  featuredImageUrl?: string;
-  featuredMediaId?: number;
   tagIds?: number[];
   status?: PostStatus;
   metaTitle?: string;
@@ -183,8 +178,6 @@ export interface UpdateBlogPostRequest {
   slug?: string;
   excerpt?: string;
   mdxContent?: string;
-  featuredImageUrl?: string;
-  featuredMediaId?: number;
   tagIds?: number[];
   status?: PostStatus;
   metaTitle?: string;

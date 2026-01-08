@@ -22,7 +22,6 @@ describe('ArticlesPage', () => {
       slug: 'test-post-1',
       title: 'Test Post 1',
       excerpt: 'This is a test excerpt for post 1',
-      featuredImageUrl: 'https://example.com/image1.jpg',
       readingTimeMinutes: 5,
       author: {
         firstName: 'John',
@@ -34,7 +33,6 @@ describe('ArticlesPage', () => {
       slug: 'test-post-2',
       title: 'React Best Practices',
       excerpt: 'Learn about React best practices',
-      featuredImageUrl: null,
       readingTimeMinutes: 10,
       author: {
         firstName: 'Jane',
@@ -139,19 +137,6 @@ describe('ArticlesPage', () => {
     expect(screen.getByText('10 min read')).toBeInTheDocument();
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Jane Smith')).toBeInTheDocument();
-  });
-
-  it('renders post image when available', () => {
-    (useBlogPosts as jest.Mock).mockReturnValue({
-      data: { content: [mockPosts[0]], totalPages: 1 },
-      isLoading: false,
-      error: null,
-    });
-
-    render(<ArticlesPage />);
-    
-    const image = screen.getByAltText('Test Post 1');
-    expect(image).toHaveAttribute('src', 'https://example.com/image1.jpg');
   });
 
   it('renders placeholder when post has no image', () => {

@@ -15,10 +15,9 @@ import {
   FormActions,
   Card,
   Chip,
-  ImageUpload,
   FocusLock,
 } from 'aurigami';
-import { useBlogPost, useUpdateBlogPost, useDeleteBlogPost, useTags, useUploadMedia, PostStatus } from '@repo/api';
+import { useBlogPost, useUpdateBlogPost, useDeleteBlogPost, useTags, PostStatus } from '@repo/api';
 import type { UpdateBlogPostRequest } from '@repo/api';
 import * as S from '../new/page.styles';
 
@@ -30,7 +29,6 @@ export default function EditPostPage() {
   const { data: post, isLoading: isLoadingPost, error: loadError } = useBlogPost(postId);
   const updatePost = useUpdateBlogPost();
   const deletePost = useDeleteBlogPost();
-  const uploadMedia = useUploadMedia();
   const { data: tagsData } = useTags({ page: 0, size: 100 });
 
   const [formData, setFormData] = useState<UpdateBlogPostRequest>({});
@@ -52,8 +50,6 @@ export default function EditPostPage() {
         allowComments: post.allowComments,
         featured: post.featured,
       };
-      if (post.featuredImageUrl) initialData.featuredImageUrl = post.featuredImageUrl;
-      if (post.featuredMedia?.id) initialData.featuredMediaId = post.featuredMedia.id;
       if (post.readingTimeMinutes) initialData.readingTimeMinutes = post.readingTimeMinutes;
       
       setFormData(initialData);
@@ -334,30 +330,6 @@ export default function EditPostPage() {
                       })}
                     </S.TagsContainer>
                   )}
-                </FormSection>
-              </Card>
-
-              <Card padding="md">
-                <FormSection title="Featured Image">
-                  <ImageUpload
-                    value={formData.featuredImageUrl || ''}
-                    onFileSelect={async (file) => {
-                      try {
-                        const result = await uploadMedia.mutateAsync({ file });
-                        handleInputChange('featuredImageUrl', result.fileUrl);
-                        handleInputChange('featuredMediaId', result.id);
-                      } catch (error) {
-                        console.error('Failed to upload image:', error);
-                      }
-                    }}
-                    onRemove={() => {
-                      handleInputChange('featuredImageUrl', undefined);
-                      handleInputChange('featuredMediaId', undefined);
-                    }}
-                    isUploading={uploadMedia.isPending}
-                    error={uploadMedia.isError ? 'Failed to upload image' : ''}
-                    helper="Upload a featured image for your post"
-                  />
                 </FormSection>
               </Card>
 

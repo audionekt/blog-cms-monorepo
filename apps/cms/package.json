@@ -25,7 +25,6 @@
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
-    "@jest/test-sequencer": "^29.7.0",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.5.1",

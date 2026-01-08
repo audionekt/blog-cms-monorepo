@@ -227,14 +227,6 @@ export default function Home() {
                   key={post.id}
                   href={`/posts/${post.slug}`}
                 >
-                  {post.featuredImageUrl && (
-                    <S.WritingImageContainer>
-                      <S.WritingImage
-                        src={post.featuredImageUrl}
-                        alt={post.title}
-                      />
-                    </S.WritingImageContainer>
-                  )}
                   <S.WritingContent>
                     <S.WritingDate>
                       {new Date(post.createdAt).toLocaleDateString('en-US', { 
