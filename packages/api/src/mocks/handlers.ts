@@ -139,9 +139,6 @@ export const blogPostHandlers = [
     const tags = data.tagIds
       ? mockTags.filter(tag => data.tagIds!.includes(tag.id))
       : [];
-    const featuredMedia = data.featuredMediaId
-      ? mockMedia.find(m => m.id === data.featuredMediaId)
-      : undefined;
 
     const newPost = {
       id: mockBlogPosts.length + 1,
@@ -149,14 +146,6 @@ export const blogPostHandlers = [
       slug: data.slug,
       excerpt: data.excerpt,
       mdxContent: data.mdxContent,
-      featuredImageUrl: data.featuredImageUrl,
-      featuredMedia: featuredMedia ? {
-        id: featuredMedia.id,
-        fileName: featuredMedia.fileName,
-        fileUrl: featuredMedia.fileUrl,
-        contentType: featuredMedia.contentType,
-        mediaType: featuredMedia.mediaType,
-      } : undefined,
       author: {
         id: author.id,
         username: author.username,
@@ -213,11 +202,6 @@ export const blogPostHandlers = [
       ? mockTags.filter(tag => data.tagIds!.includes(tag.id))
       : post.tags;
 
-    // Update featured media if provided
-    const featuredMedia = data.featuredMediaId
-      ? mockMedia.find(m => m.id === data.featuredMediaId)
-      : post.featuredMedia;
-
     const updatedPost = {
       ...post,
       ...data,
@@ -229,13 +213,6 @@ export const blogPostHandlers = [
         name: tag.name,
         slug: tag.slug,
       })),
-      featuredMedia: featuredMedia ? {
-        id: featuredMedia.id,
-        fileName: featuredMedia.fileName,
-        fileUrl: featuredMedia.fileUrl,
-        contentType: featuredMedia.contentType,
-        mediaType: featuredMedia.mediaType,
-      } : post.featuredMedia,
       viewCount: post.viewCount,
       allowComments: data.allowComments ?? post.allowComments,
       featured: data.featured ?? post.featured,

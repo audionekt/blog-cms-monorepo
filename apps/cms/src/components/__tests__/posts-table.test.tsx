@@ -50,7 +50,6 @@ const mockPosts: BlogPostSummaryResponse[] = [
     title: 'First Post',
     slug: 'first-post',
     excerpt: 'This is the first post',
-    featuredImageUrl: 'https://example.com/image1.jpg',
     author: {
       id: 1,
       username: 'johndoe',

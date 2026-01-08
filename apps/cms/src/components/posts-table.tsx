@@ -21,7 +21,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Star,
-  ImageIcon,
 } from 'lucide-react';
 import { Typography, Button, Avatar, Chip, Checkbox, FocusLock } from 'aurigami';
 import { useDeleteBlogPost, PostStatus, type BlogPostSummaryResponse } from '@repo/api';
@@ -67,16 +66,6 @@ export function PostsTable({ posts, isLoading }: PostsTableProps) {
         header: 'Post',
         cell: ({ row }) => (
           <S.TitleCell>
-            {row.original.featuredImageUrl ? (
-              <S.PostImage
-                src={row.original.featuredImageUrl}
-                alt=""
-              />
-            ) : (
-              <S.PostImagePlaceholder>
-                <ImageIcon size={20} />
-              </S.PostImagePlaceholder>
-            )}
             <S.TitleContent>
               <S.Title>
                 {row.original.featured && (

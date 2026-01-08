@@ -108,11 +108,7 @@ export default function ArticlesPage() {
                 <Link key={post.id} href={`/posts/${post.slug}`}>
                   <S.ArticleCard>
                     <S.ArticleImageContainer>
-                      {post.featuredImageUrl ? (
-                        <S.ArticleImage src={post.featuredImageUrl} alt={post.title} />
-                      ) : (
-                        <S.ArticleImagePlaceholder />
-                      )}
+                      <S.ArticleImagePlaceholder />
                     </S.ArticleImageContainer>
                     <S.ArticleContent>
                       <S.ArticleMeta>{post.readingTimeMinutes} min read</S.ArticleMeta>

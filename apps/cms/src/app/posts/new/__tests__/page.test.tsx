@@ -300,12 +300,6 @@ describe('New Post Page', () => {
       expect(readingTimeInput).toHaveValue('5');
     });
 
-    it('renders image upload component', () => {
-      renderWithQueryClient(<NewPostPage />);
-
-      const imageUpload = screen.getByTestId('image-upload');
-      expect(imageUpload).toBeInTheDocument();
-    });
   });
 
   describe('status and featured toggles', () => {
@@ -563,23 +557,6 @@ describe('New Post Page', () => {
     });
   });
 
-  describe('featured image preview', () => {
-    it('renders image upload section', () => {
-      renderWithQueryClient(<NewPostPage />);
-
-      expect(screen.getByText('Featured Image')).toBeInTheDocument();
-      expect(screen.getByTestId('image-upload')).toBeInTheDocument();
-    });
-
-    it('has file input for image upload', () => {
-      renderWithQueryClient(<NewPostPage />);
-
-      const fileInput = screen.getByTestId('image-upload-input');
-      expect(fileInput).toBeInTheDocument();
-      expect(fileInput).toHaveAttribute('type', 'file');
-    });
-  });
-
   describe('SEO fields', () => {
     it('renders SEO section with meta fields', () => {
       renderWithQueryClient(<NewPostPage />);
@@ -622,19 +599,5 @@ describe('New Post Page', () => {
     });
   });
 
-  describe('image upload', () => {
-    it('renders image upload component', () => {
-      renderWithQueryClient(<NewPostPage />);
-
-      const imageUpload = screen.getByText(/upload a featured image/i);
-      expect(imageUpload).toBeInTheDocument();
-    });
-
-    it('shows image upload helper text', () => {
-      renderWithQueryClient(<NewPostPage />);
-
-      expect(screen.getByText(/upload a featured image for your post/i)).toBeInTheDocument();
-    });
-  });
 });
 

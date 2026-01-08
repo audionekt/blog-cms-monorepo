@@ -23,7 +23,6 @@
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
-    "@jest/test-sequencer": "^29.7.0",
     "@tanstack/react-query-devtools": "^5.0.0",
     "@types/node": "^20",
     "@types/react": "^19",

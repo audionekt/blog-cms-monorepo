@@ -108,7 +108,6 @@ describe('Blog Home Page', () => {
             title: 'Latest Post',
             slug: 'latest-post',
             excerpt: 'Latest excerpt',
-            featuredImageUrl: 'https://example.com/image.jpg',
             readingTimeMinutes: 5,
             author: { firstName: 'John', lastName: 'Doe' },
             tags: [{ id: 1, name: 'React' }],
