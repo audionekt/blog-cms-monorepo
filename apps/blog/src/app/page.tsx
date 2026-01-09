@@ -19,33 +19,43 @@ export default function Home() {
   const testimonials = [
     {
       quote: "Arun has made a meaningful impact on the Design Systems team through his blend of technical strength and deep collaboration. He's gone far beyond the typical scope by embedding himself in product use cases, identifying gaps, and helping ensure that components function seamlessly across teams.",
-      author: "Author",
-      title: "Design Systems Team"
+      author: "Luke P.",
+      title: "Lead Engineer, Platform Team"
     },
     {
       quote: "Arun always goes above and beyond. Always looking to not just solve the problem, but make things better for everyone. Never does he shy away from a hard problem. I couldn't rate anyone higher in this regard.",
-      author: "Author",
-      title: "Automations Team"
+      author: "Mark L.",
+      title: "Staff Engineer, Platform Team"
     },
     {
       quote: "Arun has become an indispensable part of the DS team. Not only is he a strong design systems engineer, but he was also one of the first engineers on our team to get comfortable engineering in the platform. This combination of deep knowledge and sincere humility makes him SO good at addressing problems, changes and challenges.",
-      author: "Author",
-      title: "Engineering Team"
+      author: "Evan W.",
+      title: "Lead Engineer, Design Systems Team"
     },
     {
       quote: "It's been a pleasure working with Arun. He is a curious developer who asks thoughtful questions, delves into research opportunities and consistently delivers top-notch results. One of the most outstanding traits Arun brings is his innate ability to communicate.",
-      author: "Author",
-      title: "Product Design"
-    },
-    {
-      quote: "Arun approaches challenges with curiosity, composure, and a genuine desire to improve things. He brings a calm, solutions-oriented mindset. He's open to feedback, eager to dive into unfamiliar areas, and never shies away from asking the harder, deeper questions that lead to better outcomes.",
-      author: "Author",
-      title: "Team Lead"
+      author: "Henry B.",
+      title: "Senior Product Designer, Top Of Funnel Team"
     },
     {
       quote: "Arun really leans into the headwinds when problems come up, and does so through clear communication and breaking down the problem. He has approached issues with seriousness, empathy, and solid debugging, leaving me with a better understanding of our code and better component design principles too.",
-      author: "Author",
-      title: "Cross-Functional Partner"
+      author: "Simon S.",
+      title: "Staff Engineer, Automations Team"
+    },
+    {
+      quote: "Arun approaches problems with curiosity, and an ownership mindset. He's quick to dive deep in exploration and research, but recognizes when to take a step back to keep the bigger picture in mind.",
+      author: "Kuu A.",
+      title: "Director of Product Design"
+    },
+    {
+      quote: "Arun’s strengths lie in his responsiveness, proactive problem-solving, and ability to maintain clear communication, all of which were critical to the project’s success",
+      author: "Ragini V.",
+      title: "Senior Engineering Manager, Automations Team"
+    },
+    {
+      quote: "Arun demonstrated strong technical ownership and reliable delivery throughout the year. What sets him apart is his ability to work at both the application layer and the design system layer—he doesn't just consume components, he builds the foundational pieces that power our products.",
+      author: "Rishad B.",
+      title: "Senior Engineer, AI Team"
     }
   ];
 

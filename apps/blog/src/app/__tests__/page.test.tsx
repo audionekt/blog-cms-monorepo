@@ -96,7 +96,7 @@ describe('Blog Home Page', () => {
   it('renders testimonial indicators', () => {
     renderWithQueryClient(<Home />);
     const indicators = screen.getAllByRole('button', { name: /Go to testimonial/i });
-    expect(indicators).toHaveLength(6);
+    expect(indicators).toHaveLength(8);
   });
 
   it('renders latest posts when available', () => {
